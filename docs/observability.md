@@ -6,7 +6,7 @@ Referências:
 - Arquitetura: `docs/architecture.md`
 - Guidelines: `docs/engineering-guidelines.md`
 - API errors padrão: `docs/api-spec.md`
-- AI context: `docs/ai-context.md`
+- AI context: `docs/ai/ai-context.md`
 
 ---
 

@@ -10,7 +10,7 @@ Objetivos:
 
 Referências obrigatórias:
 - `README.md`
-- `docs/ai-context.md`
+- `docs/ai/ai-context.md`
 - `docs/architecture.md`
 - `docs/domain.md`
 - `docs/database.md`

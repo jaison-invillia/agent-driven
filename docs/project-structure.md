@@ -11,7 +11,7 @@ Referências:
 - `README.md`
 - `docs/architecture.md`
 - `docs/engineering-guidelines.md`
-- `docs/ai-context.md`
+- `docs/ai/ai-context.md`
 - `docs/agent-task-flow.md`
 
 ---
@@ -32,7 +32,7 @@ project-root/
     engineering-guidelines.md
     observability.md
     security.md
-    ai-context.md
+    ai/ai-context.md
     agent-task-flow.md
     project-structure.md
 
@@ -187,7 +187,7 @@ frontend/
 - Observabilidade: `docs/observability.md`
 - Segurança: `docs/security.md`
 - Decisões: `docs/adr/*`
-- Contexto para IA: `docs/ai-context.md`
+- Contexto para IA: `docs/ai/ai-context.md`
 
 ---
 

@@ -1,0 +1,125 @@
+# GitHub Copilot Instructions (Repository)
+
+This file guides GitHub Copilot to use this repository’s documentation and follow project rules.
+
+> **Source of truth**: The documentation under `/docs` is authoritative.  
+> If something is missing or inconsistent, propose a doc update before generating code.
+
+---
+
+## 1) Mandatory context to read first
+
+Before creating or changing code, always consult:
+
+1. `README.md`
+2. `docs/ai/ai-context.md`
+3. `docs/architecture.md`
+4. `docs/domain.md`
+5. `docs/database.md`
+6. `docs/api-spec.md`
+7. `docs/engineering-guidelines.md`
+8. `docs/project-structure.md`
+9. `docs/security.md`
+10. `docs/observability.md`
+11. `docs/agent-task-flow.md`
+12. `docs/adr/*` (relevant decisions)
+
+---
+
+## 2) Non-negotiable rules
+
+### Do NOT invent
+- Do not invent endpoints not described in `docs/api-spec.md`
+- Do not invent tables/columns not described in `docs/database.md`
+- Do not invent domain entities not described in `docs/domain.md`
+- Do not bypass constraints/uniqueness rules described in DB docs
+
+If a feature requires a new endpoint/table/entity:
+1) propose a documentation change,  
+2) only then generate code.
+
+### Clean Architecture boundaries (backend)
+Backend must follow Clean Architecture, as defined in `docs/architecture.md`:
+
+- `domain` has **no framework/DB**
+- `application` contains **use cases + ports**
+- `interfaces` contains **HTTP controllers/routes/DTOs**
+- `infrastructure` contains **DB repositories/providers/logging/observability**
+- `main` is the **composition root** (wiring only)
+
+**Forbidden**
+- business logic in controllers
+- direct DB access outside repositories/adapters
+- `domain` importing `application/interfaces/infrastructure`
+- `application` importing `interfaces/infrastructure` (depend on ports only)
+
+### Security and privacy
+Follow `docs/security.md`:
+- never log passwords, password hashes, or full JWT tokens
+- validate input on all endpoints
+- use parameterized queries / ORM protections
+- protect user-scoped resources (avoid IDOR)
+
+### Observability
+Follow `docs/observability.md`:
+- always propagate and include `requestId`
+- error responses must include `requestId` and follow `docs/api-spec.md` error format
+- log in structured JSON (or through the central logger) with `requestId`
+
+---
+
+## 3) How to implement a feature (preferred workflow)
+
+When implementing a feature, follow this order:
+
+1. Check domain rules in `docs/domain.md`
+2. Check API contract in `docs/api-spec.md`
+3. Check DB schema/constraints in `docs/database.md`
+4. Implement backend in layers:
+   - `application` use case (command/query) + ports
+   - `infrastructure` adapters (repositories/providers)
+   - `interfaces` controller + DTOs + routes
+   - `main` wiring only
+5. Add tests:
+   - unit tests for use cases (mock ports)
+   - integration tests for repositories and critical endpoints
+6. Ensure logs/errors follow `docs/observability.md`
+7. Update docs if any contract changed (API/DB/domain)
+
+Keep changes small and incremental.
+
+---
+
+## 4) Code generation guidelines
+
+### Backend
+- Prefer TypeScript if the repo is TypeScript-based; otherwise keep consistency.
+- Implement idempotency where required (notably lesson completion).
+- Respect DB uniqueness constraints (progress and certificates).
+- Keep DTOs separate from domain entities.
+
+### Frontend (Next.js)
+- Match API usage to `docs/api-spec.md`
+- Keep UI resilient (loading states, error states, token expired handling)
+- Do not duplicate business rules; backend is source of truth.
+
+---
+
+## 5) Output expectations
+
+When generating code changes, include:
+- file list of what you changed/added
+- brief explanation of why each file exists
+- tests added/updated
+- any documentation updates required
+
+---
+
+## 6) Quick pointers (most common tasks)
+
+- Auth flows and response shapes: `docs/api-spec.md`
+- DB constraints and indexes: `docs/database.md`
+- Progress and certificate rules: `docs/domain.md` + ADRs `0003`, `0007`
+- Logging/request correlation: `docs/observability.md` + ADR `0008`
+- Architectural boundaries: `docs/architecture.md` + ADR `0001`
+- Engineering best practices: `docs/engineering-guidelines.md`
