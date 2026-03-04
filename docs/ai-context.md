@@ -1,0 +1,220 @@
+# 🤖 AI Context
+
+Este documento fornece **contexto estruturado para assistentes de IA** (GitHub Copilot, agentes de código, LLMs) que trabalham neste repositório.
+
+O objetivo é reduzir alucinações, melhorar a geração de código e garantir que mudanças respeitem a arquitetura e o domínio definidos.
+
+---
+
+# 🎯 Objetivo
+
+Garantir que qualquer IA que gere código neste projeto:
+
+- entenda o **propósito do sistema**
+- respeite **arquitetura e domínio**
+- utilize **APIs e banco corretos**
+- evite inventar entidades, endpoints ou regras
+
+---
+
+# 📚 Documentos obrigatórios de contexto
+
+Antes de gerar código, a IA deve ler:
+
+1. `README.md`
+2. `docs/architecture.md`
+3. `docs/domain.md`
+4. `docs/database.md`
+5. `docs/api-spec.md`
+6. `docs/engineering-guidelines.md`
+
+Esses documentos são a **fonte oficial de verdade do projeto**.
+
+Se alguma informação estiver ausente, a IA deve **sugerir alteração na documentação antes de gerar código**.
+
+---
+
+# 🧭 Sobre o sistema
+
+Este projeto é um **Portal Educacional** onde:
+
+- usuários se cadastram
+- acessam cursos
+- assistem aulas hospedadas no YouTube
+- progresso é registrado por aula
+- ao completar o curso, um certificado é gerado
+
+Fluxo principal:
+
+User → Login → List Courses → Watch Lessons → Complete Lessons → Generate Certificate
+
+---
+
+# 🧱 Arquitetura
+
+O backend segue **Clean Architecture**.
+
+Camadas principais:
+
+- Domain
+- Application
+- Interfaces
+- Infrastructure
+- Main
+
+Regras completas estão em:
+
+➡ `docs/architecture.md`
+
+IA **não deve violar essas dependências**.
+
+---
+
+# 📊 Entidades do sistema
+
+Principais entidades:
+
+- User
+- Course
+- Lesson
+- CourseProgress
+- Certificate
+
+Definições completas:
+
+➡ `docs/domain.md`
+
+IA **não deve criar novas entidades sem atualizar o domínio**.
+
+---
+
+# 🗄 Banco de dados
+
+Banco:
+
+MySQL 8
+
+Principais tabelas:
+
+- users
+- courses
+- lessons
+- course_progress
+- certificates
+
+Definição oficial:
+
+➡ `docs/database.md`
+
+IA não deve:
+
+- inventar colunas
+- alterar schema sem migration
+- ignorar constraints
+
+---
+
+# 🌐 API
+
+A API segue padrão REST.
+
+Base path:
+
+/api/v1
+
+Principais recursos:
+
+- auth
+- courses
+- lessons
+- progress
+- certificates
+
+Contratos completos:
+
+➡ `docs/api-spec.md`
+
+IA deve gerar controllers e rotas **conformes ao API_SPEC**.
+
+---
+
+# 🧪 Testes
+
+Estratégia recomendada:
+
+- unit tests → domínio e use cases
+- integration tests → repositories e API
+- e2e → fluxo principal
+
+Use cases devem ser testados com **mocks de ports**, não com banco real.
+
+---
+
+# ⚠️ Regras importantes para IA
+
+A IA **NÃO deve**:
+
+- criar endpoints não documentados
+- criar tabelas não definidas
+- colocar regra de negócio em controllers
+- acessar banco diretamente em controllers
+- misturar camadas da arquitetura
+
+A IA **DEVE**:
+
+- seguir Clean Architecture
+- gerar código pequeno e incremental
+- sugerir mudanças na documentação quando necessário
+
+---
+
+# 🧠 Estratégia de geração de código
+
+Ao implementar uma feature, a IA deve seguir a ordem:
+
+1️⃣ Verificar se o domínio suporta a feature  
+2️⃣ Verificar se a API já define o endpoint  
+3️⃣ Criar/ajustar Use Case na camada Application  
+4️⃣ Implementar adapter (repository/service) na Infrastructure  
+5️⃣ Criar controller na camada Interfaces  
+6️⃣ Adicionar testes  
+
+---
+
+# 📌 Convenções
+
+- linguagem backend: Node.js
+- frontend: Next.js
+- banco: MySQL
+
+Preferir:
+
+- código explícito
+- funções pequenas
+- responsabilidade única
+
+---
+
+# 🚫 Anti‑patterns que a IA deve evitar
+
+- controllers com lógica de negócio
+- queries SQL espalhadas
+- dependências circulares
+- violação da Clean Architecture
+- geração de código não utilizado
+
+---
+
+# 🧩 Evolução
+
+Se a IA identificar:
+
+- inconsistência de arquitetura
+- necessidade de nova entidade
+- alteração no domínio
+- novo endpoint
+
+Ela deve:
+
+1. Propor alteração em documentação
+2. Somente depois gerar código
