@@ -1,303 +1,328 @@
 # AGENTS.md
 
-This document defines the **AI agents used in this repository**, their responsibilities, and how they should collaborate when implementing changes.
+This document defines the **AI agent squad** used in this repository, their responsibilities, delegation model, and collaboration flow.
 
 It is intended for use with **GitHub Copilot, AI coding agents, and automated development workflows**.
 
 ---
 
-# Core Principle
+## Core Principle
 
 Documentation under `/docs` is the **source of truth**.
 
 Agents must always consult documentation before generating code.
 
 If a required change is not reflected in the documentation, the agent must:
-
 1. Propose a documentation update
 2. Only then generate code
 
 ---
 
-# Mandatory Documentation
+## Mandatory Documentation
 
 Agents must read the following files before implementing changes:
 
-- README.md
-- docs/ai-context.md
-- docs/architecture.md
-- docs/domain.md
-- docs/database.md
-- docs/api-spec.md
-- docs/engineering-guidelines.md
-- docs/security.md
-- docs/observability.md
-- docs/project-structure.md
-- docs/agent-task-flow.md
-- docs/adr/*
+- `README.md`
+- `docs/ai/ai-context.md`
+- `docs/architecture.md`
+- `docs/domain.md`
+- `docs/database.md`
+- `docs/api-spec.md`
+- `docs/engineer-guidelines.md`
+- `docs/security.md`
+- `docs/observability.md`
+- `docs/project-structure.md`
+- `docs/agent-task-flow.md`
+- `docs/adr/*`
 
 ---
 
-# Agents Overview
+## Agent Squad Overview
 
-The project defines the following agents:
-
-1. Orchestrator Agent
-2. Product Agent
-3. Architecture Agent
-4. Database Agent
-5. Backend Agent
-6. Frontend Agent
-7. Test Agent
-8. Code Review Agent
-9. DevOps Agent
-10. Observability Agent
-11. Security Agent
-
----
-
-# Agent Responsibilities
-
-## Orchestrator Agent
-
-Responsible for coordinating the work between agents.
-
-Responsibilities:
-- understand the requested task
-- create an execution plan
-- delegate subtasks to the appropriate agents
-- ensure Definition of Done is met
-
-Allowed to modify:
-- planning documents
-- issues
-- task descriptions
+| # | Agent | File | Invocable? | Tools | Delegates to |
+|---|-------|------|------------|-------|-------------|
+| 1 | **Product Owner** | `product-owner.agent.md` | ✅ Yes | read, search, github/* | — |
+| 2 | **Architect** | `architect.agent.md` | ✅ Yes | read, search, github/* | — |
+| 3 | **Staff (Orchestrator)** | `staff.agent.md` | ✅ Yes | read, edit, search, execute, github/*, agent | backend-dev, frontend-dev, test-advisor, qa, metrifier |
+| 4 | **Backend Developer** | `backend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
+| 5 | **Frontend Developer** | `frontend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
+| 6 | **Test Advisor** | `test-advisor.agent.md` | ✅ Yes | read, search | — |
+| 7 | **QA** | `qa.agent.md` | ✅ Yes | read, search, execute | — |
+| 8 | **Reviewer** | `reviewer.agent.md` | ✅ Yes | read, search, github/* | — |
+| 9 | **Documenter** | `documenter.agent.md` | ✅ Yes | read, edit, search, github/* | — |
+| 10 | **Metrifier** | `metrifier.agent.md` | ✅ Yes | read, search | — |
 
 ---
 
-## Product Agent
+## Agent Responsibilities
 
-Responsible for translating product requirements into implementable tasks.
+### 1. Product Owner (`product-owner`)
 
-Responsibilities:
-- write user stories
-- define acceptance criteria
-- identify edge cases
+Converts business demands into clear, actionable GitHub Issues.
 
-May update:
-- docs/domain.md
-- docs/api-spec.md (when new features require new endpoints)
+**Responsibilities:**
+- Clarify ambiguous demands (blocking gate)
+- Define acceptance criteria (Given/When/Then)
+- Assign priority (P0–P3)
+- Create/update GitHub Issues via MCP with subtask checklists
+- Validate implemented solutions against acceptance criteria
 
----
-
-## Architecture Agent
-
-Responsible for architectural integrity.
-
-Responsibilities:
-- ensure compliance with Clean Architecture
-- validate layer boundaries
-- propose ADRs for major changes
-
-May update:
-- docs/architecture.md
-- docs/adr/*
-
-Must enforce rules defined in ADR-0001.
+**Triggers:** "product owner", "PO", "nova demanda", "criar issue", "refinar tarefa"
 
 ---
 
-## Database Agent
+### 2. Architect (`architect`)
 
-Responsible for database schema evolution.
+Analyzes issues from an architectural perspective.
 
-Responsibilities:
-- update schema documentation
-- create migrations
-- enforce constraints and indexes
+**Responsibilities:**
+- Identify affected Clean Architecture layers
+- Suggest file/module structure per layer
+- Verify compliance with architectural boundaries
+- Propose ADRs when needed
+- Post architectural analysis as issue comment via MCP
 
-May modify:
-- docs/database.md
-- backend/src/infrastructure/db/migrations/**
-
-Must respect constraints described in the database documentation.
+**Triggers:** "architect", "análise arquitetural", "design técnico", "ADR"
 
 ---
 
-## Backend Agent
+### 3. Staff / Orchestrator (`staff`)
 
-Responsible for backend implementation.
+Central orchestrator that plans and coordinates implementation.
 
-Responsibilities:
-- implement use cases
-- implement repositories/adapters
-- implement controllers and DTOs
-- follow Clean Architecture
+**Responsibilities:**
+- Read PO context and Architect analysis from the issue
+- Plan implementation at code level (files, order, dependencies)
+- Document the plan on the issue via MCP
+- Consult `test-advisor` for testing strategy
+- Delegate to `backend-dev` and/or `frontend-dev` sub-agents
+- Validate results and run tests
+- Consult `metrifier` for observability recommendations
+- Create branch and open PR via MCP
 
-Allowed to modify:
-- backend/src/**
+**Delegates to:** `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`
 
-Must follow:
-- docs/architecture.md
-- docs/api-spec.md
-- docs/domain.md
-- docs/database.md
-
-Forbidden:
-- business logic in controllers
-- direct DB access outside repositories
+**Triggers:** "staff", "orchestrator", "planejar implementação", "executar tarefa"
 
 ---
 
-## Frontend Agent
+### 4. Backend Developer (`backend-dev`)
 
-Responsible for the frontend implementation.
+Implements backend code following Clean Architecture. **Sub-agent only** (invoked by Staff).
 
-Responsibilities:
-- implement pages and components
-- integrate with API endpoints
-- handle UI states (loading, error)
-
-Allowed to modify:
-- frontend/**
-
-Must follow:
-- docs/api-spec.md
-- docs/architecture.md
-
-Business rules must remain in the backend.
+**Responsibilities:**
+- Implement domain entities, use cases, ports
+- Implement repositories, controllers, DTOs, routes
+- Wire dependencies in composition root
+- Write unit and integration tests
+- Consult `test-advisor` when needed
 
 ---
 
-## Test Agent
+### 5. Frontend Developer (`frontend-dev`)
 
-Responsible for testing.
+Implements frontend code using Next.js. **Sub-agent only** (invoked by Staff).
 
-Responsibilities:
-- write unit tests
-- write integration tests
-- add regression tests for bugs
-
-Recommended test structure:
-
-backend/test/
-- unit/
-- integration/
-- e2e/
-
-Unit tests should focus on domain and use cases.
+**Responsibilities:**
+- Implement pages with SSR where applicable
+- Create components, hooks, services
+- Integrate with API per `docs/api-spec.md`
+- Handle UI states (loading, error, empty, token expired)
+- Write frontend tests
 
 ---
 
-## Code Review Agent
+### 6. Test Advisor (`test-advisor`)
 
-Responsible for validating code quality.
+Proposes testing strategies without writing test code.
 
-Responsibilities:
-- verify Clean Architecture compliance
-- check API contract adherence
-- ensure security and observability rules
+**Responsibilities:**
+- Analyze tasks to identify all testable scenarios
+- Propose tests by pyramid level (unit → integration → e2e)
+- Define mocking strategies and fixtures
+- Identify edge cases and security test scenarios
 
-Must verify:
-- tests exist
-- logging includes requestId
-- no security violations
+**Triggers:** "test advisor", "quais testes", "estratégia de testes"
 
 ---
 
-## DevOps Agent
+### 7. QA (`qa`)
 
-Responsible for CI/CD and deployment automation.
+Validates implementations by executing tests and verifying acceptance criteria.
 
-Responsibilities:
-- maintain CI pipelines
-- configure environments
-- manage build workflows
+**Responsibilities:**
+- Execute automated test suites
+- Validate acceptance criteria from the issue
+- Test edge cases and security scenarios
+- Post structured QA report on the issue via MCP
 
-May modify:
-- .github/workflows/**
+**Triggers:** "QA", "testar", "validar implementação", "rodar testes"
 
----
-
-## Observability Agent
-
-Responsible for logging and monitoring.
-
-Responsibilities:
-- enforce structured logging
-- ensure requestId propagation
-- integrate monitoring tools (New Relic)
-
-Must follow:
-- docs/observability.md
+**Future:** Playwright MCP integration for browser-based testing
 
 ---
 
-## Security Agent
+### 8. Reviewer (`reviewer`)
 
-Responsible for security validation.
+Reviews Pull Requests against project guidelines.
 
-Responsibilities:
-- validate authentication and authorization
-- ensure input validation
-- prevent sensitive data leakage
+**Responsibilities:**
+- Review code for Clean Architecture compliance
+- Validate API contract adherence
+- Check security and observability practices
+- Verify tests exist and cover changes
+- Post structured review on PR via MCP
 
-Must follow:
-- docs/security.md
-
-Never allow:
-- logging passwords
-- logging full JWT tokens
+**Triggers:** "reviewer", "code review", "revisar PR"
 
 ---
 
-# Agent Execution Order
+### 9. Documenter (`documenter`)
 
-When implementing a feature, the recommended agent sequence is:
+Updates documentation after PR approval/merge.
 
-Orchestrator  
-↓  
-Product  
-↓  
-Architecture  
-↓  
-Database  
-↓  
-Backend  
-↓  
-Frontend  
-↓  
-Test  
-↓  
-Code Review  
-↓  
-Observability  
-↓  
-Security  
+**Responsibilities:**
+- Analyze PR diff to identify doc-worthy changes
+- Update affected docs (api-spec, database, domain, architecture, etc.)
+- Create ADRs for architectural decisions
+- Update CONTEXT_PACK.md for significant changes
+
+**Triggers:** "documenter", "documentar", "atualizar docs", "criar ADR"
 
 ---
 
-# Definition of Done
+### 10. Metrifier (`metrifier`)
+
+Suggests metrics and observability instrumentation.
+
+**Responsibilities:**
+- Propose business, technical, and operational metrics
+- Recommend collection methods (structured logs, APM, custom)
+- Suggest alert thresholds and dashboard structure
+- Advise on SLI/SLO definitions
+
+**Triggers:** "metrifier", "métricas", "observabilidade", "instrumentação"
+
+---
+
+## Delegation Model
+
+```
+User
+ │
+ ├── product-owner ──→ Creates/updates GitHub Issue
+ │
+ ├── architect ──→ Posts architectural analysis on Issue
+ │
+ ├── staff (orchestrator)
+ │     ├── backend-dev ──→ Implements backend code
+ │     │     └── test-advisor (consulta)
+ │     ├── frontend-dev ──→ Implements frontend code
+ │     │     └── test-advisor (consulta)
+ │     ├── test-advisor ──→ Proposes test strategy
+ │     ├── metrifier ──→ Suggests metrics
+ │     └── qa ──→ Validates implementation
+ │
+ ├── reviewer ──→ Reviews PR
+ │
+ └── documenter ──→ Updates documentation post-merge
+```
+
+---
+
+## Issue Tracking Protocol
+
+All agents that interact with GitHub Issues must keep the card updated:
+
+1. **On start**: Post comment indicating the agent is acting
+2. **Progress**: Update with what's been done and what remains
+3. **Subtasks**: Use markdown checklists (`- [ ]`) to track progress
+4. **Sub-issues**: Create linked sub-issues for large tasks
+5. **On completion**: Post summary with PR links and subtask status
+
+Standard format:
+```markdown
+## 🤖 [Agent Name] — Status Update
+**Status**: 🟡 In progress / ✅ Completed / 🔴 Blocked
+
+### Subtasks
+- [x] Completed task
+- [ ] Pending task
+
+### Notes
+[Details, decisions, blockers]
+```
+
+---
+
+## Agent Execution Flows
+
+### A) New Feature
+```
+product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
+```
+
+### B) Bug Fix
+```
+product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
+```
+
+### C) New Project (Bootstrap)
+```
+product-owner (backlog) → architect (structure) → staff (scaffold) → documenter
+```
+
+### D) Maintenance / Tech Debt
+```
+architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
+```
+
+---
+
+## Slash Commands (Prompts)
+
+| Command | Agent | Purpose |
+|---------|-------|---------|
+| `/new-feature` | product-owner | Start new feature flow |
+| `/analyze-issue` | architect | Architectural analysis |
+| `/implement-issue` | staff | Plan and implement |
+| `/review-pr` | reviewer | Code review |
+| `/fix-bug` | staff | Bug fix flow |
+| `/document-pr` | documenter | Post-merge documentation |
+
+---
+
+## Skills (Workflows)
+
+| Skill | Purpose |
+|-------|---------|
+| `issue-triage` | Full triage pipeline: PO → Architect → Staff planning |
+| `full-feature-cycle` | End-to-end: demand → merged, documented PR |
+
+---
+
+## Definition of Done
 
 A task is complete when:
-
-- code follows Clean Architecture
-- API matches docs/api-spec.md
-- schema matches docs/database.md
-- tests exist and pass
-- logging includes requestId
-- security rules are respected
-- documentation updated if required
+- [ ] Code follows Clean Architecture
+- [ ] API matches `docs/api-spec.md`
+- [ ] Schema matches `docs/database.md`
+- [ ] Tests exist and pass
+- [ ] Logging includes `requestId`
+- [ ] Security rules respected
+- [ ] Documentation updated if required
+- [ ] Issue card updated with final status
+- [ ] PR linked to issue
 
 ---
 
-# Important Rules
+## Important Rules
 
 Agents must **never**:
-
-- invent API endpoints
-- invent database tables or columns
-- bypass architectural layers
-- introduce undocumented behavior
+- Invent API endpoints
+- Invent database tables or columns
+- Bypass architectural layers
+- Introduce undocumented behavior
+- Log passwords, tokens, or PII
 
 All changes must remain aligned with repository documentation.

@@ -123,3 +123,46 @@ When generating code changes, include:
 - Logging/request correlation: `docs/observability.md` + ADR `0008`
 - Architectural boundaries: `docs/architecture.md` + ADR `0001`
 - Engineering best practices: `docs/engineering-guidelines.md`
+
+---
+
+## 7) Agent squad
+
+This repository uses a squad of 10 specialized AI agents defined in `.github/agents/`. See `AGENTS.md` for full details.
+
+### Available agents
+
+| Agent | When to invoke |
+|-------|---------------|
+| `product-owner` | New demands, issue creation, acceptance criteria, backlog refinement |
+| `architect` | Architectural analysis of issues, layer impact, ADR evaluation |
+| `staff` | Implementation planning, delegation, PR creation (orchestrator) |
+| `backend-dev` | Backend code implementation (sub-agent of staff) |
+| `frontend-dev` | Frontend code implementation (sub-agent of staff) |
+| `test-advisor` | Testing strategy proposals (what to test, how to structure) |
+| `qa` | Test execution, acceptance criteria validation |
+| `reviewer` | Pull Request code review |
+| `documenter` | Post-merge documentation updates, ADR creation |
+| `metrifier` | Metrics and observability recommendations |
+
+### Slash commands (prompts)
+
+| Command | Purpose |
+|---------|---------|
+| `/new-feature` | Start new feature (PO flow) |
+| `/analyze-issue` | Architectural analysis |
+| `/implement-issue` | Plan and implement issue |
+| `/review-pr` | Code review a PR |
+| `/fix-bug` | Bug fix flow |
+| `/document-pr` | Document a merged PR |
+
+### Skills (multi-step workflows)
+
+| Skill | Purpose |
+|-------|---------|
+| `issue-triage` | Full triage: PO → Architect → Staff planning |
+| `full-feature-cycle` | End-to-end: demand → merged, documented PR |
+
+### Issue tracking rule
+
+All agents with GitHub access must keep issue cards updated with progress, subtask checklists, and status updates. See `.github/instructions/issue-tracking.instructions.md`.

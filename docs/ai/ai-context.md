@@ -218,3 +218,34 @@ Ela deve:
 
 1. Propor alteração em documentação
 2. Somente depois gerar código
+
+---
+
+# 🤖 Squad de Agentes
+
+Este repositório utiliza **10 agentes de IA especializados** que colaboram em fluxos ágeis.
+
+Agentes principais:
+- `product-owner` — demandas → issues
+- `architect` — análise arquitetural
+- `staff` — orquestrador central
+- `backend-dev` / `frontend-dev` — implementação (sub-agentes do Staff)
+- `test-advisor` — estratégia de testes
+- `qa` — validação e execução de testes
+- `reviewer` — code review de PRs
+- `documenter` — documentação pós-merge
+- `metrifier` — métricas e observabilidade
+
+Slash commands disponíveis:
+- `/new-feature` — nova feature (PO)
+- `/analyze-issue` — análise arquitetural (Architect)
+- `/implement-issue` — planejar e implementar (Staff)
+- `/review-pr` — code review (Reviewer)
+- `/fix-bug` — correção de bug (Staff)
+- `/document-pr` — documentar pós-merge (Documenter)
+
+Referência completa:
+- `AGENTS.md`
+- `docs/agent-task-flow.md`
+- `docs/ai/agent-squad-guide.md`
+- `docs/ai/usage-guide.md` — guia prático com exemplos de uso

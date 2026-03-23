@@ -1,12 +1,12 @@
 # 🧩 Agent Task Flow
 
-Este documento define **como os agentes de IA devem colaborar** ao longo do ciclo de desenvolvimento do Portal Educacional.
+Este documento define **como os agentes de IA devem colaborar** ao longo do ciclo de desenvolvimento.
 
 Objetivos:
-- padronizar fluxo de trabalho entre agentes
-- reduzir retrabalho e conflitos de mudanças
-- aumentar previsibilidade e qualidade de entregas
-- garantir aderência a arquitetura, domínio, banco e contratos de API
+- Padronizar fluxo de trabalho entre agentes
+- Reduzir retrabalho e conflitos de mudanças
+- Aumentar previsibilidade e qualidade de entregas
+- Garantir aderência à arquitetura, domínio, banco e contratos de API
 
 Referências obrigatórias:
 - `README.md`
@@ -15,168 +15,190 @@ Referências obrigatórias:
 - `docs/domain.md`
 - `docs/database.md`
 - `docs/api-spec.md`
-- `docs/engineering-guidelines.md`
+- `docs/engineer-guidelines.md`
 
 ---
 
 ## 👥 Agentes e responsabilidades
 
-### 1) Orchestrator Agent
-Responsável por:
-- entender o objetivo da tarefa
-- decompor em subtarefas
-- definir sequência (plano)
-- delegar para agentes especializados
-- garantir checklist de qualidade (DoD)
+### 1) Product Owner (`product-owner`)
+Converte demandas de negócio em issues claras e acionáveis.
 
-Entregas típicas:
-- plano de execução (passos + arquivos afetados)
-- lista de PRs/commits sugeridos
-- validação final (integração do todo)
+Responsabilidades:
+- Esclarecer demandas ambíguas (gate bloqueante)
+- Definir critérios de aceite (Given/When/Then)
+- Atribuir prioridade (P0–P3)
+- Criar/atualizar Issues no GitHub via MCP com checklist de subtarefas
+- Validar soluções implementadas contra critérios de aceite
 
----
-
-### 2) Product/Backlog Agent
-Responsável por:
-- refinar requisitos em histórias menores
-- definir critérios de aceite
-- mapear fluxos principais e exceções
-- garantir alinhamento com o escopo
-
-Entregas típicas:
-- user stories + acceptance criteria
-- casos de uso e edge cases
-- definição de pronto (funcional)
+Entregas: Issue criada com contexto, critérios, prioridade e subtarefas.
 
 ---
 
-### 3) Architecture Agent
-Responsável por:
-- validar aderência a `docs/architecture.md`
-- definir estrutura/padrões quando algo novo surgir
-- revisar impactos arquiteturais (mudanças grandes)
-- sugerir refatorações estruturais
+### 2) Architect (`architect`)
+Analisa issues sob perspectiva arquitetural.
 
-Entregas típicas:
-- atualizações em `docs/architecture.md` (se necessário)
-- guidelines de implementação por camada
-- decisões registradas (ADR opcional)
+Responsabilidades:
+- Identificar camadas de Clean Architecture afetadas
+- Sugerir estrutura de arquivos/módulos por camada
+- Verificar conformidade com fronteiras arquiteturais
+- Propor ADRs quando necessário
+- Postar análise arquitetural como comentário no issue via MCP
 
----
-
-### 4) Database Agent
-Responsável por:
-- evoluir modelo físico em `docs/database.md`
-- criar/validar migrations
-- revisar constraints, índices e integridade
-- apoiar queries críticas e performance
-
-Entregas típicas:
-- migrations
-- ajustes em `docs/database.md`
-- validação de unicidades (progress/certificates)
+Entregas: Análise arquitetural como comment no issue.
 
 ---
 
-### 5) Backend Agent
-Responsável por:
-- implementar use cases (application)
-- implementar ports + adapters (infrastructure)
-- implementar controllers/DTOs (interfaces)
-- garantir conformidade com `docs/api-spec.md`
+### 3) Staff / Orchestrator (`staff`)
+Orquestrador central que planeja e coordena a implementação.
 
-Entregas típicas:
-- código backend por camada
-- handlers/controllers e rotas
-- testes unitários e de integração
+Responsabilidades:
+- Ler contexto do PO e análise do Architect
+- Planejar implementação a nível de código (arquivos, ordem, dependências)
+- Documentar plano no issue via MCP
+- Consultar `test-advisor` para estratégia de testes
+- Delegar para `backend-dev` e/ou `frontend-dev` (sub-agentes)
+- Validar resultados e rodar testes
+- Consultar `metrifier` para recomendações de observabilidade
+- Criar branch e abrir PR via MCP
 
----
+Delega para: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`
 
-### 6) Frontend Agent
-Responsável por:
-- implementar páginas e componentes (Next.js)
-- integrar com API conforme `docs/api-spec.md`
-- lidar com estados de loading/erro
-- garantir SSR onde aplicável
-
-Entregas típicas:
-- páginas `pages/*`
-- componentes e hooks
-- client API e tratamento de auth
+Entregas: Plano documentado no issue + PR aberta.
 
 ---
 
-### 7) Test Agent
-Responsável por:
-- garantir cobertura adequada em unit/integration/e2e
-- criar testes de edge cases
-- validar idempotência e regras de domínio
-- sugerir melhorias de testabilidade
+### 4) Backend Developer (`backend-dev`)
+Implementa código backend seguindo Clean Architecture. **Sub-agente** (invocado pelo Staff).
 
-Entregas típicas:
-- testes unitários de use cases
-- testes de integração dos endpoints críticos
-- (mínimo) e2e do fluxo feliz
+Responsabilidades:
+- Implementar entidades de domínio, use cases, ports
+- Implementar repositórios, controllers, DTOs, rotas
+- Conectar dependências no composition root
+- Escrever testes unitários e de integração
 
 ---
 
-### 8) Code Review Agent
-Responsável por:
-- revisar PRs para padrões e qualidade
-- checar Clean Architecture (dependências)
-- checar contratos de API e validações
-- checar segurança básica e boas práticas
+### 5) Frontend Developer (`frontend-dev`)
+Implementa código frontend usando Next.js. **Sub-agente** (invocado pelo Staff).
 
-Entregas típicas:
-- comentários de PR
-- checklist de correções
-- sugestão de refatoração incremental
+Responsabilidades:
+- Implementar páginas com SSR onde aplicável
+- Criar componentes, hooks, services
+- Integrar com API conforme `docs/api-spec.md`
+- Tratar estados de UI (loading, error, empty, token expirado)
 
 ---
 
-### 9) DevOps Agent
-Responsável por:
-- pipeline CI (lint/test/build)
-- configuração de ambientes (dev/staging/prod)
-- dockerização (futuro)
-- automações de deploy
+### 6) Test Advisor (`test-advisor`)
+Propõe estratégias de teste sem escrever código.
 
-Entregas típicas:
-- workflow GitHub Actions
-- scripts de setup local
-- configs de env/secrets
+Responsabilidades:
+- Analisar tarefas para identificar cenários testáveis
+- Propor testes por nível da pirâmide (unit → integration → e2e)
+- Definir estratégias de mock e fixtures
+- Identificar edge cases e cenários de segurança
 
 ---
 
-### 10) Observability Agent
-Responsável por:
-- instrumentação New Relic (APM/errors)
-- padrões de logging e correlação (requestId)
-- dashboards/alerts (futuro)
-- troubleshooting e métricas
+### 7) QA (`qa`)
+Valida implementações executando testes e verificando critérios de aceite.
 
-Entregas típicas:
-- integração New Relic
-- padrões de log estruturado
-- documentação de observabilidade
+Responsabilidades:
+- Executar suítes de testes automatizados
+- Validar critérios de aceite do issue
+- Testar edge cases e cenários de segurança
+- Postar relatório de QA no issue via MCP
 
----
-
-### 11) Security Agent
-Responsável por:
-- revisão de auth (JWT), validações e permissões
-- checar OWASP básico (inputs, injection, secrets)
-- sugerir hardening (rate limit, headers)
-- revisar dependências e configs sensíveis
-
-Entregas típicas:
-- checklist de segurança por endpoint
-- ajustes de validação/sanitização
-- recomendações de política de secrets
+**Futuro**: Integração com Playwright MCP para testes em browser.
 
 ---
 
-## 🧠 Regras de ouro do fluxo
+### 8) Reviewer (`reviewer`)
+Revisa Pull Requests contra guidelines do projeto.
+
+Responsabilidades:
+- Revisar código para conformidade com Clean Architecture
+- Validar aderência a contratos de API
+- Verificar práticas de segurança e observabilidade
+- Verificar existência e cobertura de testes
+- Postar review na PR via MCP
+
+---
+
+### 9) Documenter (`documenter`)
+Atualiza documentação após PR aprovada/mergeada.
+
+Responsabilidades:
+- Analisar diff da PR para identificar mudanças documentáveis
+- Atualizar docs afetados (api-spec, database, domain, architecture, etc.)
+- Criar ADRs para decisões arquiteturais
+- Atualizar CONTEXT_PACK.md para mudanças significativas
+
+---
+
+### 10) Metrifier (`metrifier`)
+Sugere métricas e instrumentação de observabilidade.
+
+Responsabilidades:
+- Propor métricas de negócio, técnicas e operacionais
+- Recomendar métodos de coleta (logs, APM, custom metrics)
+- Sugerir thresholds de alerta e estrutura de dashboards
+- Aconselhar sobre SLI/SLO
+
+---
+
+## 🔄 Modelo de delegação
+
+```
+Usuário
+ │
+ ├── product-owner ──→ Cria/atualiza Issue
+ │
+ ├── architect ──→ Posta análise arquitetural no Issue
+ │
+ ├── staff (orchestrator)
+ │     ├── backend-dev ──→ Implementa backend
+ │     │     └── test-advisor (consulta)
+ │     ├── frontend-dev ──→ Implementa frontend
+ │     │     └── test-advisor (consulta)
+ │     ├── test-advisor ──→ Propõe estratégia de testes
+ │     ├── metrifier ──→ Sugere métricas
+ │     └── qa ──→ Valida implementação
+ │
+ ├── reviewer ──→ Revisa PR
+ │
+ └── documenter ──→ Atualiza documentação pós-merge
+```
+
+---
+
+## 📋 Protocolo de Issue Tracking
+
+Todos os agentes com acesso ao GitHub MCP devem manter o card atualizado:
+
+1. **Ao iniciar**: Comentar indicando que o agente está atuando
+2. **Progresso**: Atualizar com o que foi feito e o que falta
+3. **Subtarefas**: Usar checklists (`- [ ]`) para rastrear progresso
+4. **Sub-issues**: Criar issues vinculadas para tarefas grandes
+5. **Ao finalizar**: Postar resumo com links para PR e status das subtarefas
+
+Formato padrão:
+```markdown
+## 🤖 [Nome do Agente] — Status Update
+**Status**: 🟡 Em progresso / ✅ Concluído / 🔴 Bloqueado
+
+### Subtarefas
+- [x] Tarefa concluída
+- [ ] Tarefa pendente
+
+### Notas
+[Detalhes, decisões, blockers]
+```
+
+---
+
+## 🧠 Regras de ouro
 
 1. **Documentação é fonte de verdade**
    - Se uma feature exigir novo endpoint/tabela/entidade → atualizar docs antes.
@@ -194,59 +216,62 @@ Entregas típicas:
 
 ## 🔁 Fluxos principais
 
-### A) Iniciar um novo projeto (bootstrap)
+### A) Nova feature
+```
+product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
+```
 
-1. **Orchestrator**: define plano + estrutura do repo
-2. **Product**: define backlog inicial (MVP) + critérios de aceite
-3. **Architecture**: define style (Clean Arch) + estrutura de pastas
-4. **Database**: define schema inicial + migrations
-5. **API** (via Backend/Architecture): consolida `docs/api-spec.md`
-6. **DevOps**: cria CI básico (lint/test/build)
-7. **Observability**: define padrão de requestId + integração inicial
-8. **Security**: define baseline de auth e validações
+1. **Product Owner**: Esclarece demanda, cria issue com critérios e subtarefas
+2. **Architect**: Analisa impacto arquitetural, posta análise no issue
+3. **Staff**: Planeja implementação, consulta test-advisor, delega para BE/FE
+4. **Backend/Frontend**: Implementam código e testes
+5. **QA**: Executa testes, valida critérios de aceite
+6. **Reviewer**: Revisa PR contra guidelines
+7. **Documenter**: Atualiza documentação pós-merge
 
-Saída: repositório pronto para iniciar features com padrão consistente.
+### B) Bug fix
+```
+product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
+```
+
+1. **Product Owner**: Esclarece bug report, define critérios de correção
+2. **Staff**: Investiga root cause, planeja fix mínimo, delega
+3. **Backend/Frontend**: Corrige com menor mudança possível + teste de regressão
+4. **QA**: Valida que o bug foi corrigido e não há regressão
+5. **Reviewer**: Verifica qualidade da correção
+6. **Documenter**: Atualiza se houve mudança de contrato
+
+### C) Novo projeto (bootstrap)
+```
+product-owner (backlog) → architect (estrutura) → staff (scaffold) → documenter
+```
+
+1. **Product Owner**: Define backlog inicial (MVP)
+2. **Architect**: Define estilo arquitetural, estrutura de pastas, ADRs iniciais
+3. **Staff**: Cria scaffold do projeto
+4. **Documenter**: Documenta estrutura e decisões
+
+### D) Manutenção / tech debt
+```
+architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
+```
+
+1. **Architect**: Avalia impacto arquitetural da mudança
+2. **Staff**: Planeja e delega implementação
+3. **Backend/Frontend**: Implementam refatoração
+4. **Reviewer**: Valida que não houve violação de arquitetura
+5. **Documenter**: Atualiza documentação afetada
 
 ---
 
-### B) Criar uma nova feature (ex.: “marcar aula como concluída”)
-
-1. **Orchestrator**: cria plano (arquivos e passos)
-2. **Product**: escreve user story + critérios de aceite + edge cases
-3. **Architecture**: valida que a feature cabe sem quebra (ou propõe ajuste)
-4. **Database**: valida constraints/índices (se houver impacto)
-5. **Backend**:
-   - adiciona/ajusta use case (Application)
-   - implementa adapter/port (Infrastructure)
-   - cria controller/DTO/route (Interfaces)
-6. **Frontend**:
-   - integra endpoint
-   - UI/UX (loading/erro)
-7. **Test Agent**:
-   - unit test do use case
-   - integration test do endpoint
-8. **Code Review**: valida padrões + contracts + clean arch
-9. **Observability/Security**: valida logs/correlação e hardening mínimo
-
----
-
-### C) Detectar e resolver bugs
-
-1. **Orchestrator**: reproduz/define hipótese + plano de investigação
-2. **Observability**: usa logs/APM para localizar origem
-3. **Backend/Frontend**: corrige com menor mudança possível
-4. **Test Agent**: cria teste de regressão
-5. **Code Review**: valida que não houve violação de arquitetura
-6. **Security**: se bug for relacionado a auth/inputs, reforça validação
-
----
-
-## ✅ Definition of Done (DoD) para tarefas com agentes
+## ✅ Definition of Done (DoD)
 
 Uma tarefa está concluída quando:
-- [ ] docs atualizados (se houve mudança de contrato/domínio/banco)
-- [ ] implementação respeita `docs/architecture.md`
+- [ ] Docs atualizados (se houve mudança de contrato/domínio/banco)
+- [ ] Implementação respeita `docs/architecture.md`
 - [ ] API aderente a `docs/api-spec.md`
-- [ ] testes adicionados/atualizados
-- [ ] observabilidade mínima (requestId + logs/erros)
-- [ ] revisão de qualidade concluída
+- [ ] Testes adicionados/atualizados
+- [ ] Observabilidade mínima (requestId + logs/erros)
+- [ ] Revisão de qualidade concluída
+- [ ] Issue card atualizado com status final
+- [ ] PR vinculada ao issue

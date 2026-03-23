@@ -73,6 +73,7 @@ O repositório utiliza fluxo com agentes especializados para planejamento, imple
 
 Guias principais:
 
+- usage guide: [docs/ai/usage-guide.md](docs/ai/usage-guide.md)
 - fluxo de agentes: [docs/agent-task-flow.md](docs/agent-task-flow.md)
 - definição de agentes: [AGENTS.md](AGENTS.md)
 - contexto para IA: [docs/ai/ai-context.md](docs/ai/ai-context.md)

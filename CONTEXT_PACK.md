@@ -263,6 +263,47 @@ ADR-0008 Structured Logging
 
 ---
 
+# AI Agent Squad
+
+This project uses a squad of 10 specialized AI agents.
+
+Agents:
+
+| Agent | Role |
+|-------|------|
+| product-owner | Converts demands into GitHub Issues |
+| architect | Architectural analysis |
+| staff | Orchestrator — plans and delegates |
+| backend-dev | Backend implementation (sub-agent) |
+| frontend-dev | Frontend implementation (sub-agent) |
+| test-advisor | Testing strategy |
+| qa | Test execution and validation |
+| reviewer | PR code review |
+| documenter | Post-merge documentation |
+| metrifier | Metrics and observability |
+
+Delegation model:
+
+staff → [backend-dev, frontend-dev, test-advisor, qa, metrifier]
+
+Main flows:
+
+A) New feature: product-owner → architect → staff → [BE, FE] → qa → reviewer → documenter
+B) Bug fix: product-owner → staff → [BE/FE] → qa → reviewer → documenter
+C) Bootstrap: product-owner → architect → staff → documenter
+D) Tech debt: architect → staff → [BE/FE] → reviewer → documenter
+
+Slash commands:
+
+/new-feature, /analyze-issue, /implement-issue, /review-pr, /fix-bug, /document-pr
+
+Reference:
+AGENTS.md
+docs/agent-task-flow.md
+docs/ai/agent-squad-guide.md
+
+---
+
 # Important Documentation
 
 For deeper context:
@@ -275,3 +316,4 @@ docs/security.md
 docs/observability.md
 docs/project-structure.md
 docs/engineering-guidelines.md
+docs/engineering-docs-recommendation.md
