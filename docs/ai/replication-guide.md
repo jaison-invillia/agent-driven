@@ -22,7 +22,7 @@ A estrutura que será herdada:
 
 ```
 .github/
-  agents/            # 10 agentes especializados
+  agents/            # 11 agentes especializados
   prompts/           # 6 slash commands
   instructions/      # 7 instructions contextuais
   skills/            # 2 skills (issue-triage, full-feature-cycle)
@@ -72,7 +72,17 @@ Para adicionar Figma, Playwright ou outros MCPs, adicione entradas ao `mcp.json`
 
 ---
 
-## Passo 3 — Preencher a documentação
+## Passo 3 — Configurar a stack do projeto (recomendado)
+
+Use o comando `/setup-project` no Copilot Chat. O agente `project-setup` irá perguntar sobre a stack do projeto e atualizar automaticamente toda a documentação.
+
+```
+/setup-project
+```
+
+Alternativamente, preencha manualmente os placeholders `[PREENCHER]`.
+
+## Passo 4 — Preencher a documentação de domínio
 
 ### Documentos com placeholders `[PREENCHER]`
 Os seguintes documentos já possuem a estrutura pronta — basta preencher com os dados do seu projeto:
@@ -96,9 +106,11 @@ Os seguintes documentos já possuem a estrutura pronta — basta preencher com o
 | `docs/observability.md` | Logging e monitoramento |
 | `docs/project-structure.md` | Layout de pastas |
 
-## Passo 4 — Customizar os agentes (se necessário)
+## Passo 5 — Customizar os agentes (se necessário)
 
 ### Ajustes mínimos necessários
+
+> **Nota:** Se você usou `/setup-project`, a maioria desses ajustes já foi feita automaticamente.
 
 1. **Product Owner**: Adaptar se usar Jira em vez de GitHub Issues
 2. **Architect**: Adaptar referências de ADRs e estilo arquitetural
@@ -107,21 +119,12 @@ Os seguintes documentos já possuem a estrutura pronta — basta preencher com o
 
 ### Ajustes nas Instructions
 
-Adaptar os `applyTo` patterns nos `.instructions.md` para a estrutura de pastas do novo projeto:
-
-```yaml
-# Exemplo: se o backend está em /server ao invés de /backend
-applyTo: "server/src/**/*.ts"
-```
-
----
-
-## Passo 5 — Adaptar Instructions (se necessário)
+Adaptar os `applyTo` patterns nos `.instructions.md` para a estrutura de pastas do novo projeto.
 
 Revise cada `.instructions.md` e ajuste:
 - Patterns de `applyTo` para a estrutura do novo projeto
 - Convenções de naming se diferentes
-- Regras específicas da stack (ex: Python em vez de TypeScript)
+- Regras específicas da stack
 
 ---
 
@@ -154,6 +157,7 @@ Crie ou atualize o `AGENTS.md` do novo repositório com:
 
 - [ ] Repositório criado a partir do template
 - [ ] MCP configurado em `.vscode/mcp.json`
+- [ ] `/setup-project` executado (ou placeholders preenchidos manualmente)
 - [ ] `docs/domain.md` preenchido com entidades e regras de negócio
 - [ ] `docs/database.md` preenchido com schema e constraints
 - [ ] `docs/api-spec.md` preenchido com endpoints e contratos
@@ -169,6 +173,7 @@ Crie ou atualize o `AGENTS.md` do novo repositório com:
 
 ## Dicas
 
+- **Comece com `/setup-project`**: Configuração automatizada economiza tempo e garante consistência
 - **Comece simples**: Use apenas PO + Architect + Staff + BE/FE + Reviewer no início
 - **Adicione gradualmente**: QA, Documenter e Metrifier podem ser adicionados depois
 - **Documente primeiro**: A qualidade dos agentes depende da qualidade da documentação

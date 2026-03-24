@@ -1,35 +1,30 @@
 ---
-description: "Use when creating or modifying frontend pages, components, or hooks. Covers Next.js patterns, SSR, API integration, and UI state handling."
-applyTo: "frontend/**/*.{tsx,ts}"
+description: "Use when creating or modifying frontend pages, components, or hooks. Covers framework patterns, API integration, and UI state handling."
+applyTo: "frontend/**"
 ---
 
 # Frontend Development Guidelines
 
-## Next.js patterns (per ADR-0006)
+> Consult `CONTEXT_PACK.md` for the frontend framework and `docs/project-structure.md` for folder layout.
 
-- **SSR** (`getServerSideProps`): Use for dynamic, user-specific, authenticated pages
-- **SSG** (`getStaticProps`): Use for public, rarely-changing content
-- Default to SSR for authenticated routes
+## Rendering strategy
+
+<!-- Adapt to the framework and rendering approach defined in your project -->
+
+- Follow the rendering strategy defined in `CONTEXT_PACK.md` and relevant ADRs
+- Use server-side rendering for dynamic, authenticated pages (when supported)
+- Use static generation for public, rarely-changing content (when supported)
 
 ## Project structure
 
-```
-frontend/
-  pages/          # Next.js route pages
-  components/     # Reusable UI components
-  hooks/          # Custom React hooks
-  services/       # API client functions
-  styles/         # CSS/styling
-  utils/          # Helpers
-  types/          # TypeScript types
-```
+Follow the frontend structure defined in `docs/project-structure.md`.
 
 ## API integration
 
 - All API calls go through `services/` — never call endpoints directly from components
 - Match contracts exactly as defined in `docs/api-spec.md`
 - Base path: `/api/v1`
-- Handle JWT token: attach to requests via Authorization header
+- Handle auth token: attach to requests via appropriate mechanism, handle expiration
 - Handle error response format: `{ code, message, details, requestId }`
 
 ## UI state handling
@@ -44,6 +39,6 @@ Every data-fetching component MUST handle:
 ## Non-negotiable rules
 
 - **No business rules in frontend** — backend is source of truth
-- Never expose JWT tokens in client-side errors or console
+- Never expose auth tokens in client-side errors or console
 - Always handle HTTP errors gracefully
-- Use TypeScript types for all component props and API responses
+- Use typed props and API responses (per project language/framework)

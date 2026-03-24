@@ -6,7 +6,7 @@ Este documento descreve a **metodologia de squad de agentes de IA** usada neste 
 
 ## Visão geral
 
-A squad é composta por **10 agentes especializados** que colaboram seguindo um fluxo inspirado em modelos ágeis. Cada agente tem um papel definido, ferramentas restritas e um escopo claro de atuação.
+A squad é composta por **11 agentes especializados** que colaboram seguindo um fluxo inspirado em modelos ágeis. Cada agente tem um papel definido, ferramentas restritas e um escopo claro de atuação.
 
 A comunicação entre agentes acontece de duas formas:
 1. **Via Issues do GitHub**: Agentes escrevem e leem comentários nas issues (MCP)

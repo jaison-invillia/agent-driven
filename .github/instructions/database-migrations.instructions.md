@@ -1,6 +1,6 @@
 ---
 description: "Use when creating or modifying database migrations. Covers migration patterns, constraints, rollback safety, and schema conventions."
-applyTo: "backend/src/infrastructure/db/migrations/**"
+applyTo: "**/migrations/**"
 ---
 
 # Database Migration Guidelines
@@ -8,17 +8,18 @@ applyTo: "backend/src/infrastructure/db/migrations/**"
 ## Migration standards
 
 - Each migration file represents ONE atomic schema change
-- File naming: `YYYYMMDDHHMMSS-<description>.ts` (timestamp prefix)
-- Every migration MUST have both `up()` and `down()` methods
-- `down()` must fully reverse `up()` — migrations must be rollback-safe
+- File naming: `YYYYMMDDHHMMSS-<description>.[ext]` (timestamp prefix)
+- Every migration MUST have both `up` and `down` methods (or equivalent)
+- `down` must fully reverse `up` — migrations must be rollback-safe
 
 ## Schema conventions (per `docs/database.md`)
 
-- **Engine**: InnoDB
-- **Charset**: utf8mb4, collation utf8mb4_unicode_ci
-- **Primary keys**: `id INT UNSIGNED AUTO_INCREMENT`
-- **Audit fields**: `created_at DATETIME DEFAULT CURRENT_TIMESTAMP`, `updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`
-- **Soft deletes**: use `deleted_at DATETIME NULL` when needed
+<!-- Adapt these conventions to the database engine defined in CONTEXT_PACK.md -->
+
+- **Primary keys**: use the recommended type for your database (e.g., `SERIAL`, `BIGINT AUTO_INCREMENT`, `UUID`)
+- **Audit fields**: `created_at` and `updated_at` with appropriate default values
+- **Soft deletes**: use `deleted_at` (nullable timestamp) when needed
+- **Charset/collation**: configure per database engine recommendations
 
 ## Constraints
 
@@ -29,7 +30,7 @@ applyTo: "backend/src/infrastructure/db/migrations/**"
 ## Indexes
 
 - Add indexes for columns used in WHERE, JOIN, ORDER BY
-- Foreign key columns are auto-indexed in InnoDB
+- Foreign key columns are typically auto-indexed (verify per database engine)
 - Composite indexes: put most selective column first
 
 ## Safety rules

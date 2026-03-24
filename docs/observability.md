@@ -1,6 +1,6 @@
 # 📈 Observability
 
-Este documento define o padrão de **observabilidade** do projeto: logs, correlação, erros, métricas e instrumentação com New Relic.
+Este documento define o padrão de **observabilidade** do projeto: logs, correlação, erros, métricas e instrumentação.
 
 Referências:
 - Arquitetura: `docs/architecture.md`
@@ -28,7 +28,7 @@ Referências:
 - Incluir `requestId` em:
   - logs
   - respostas de erro (conforme `docs/api-spec.md`)
-  - atributos do New Relic (custom attributes)
+  - atributos da ferramenta de APM (custom attributes)
 
 **Header padrão**
 - Entrada: `X-Request-Id`
@@ -111,7 +111,7 @@ Todos erros devem seguir o formato definido em `docs/api-spec.md`:
 
 **Regra:** erro inesperado deve:
 - registrar log `error` com requestId
-- reportar para New Relic
+- reportar para a ferramenta de APM
 - retornar `INTERNAL_ERROR` sem detalhes sensíveis
 
 ---
@@ -165,7 +165,9 @@ Para readiness, incluir dependências:
 
 ---
 
-## 🧭 Tracing (New Relic APM)
+## 🧩 Tracing (APM)
+
+<!-- [PREENCHER] Defina a ferramenta de APM do projeto (ex.: Datadog, New Relic, Grafana, OpenTelemetry). -->
 
 ### Requisitos
 - Instrumentação APM habilitada no backend.
@@ -205,7 +207,7 @@ Verificar:
 1. Endpoint relevante e resposta
 2. Logs com `requestId`
 3. Constraints do banco
-4. Trace no New Relic
+4. Trace na ferramenta de APM
 
 ---
 

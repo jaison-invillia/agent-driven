@@ -33,13 +33,16 @@ As decisões arquiteturais (incluindo **Clean Architecture**, camadas e regras d
 ## 🧾 Padrões de Código
 
 ### Linguagem e padrão
-- Backend: Node.js (TypeScript recomendado; se começar em JS, manter consistência)
-- Frontend: Next.js (TypeScript recomendado)
+
+<!-- [PREENCHER] Defina a stack do projeto. Use /setup-project para configurar. -->
+
+- Backend: [PREENCHER] (ex.: Node.js + TypeScript, Python, Java, Go)
+- Frontend: [PREENCHER] (ex.: Next.js, Nuxt.js, SvelteKit, Angular)
 - Preferir **código explícito** ao “mágico” (principalmente com IA).
 
 ### Nomes
 - Pastas: `kebab-case` (ex.: `order-items`)
-- Arquivos TS/JS: `kebab-case` (ex.: `order-service.ts`)
+- Arquivos: `kebab-case` (ex.: `order-service.[ext]`)
 - Classes: `PascalCase`
 - Funções/variáveis: `camelCase`
 - Constantes: `UPPER_SNAKE_CASE`
@@ -82,7 +85,7 @@ As decisões arquiteturais (incluindo **Clean Architecture**, camadas e regras d
 
 ## 📦 Persistência
 
-- Migrations versionadas em `backend/src/infrastructure/db/migrations` (ou equivalente).
+- Migrations versionadas no diretório de migrations do projeto (conforme `docs/project-structure.md`).
 - Constraints do banco **devem refletir regras do domínio** quando possível.
 - Unicidade conforme definido em `docs/database.md`.
 
@@ -90,11 +93,14 @@ As decisões arquiteturais (incluindo **Clean Architecture**, camadas e regras d
 
 ## 🧰 Observabilidade & Logs
 
-### New Relic
+### APM / Monitoramento
+
+<!-- [PREENCHER] Defina a ferramenta de APM (ex.: Datadog, New Relic, Grafana, CloudWatch). -->
+
 - Instrumentar API e capturar erros não tratados.
 - Garantir correlação por `requestId` (ver padrão de erro no `docs/api-spec.md`).
 
-### Logging (a definir)
+### Logging
 Requisitos mínimos para o logger:
 - níveis: `debug`, `info`, `warn`, `error`
 - logs estruturados (JSON)

@@ -1,4 +1,6 @@
-# ADR-0001: Adopt Clean Architecture for the Backend
+# ADR-0001: Adopt Clean Architecture
+
+> **Nota:** Esta ADR é um **exemplo** incluído no template. Adapte ou substitua conforme as necessidades do seu projeto. Se o projeto usar outro estilo arquitetural, remova esta ADR e crie uma nova registrando a decisão.
 
 ## Status
 Accepted
@@ -15,7 +17,7 @@ O projeto precisa de uma arquitetura que:
 O backend terá regras de negócio que tendem a crescer com o tempo. Uma arquitetura "framework-first" pode tornar mudanças mais custosas e dificultar manutenção.
 
 ## Decision
-Adotaremos **Clean Architecture** no backend, com dependências apontando **sempre para dentro** (domínio).
+Adotar **Clean Architecture**, com dependências apontando **sempre para dentro** (domínio).
 
 Camadas e responsabilidades (alto nível):
 
@@ -67,5 +69,6 @@ A estrutura de pastas recomendada e detalhes completos estão em:
 - Começar simples (DI manual no `main/`) e evoluir conforme necessidade.
 
 ## Notes
-- Esta ADR define o **estilo arquitetural** do backend.
-- Decisões complementares (auth, banco, etc.) devem ser registradas em ADRs separadas.
+- Esta ADR define o **estilo arquitetural** do projeto.
+- Decisões complementares (auth, banco, linguagem, framework, etc.) devem ser registradas em ADRs separadas.
+- Consulte `docs/adr/0000-adr-template.md` para o template padrão de ADR.

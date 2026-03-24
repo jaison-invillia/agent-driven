@@ -5,7 +5,7 @@ Este documento define a **estrutura recomendada do repositório** e convenções
 Objetivo:
 - reduzir ambiguidade na criação de arquivos/pastas
 - orientar contribuições humanas e assistidas por IA
-- reforçar limites de camadas (Clean Architecture)
+- reforçar limites de camadas (conforme `docs/architecture.md`)
 
 Referências:
 - `README.md`
@@ -54,9 +54,11 @@ project-root/
 
 ---
 
-## 🧱 Backend (Clean Architecture)
+## 🧱 Backend
 
-### Estrutura de pastas (recomendada)
+<!-- Adapte a estrutura conforme o estilo arquitetural definido em docs/architecture.md -->
+
+### Estrutura de pastas (exemplo para Clean Architecture)
 
 ```
 backend/
@@ -86,20 +88,23 @@ backend/
       repositories/
       logging/
       observability/
-      providers/              # pdf generator, email, etc (futuro)
+      providers/              # serviços externos (futuro)
 
     main/
       container/              # composition root / wiring
       server/                 # server bootstrap
-      app.ts
 ```
+
+> **Nota:** Esta estrutura é um exemplo baseado em Clean Architecture. Adapte conforme o estilo arquitetural e a linguagem do seu projeto.
 
 ### Regras rápidas
 - **Domain**: zero dependência de framework/DB.
 - **Application**: use cases + ports; não importa infra/interfaces.
 - **Interfaces**: controllers/DTOs; sem regra de negócio.
-- **Infrastructure**: DB/repos/providers/logging/New Relic.
-- **Main**: única camada que “junta tudo”.
+- **Infrastructure**: DB/repos/providers/logging/observabilidade.
+- **Main**: única camada que "junta tudo".
+
+> Adapte camadas e regras conforme o estilo arquitetural do projeto.
 
 Detalhes completos em: `docs/architecture.md`.
 
@@ -128,25 +133,22 @@ Regras:
 
 ---
 
-## 🌐 Frontend (Next.js)
+## 🌐 Frontend
 
-### Estrutura de pastas (recomendada)
+<!-- [PREENCHER] Adapte a estrutura conforme o framework frontend do projeto. -->
+
+### Estrutura de pastas (exemplo)
 
 ```
 frontend/
-  pages/
-    index.tsx
-    login.tsx
-    [recurso]/
-      index.tsx               # listagem
-      [id].tsx                # detalhe (SSR)
-
+  [PREENCHER] Estrutura do framework frontend adotado
+  
   components/
-  hooks/
+  hooks/                      # ou equivalente
   services/
-    api-client.ts             # wrapper HTTP
-    auth.ts                   # login/token helpers
-    [recurso].ts              # clients por recurso
+    api-client.[ext]          # wrapper HTTP
+    auth.[ext]                # login/token helpers
+    [recurso].[ext]           # clients por recurso
 
   styles/
 ```
@@ -164,7 +166,7 @@ frontend/
 ## 📄 Convenções de arquivos
 
 ### Nomeação
-- Pastas e arquivos: `kebab-case` (preferencial) **ou** padrão do framework (ex.: `pages/[id].tsx`).
+- Pastas e arquivos: `kebab-case` (preferencial) **ou** padrão do framework.
 - Classes: `PascalCase`
 - Funções/variáveis: `camelCase`
 - Constantes: `UPPER_SNAKE_CASE`

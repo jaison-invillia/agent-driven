@@ -13,12 +13,12 @@ Para decisões de arquitetura consulte: `docs/architecture.md`
 
 ## ✅ Princípios
 
-- **[PREENCHER]** Banco de dados escolhido (ex.: MySQL 8, PostgreSQL 15, etc.)
-- **FKs e constraints** habilitadas.
-- **Chaves artificiais** (ex.: `BIGINT UNSIGNED AUTO_INCREMENT`) para entidades principais.
+- **[PREENCHER]** Banco de dados escolhido (ex.: PostgreSQL 16, MySQL 8, MongoDB 7, SQLite, etc.)
+- **FKs e constraints** habilitadas (para bancos relacionais).
+- **Chaves artificiais** para entidades principais (ex.: `BIGINT`, `UUID`, `SERIAL` — conforme convenção do banco).
 - **Auditoria mínima** com `created_at` / `updated_at`.
 - **Unicidade** garantida por índices únicos conforme domínio.
-- **Integridade referencial** com FKs e regras de `ON DELETE`/`ON UPDATE`.
+- **Integridade referencial** com FKs e regras de `ON DELETE`/`ON UPDATE` (quando aplicável).
 
 ---
 
@@ -60,12 +60,11 @@ Para decisões de arquitetura consulte: `docs/architecture.md`
 > **[PREENCHER]** Adicione o schema SQL base do projeto.
 
 ```sql
--- [Banco escolhido]
--- Engine/Charset recomendados
+-- [PREENCHER] Banco escolhido e configurações recomendadas
 
 -- Exemplo:
 -- CREATE TABLE [nome] (
---   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+--   id [TIPO_CHAVE_PRIMARIA],
 --   ...
 --   PRIMARY KEY (id)
 -- );

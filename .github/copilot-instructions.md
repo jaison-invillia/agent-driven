@@ -38,8 +38,10 @@ If a feature requires a new endpoint/table/entity:
 1) propose a documentation change,  
 2) only then generate code.
 
-### Clean Architecture boundaries (backend)
-Backend must follow Clean Architecture, as defined in `docs/architecture.md`:
+### Architecture boundaries (backend)
+Backend must follow the architectural style defined in `docs/architecture.md`.
+
+If the project adopts Clean Architecture (see ADR-0001):
 
 - `domain` has **no framework/DB**
 - `application` contains **use cases + ports**
@@ -93,12 +95,13 @@ Keep changes small and incremental.
 ## 4) Code generation guidelines
 
 ### Backend
-- Prefer TypeScript if the repo is TypeScript-based; otherwise keep consistency.
+- Follow the language and conventions defined in `CONTEXT_PACK.md` and `docs/engineer-guidelines.md`.
 - Implement idempotency where required by the domain.
 - Respect DB uniqueness constraints as defined in `docs/database.md`.
 - Keep DTOs separate from domain entities.
 
-### Frontend (Next.js)
+### Frontend
+- Follow the framework and patterns defined in `CONTEXT_PACK.md` and `docs/project-structure.md`.
 - Match API usage to `docs/api-spec.md`
 - Keep UI resilient (loading states, error states, token expired handling)
 - Do not duplicate business rules; backend is source of truth.
@@ -128,7 +131,7 @@ When generating code changes, include:
 
 ## 7) Agent squad
 
-This repository uses a squad of 10 specialized AI agents defined in `.github/agents/`. See `AGENTS.md` for full details.
+This repository uses a squad of 11 specialized AI agents defined in `.github/agents/`. See `AGENTS.md` for full details.
 
 ### Available agents
 
@@ -144,11 +147,13 @@ This repository uses a squad of 10 specialized AI agents defined in `.github/age
 | `reviewer` | Pull Request code review |
 | `documenter` | Post-merge documentation updates, ADR creation |
 | `metrifier` | Metrics and observability recommendations |
+| `project-setup` | Initial stack configuration, template customization |
 
 ### Slash commands (prompts)
 
 | Command | Purpose |
 |---------|---------|
+| `/setup-project` | Configure stack and update docs |
 | `/new-feature` | Start new feature (PO flow) |
 | `/analyze-issue` | Architectural analysis |
 | `/implement-issue` | Plan and implement issue |

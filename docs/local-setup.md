@@ -15,9 +15,12 @@ Referências:
 ## ✅ Pré-requisitos
 
 ### Ferramentas
-- **Node.js** (LTS recomendado)
-- **npm** ou **pnpm** (usar um padrão no repo)
-- **[PREENCHER]** Banco de dados (ex.: MySQL 8, PostgreSQL, etc.)
+
+<!-- [PREENCHER] Defina os pré-requisitos do projeto. Use /setup-project para configurar. -->
+
+- **[PREENCHER]** Runtime/linguagem (ex.: Node.js LTS, Python 3.x, Java 21, Go 1.22)
+- **[PREENCHER]** Gerenciador de pacotes (ex.: npm, pnpm, pip, maven, go modules)
+- **[PREENCHER]** Banco de dados (ex.: PostgreSQL, MySQL, MongoDB, SQLite)
 - Git
 
 ### Opcional (recomendado)
@@ -44,7 +47,7 @@ cd <repo-folder>
 2. Crie o banco:
 
 ```sql
-CREATE DATABASE [nome_do_banco] CHARACTER SET utf8mb4;
+CREATE DATABASE [nome_do_banco];
 ```
 
 ### Opção B) Docker (recomendado)
@@ -61,37 +64,36 @@ docker compose up -d
 
 ### Backend
 
-Crie o arquivo `backend/.env` baseado em `.env.example`:
+Crie o arquivo de variáveis de ambiente do backend baseado em `.env.example`:
 
 > **[PREENCHER]** Liste as variáveis de ambiente necessárias.
 
 ```env
 # Server
-PORT=3001
-NODE_ENV=development
+PORT=[PREENCHER]
+ENV=development
 
 # Database
 DB_HOST=localhost
-DB_PORT=3306
+DB_PORT=[PREENCHER]
 DB_NAME=[nome_do_banco]
-DB_USER=root
-DB_PASSWORD=root
+DB_USER=[PREENCHER]
+DB_PASSWORD=[PREENCHER]
 
 # Auth
-JWT_SECRET=change_me_dev_secret
-JWT_EXPIRES_IN=3600
+# [PREENCHER] Variáveis de autenticação (ex.: JWT_SECRET, API_KEY, etc.)
 
 # Observability
-NEW_RELIC_ENABLED=false
-NEW_RELIC_LICENSE_KEY=
+# [PREENCHER] Variáveis de observabilidade (ex.: APM_ENABLED, APM_LICENSE_KEY, etc.)
 ```
 
 ### Frontend
 
-Crie o arquivo `frontend/.env.local`:
+Crie o arquivo de variáveis de ambiente do frontend:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api/v1
+# [PREENCHER] Variáveis do frontend
+API_BASE_URL=http://localhost:[PREENCHER]/api/v1
 ```
 
 ---
@@ -99,17 +101,17 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api/v1
 ## 🔧 Backend
 
 ```bash
-cd backend
-npm install
+cd [diretório-do-backend]
+# [PREENCHER] Comando para instalar dependências (ex.: npm install, pip install -r requirements.txt)
 ```
 
 ### Rodar migrations
 
-> A ferramenta de migration (ex.: Prisma, Knex, TypeORM, etc.) será definida na implementação.
+> A ferramenta de migration será definida na implementação.
 > O schema de referência está em `docs/database.md`.
 
 ```bash
-npm run migrate
+# [PREENCHER] Comando de migration (ex.: npm run migrate, alembic upgrade head, flyway migrate)
 ```
 
 ### Rodar seeds (opcional)
@@ -117,35 +119,35 @@ npm run migrate
 > **[PREENCHER]** Adicione instruções de seed quando disponíveis.
 
 ```bash
-npm run seed
+# [PREENCHER] Comando de seed
 ```
 
 ### Iniciar
 
 ```bash
-npm run dev
+# [PREENCHER] Comando para iniciar o backend (ex.: npm run dev, python manage.py runserver)
 ```
 
-Backend disponível em `http://localhost:3001`.
+Backend disponível em `http://localhost:[PREENCHER]`.
 
 ---
 
 ## 🌐 Frontend
 
 ```bash
-cd frontend
-npm install
-npm run dev
+cd [diretório-do-frontend]
+# [PREENCHER] Comando para instalar dependências
+# [PREENCHER] Comando para iniciar o frontend
 ```
 
-Frontend disponível em `http://localhost:3000`.
+Frontend disponível em `http://localhost:[PREENCHER]`.
 
 ---
 
 ## ✅ Verificar
 
-- Backend: `http://localhost:3001/health`
-- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:[PREENCHER]/health`
+- Frontend: `http://localhost:[PREENCHER]`
 
 ---
 
@@ -160,18 +162,18 @@ Frontend disponível em `http://localhost:3000`.
 ## 🧯 Troubleshooting
 
 ### Porta em uso
-- Backend: ajuste `PORT` no `backend/.env`
-- Frontend: ajuste porta do Next se necessário
+- Backend: ajuste `PORT` no arquivo de variáveis de ambiente
+- Frontend: ajuste a porta conforme o framework
 
 ### Erro de conexão com DB
 Verifique:
-- MySQL rodando
-- credenciais em `backend/.env`
-- porta `3306` liberada
+- Banco de dados rodando
+- Credenciais no arquivo de variáveis de ambiente
+- Porta do banco liberada
 
 ### JWT inválido
 Verifique:
-- `JWT_SECRET` no backend
+- Secret de autenticação configurado no backend
 - token no header `Authorization`
 
 ---

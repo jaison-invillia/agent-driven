@@ -10,6 +10,7 @@ Guia prático de como usar os agentes de IA no dia a dia. Cada cenário mostra *
 
 | Comando | O que faz | Agente |
 |---------|-----------|--------|
+| `/setup-project` | Configura stack e atualiza docs do template | Project Setup |
 | `/new-feature` | Cria issue a partir de uma demanda | Product Owner |
 | `/analyze-issue` | Análise arquitetural de um issue | Architect |
 | `/implement-issue` | Planeja e implementa um issue | Staff |
@@ -18,13 +19,24 @@ Guia prático de como usar os agentes de IA no dia a dia. Cada cenário mostra *
 | `/document-pr` | Atualiza docs após merge | Documenter |
 
 Além dos comandos, você pode invocar agentes diretamente digitando `@nome-do-agente` no chat:
-`@product-owner`, `@architect`, `@staff`, `@reviewer`, `@documenter`, `@test-advisor`, `@qa`, `@metrifier`
+`@product-owner`, `@architect`, `@staff`, `@reviewer`, `@documenter`, `@test-advisor`, `@qa`, `@metrifier`, `@project-setup`
 
 ---
 
-## Cenário 1 — Iniciar um novo projeto
+## Cenário 1 — Configurar um novo projeto
 
-Use este fluxo quando for criar um projeto do zero com a estrutura de agentes.
+Use este fluxo quando for configurar o template pela primeira vez.
+
+### Passo 0: Configurar a stack
+
+```
+/setup-project
+```
+
+O **Project Setup** vai:
+- Perguntar sobre linguagem, framework, banco, ferramentas de APM, etc.
+- Atualizar automaticamente toda a documentação e configuração
+- Sugerir ADRs para as decisões técnicas
 
 ### Passo 1: Definir o backlog inicial
 

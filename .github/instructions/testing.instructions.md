@@ -1,6 +1,6 @@
 ---
 description: "Use when writing or modifying tests. Covers testing pyramid, AAA pattern, mocking strategy, and naming conventions."
-applyTo: "**/test/**/*.ts"
+applyTo: "**/test/**"
 ---
 
 # Testing Guidelines
@@ -19,21 +19,21 @@ Priority order (most → least volume):
 - **Pattern**: AAA (Arrange, Act, Assert)
 - **Location**: `test/unit/`
 
-```typescript
-describe('CreateOrderUseCase', () => {
-  it('should create an order when input is valid', async () => {
+Example (adapt to your project's test framework and language):
+
+```
+describe('CreateOrderUseCase')
+  it('should create an order when input is valid')
     // Arrange
-    const mockRepo = { findById: jest.fn().mockResolvedValue(null), save: jest.fn() };
-    const useCase = new CreateOrderUseCase(mockRepo);
+    mockRepo = create mock of repository with findById returning null, save as no-op
+    useCase = new CreateOrderUseCase(mockRepo)
 
     // Act
-    const result = await useCase.execute({ userId: 1, productId: 1 });
+    result = useCase.execute({ userId: 1, productId: 1 })
 
     // Assert
-    expect(result).toBeDefined();
-    expect(mockRepo.save).toHaveBeenCalledOnce();
-  });
-});
+    result is defined
+    mockRepo.save was called once
 ```
 
 ## Integration tests

@@ -26,26 +26,30 @@ Core user flow:
 
 # Technology Stack
 
+<!-- [PREENCHER] Defina a stack do projeto. Use /setup-project para configurar automaticamente. -->
+
 Backend
-- Node.js
-- Clean Architecture
-- REST API
+- [PREENCHER] Linguagem/runtime (ex.: Node.js, Python, Java, Go, .NET)
+- [PREENCHER] Estilo arquitetural (ex.: Clean Architecture, Hexagonal, Modular, MVC)
+- [PREENCHER] Tipo de API (ex.: REST, GraphQL, gRPC)
 
 Frontend
-- Next.js
-- Server Side Rendering (SSR)
+- [PREENCHER] Framework (ex.: Next.js, Nuxt.js, SvelteKit, Angular, nenhum)
+- [PREENCHER] Estratégia de renderização (ex.: SSR, SSG, SPA, híbrido)
 
 Database
-- MySQL 8
+- [PREENCHER] Banco de dados (ex.: PostgreSQL, MySQL, MongoDB, SQLite)
 
 Monitoring
-- New Relic
+- [PREENCHER] Ferramenta de APM/observabilidade (ex.: Datadog, New Relic, Grafana, CloudWatch)
 
 ---
 
 # Architectural Style
 
-Backend follows **Clean Architecture**.
+<!-- [PREENCHER] Adapte conforme o estilo arquitetural adotado no projeto. -->
+
+Backend follows **[PREENCHER] estilo arquitetural** (ex.: Clean Architecture, Hexagonal, MVC).
 
 Layers:
 
@@ -159,7 +163,7 @@ requestId
 
 Monitoring:
 
-New Relic
+[PREENCHER] Ferramenta de APM/observabilidade
 
 Reference:
 docs/observability.md
@@ -219,7 +223,7 @@ ADR-0008 Structured Logging
 
 # AI Agent Squad
 
-This project uses a squad of 10 specialized AI agents.
+This project uses a squad of 11 specialized AI agents.
 
 Agents:
 
@@ -235,6 +239,7 @@ Agents:
 | reviewer | PR code review |
 | documenter | Post-merge documentation |
 | metrifier | Metrics and observability |
+| project-setup | Initial stack configuration |
 
 Delegation model:
 
@@ -249,7 +254,7 @@ D) Tech debt: architect → staff → [BE/FE] → reviewer → documenter
 
 Slash commands:
 
-/new-feature, /analyze-issue, /implement-issue, /review-pr, /fix-bug, /document-pr
+/setup-project, /new-feature, /analyze-issue, /implement-issue, /review-pr, /fix-bug, /document-pr
 
 Reference:
 AGENTS.md

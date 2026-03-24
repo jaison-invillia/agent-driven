@@ -1,5 +1,7 @@
 # ADR-0008: Use Structured JSON Logging with Request Correlation
 
+> **Nota:** Esta ADR é um **exemplo** incluído no template. Adapte conforme as ferramentas e práticas do seu projeto.
+
 ## Status
 Accepted
 
@@ -135,4 +137,4 @@ Esta decisão impacta:
 - Segurança (`docs/security.md`)
 - Implementação de middlewares HTTP
 
-Ferramentas de observabilidade como **New Relic** poderão consumir esses logs e correlacioná-los com traces e métricas.
+Ferramentas de observabilidade (ex.: Datadog, New Relic, Grafana, ELK Stack) poderão consumir esses logs e correlacioná-los com traces e métricas.

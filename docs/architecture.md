@@ -10,7 +10,12 @@ Para regras do domínio consulte: `docs/domain.md`
 
 ## 🧭 Architectural Style
 
+<!-- [PREENCHER] Defina o estilo arquitetural do projeto. O exemplo abaixo usa Clean Architecture. -->
+<!-- Adapte ou substitua conforme a decisão do seu projeto (ver ADR correspondente). -->
+
 O backend segue os princípios de **Clean Architecture**, com dependências apontando **sempre para dentro** (domínio).
+
+> **Nota:** Este é o estilo sugerido pelo template. Adapte conforme necessário e registre a decisão em uma ADR.
 
 ### Camadas (alto nível)
 
@@ -49,7 +54,7 @@ main            ─┘
 - Value Objects (se aplicável)
 
 **Não contém**
-- SQL, HTTP, DTOs de API, bibliotecas de framework, logging, New Relic
+- SQL, HTTP, DTOs de API, bibliotecas de framework, logging, instrumentação de APM
 
 ### Application
 - Use cases (commands/queries) que implementam a lógica do negócio
@@ -71,10 +76,10 @@ main            ─┘
 **Regra**: controller transforma HTTP → input do use case e output → HTTP (sem negócio).
 
 ### Infrastructure (Output Adapters)
-- Implementações concretas de ports (ex.: `UserRepositoryMySQL`)
+- Implementações concretas de ports (ex.: `UserRepository[DB]`)
 - Conexão com DB e migrations
 - Integrações externas (ex.: geração de PDF, serviços futuros)
-- Logger e instrumentação (New Relic)
+- Logger e instrumentação de APM
 
 ### Main (Composition Root)
 - Cria instâncias concretas
@@ -112,7 +117,7 @@ backend/
       db/
         connection/
         migrations/
-      repositories/       # implementações MySQL dos ports
+      repositories/       # implementações dos ports
       observability/
       logging/
       providers/          # pdf generator, email, etc (futuro)
@@ -123,11 +128,13 @@ backend/
       app.ts              # bootstrap
 ```
 
-### Frontend (Next.js)
+### Frontend
+
+<!-- [PREENCHER] Adapte conforme o framework frontend do projeto. -->
 
 ```
 frontend/
-  pages/
+  [PREENCHER] Estrutura do framework frontend
   components/
   services/              # client da API
   hooks/
@@ -146,7 +153,9 @@ frontend/
 
 ## 📈 Observability
 
-- Instrumentar backend com **New Relic** (APM + erros).
+<!-- [PREENCHER] Defina a ferramenta de APM do projeto (ex.: Datadog, New Relic, Grafana). -->
+
+- Instrumentar backend com ferramenta de APM (APM + erros).
 - Padronizar `requestId` para correlação em logs e erros.
 - Erros devem ser mapeados para o padrão especificado em `docs/api-spec.md`.
 

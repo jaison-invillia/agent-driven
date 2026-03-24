@@ -36,7 +36,7 @@ Referências:
 - Tokens inválidos/ausentes → **401 UNAUTHORIZED**.
 - Nunca logar token completo (no máximo prefixo + hash/truncado, se necessário).
 - Senhas nunca são armazenadas em texto puro:
-  - armazenar apenas `password_hash` (bcrypt/argon2 recomendado).
+  - armazenar apenas `password_hash` (algoritmo seguro recomendado, ex.: bcrypt, argon2, scrypt).
 
 ### Expiração e rotação (baseline)
 - `expiresIn` no login (ex.: 1h).
@@ -123,8 +123,8 @@ No MVP pode ser opcional, mas recomendado em produção:
 
 ### Exemplos de secrets
 - DB password
-- JWT secret / private keys
-- New Relic license key
+- Secret de autenticação / private keys
+- License keys de ferramentas de APM/observabilidade
 
 ---
 
@@ -147,11 +147,11 @@ PII (mínimo):
 
 ### Regras
 - Manter dependências atualizadas (patch/minor frequentes).
-- Ativar scanning (GitHub Dependabot / GHAS se disponível).
+- Ativar scanning de vulnerabilidades (ex.: GitHub Dependabot, Snyk, GHAS, ou equivalente).
 - Validar licenses quando necessário.
 
-### NPM hardening
-- Bloquear scripts perigosos quando possível (`npm config set ignore-scripts=true` em CI, se aplicável).
+### Hardening do gerenciador de pacotes
+- Bloquear scripts perigosos quando possível (se aplicável ao gerenciador de pacotes usado).
 - Revisar dependências transitivas críticas.
 
 ---

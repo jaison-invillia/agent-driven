@@ -45,21 +45,13 @@ Se alguma informação estiver ausente, a IA deve **sugerir alteração na docum
 
 # 🧱 Arquitetura
 
-O backend segue **Clean Architecture**.
+<!-- O estilo arquitetural é definido em docs/architecture.md. Adapte conforme o projeto. -->
 
-Camadas principais:
-
-- Domain
-- Application
-- Interfaces
-- Infrastructure
-- Main
-
-Regras completas estão em:
+O estilo arquitetural adotado está documentado em:
 
 ➡ `docs/architecture.md`
 
-IA **não deve violar essas dependências**.
+IA **deve respeitar o estilo e as regras de dependência definidos** nesse documento.
 
 ---
 
@@ -127,7 +119,7 @@ A IA **NÃO deve**:
 
 A IA **DEVE**:
 
-- seguir Clean Architecture
+- seguir a arquitetura definida em `docs/architecture.md`
 - gerar código pequeno e incremental
 - sugerir mudanças na documentação quando necessário
 
@@ -148,9 +140,11 @@ Ao implementar uma feature, a IA deve seguir a ordem:
 
 # 📌 Convenções
 
-- linguagem backend: Node.js
-- frontend: Next.js
-- banco: MySQL
+<!-- [PREENCHER] Defina a stack do projeto. Use /setup-project para configurar. -->
+
+- linguagem backend: [PREENCHER] (ex.: Node.js, Python, Java, Go)
+- frontend: [PREENCHER] (ex.: Next.js, Nuxt.js, SvelteKit, Angular)
+- banco: [PREENCHER] (ex.: PostgreSQL, MySQL, MongoDB)
 
 Preferir:
 
@@ -188,7 +182,7 @@ Ela deve:
 
 # 🤖 Squad de Agentes
 
-Este repositório utiliza **10 agentes de IA especializados** que colaboram em fluxos ágeis.
+Este repositório utiliza **11 agentes de IA especializados** que colaboram em fluxos ágeis.
 
 Agentes principais:
 - `product-owner` — demandas → issues
@@ -198,6 +192,9 @@ Agentes principais:
 - `test-advisor` — estratégia de testes
 - `qa` — validação e execução de testes
 - `reviewer` — code review de PRs
+- `documenter` — documentação pós-merge
+- `metrifier` — métricas e observabilidade
+- `project-setup` — configuração inicial da stack do projeto
 - `documenter` — documentação pós-merge
 - `metrifier` — métricas e observabilidade
 

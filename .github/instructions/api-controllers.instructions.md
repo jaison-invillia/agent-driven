@@ -1,6 +1,6 @@
 ---
 description: "Use when creating or modifying API controllers, routes, or DTOs. Covers response format, input validation, error handling, and observability."
-applyTo: "backend/src/interfaces/**/*.ts"
+applyTo: "**/controllers/**,**/routes/**"
 ---
 
 # API Controller Guidelines
@@ -9,7 +9,7 @@ applyTo: "backend/src/interfaces/**/*.ts"
 
 All endpoints must return responses following `docs/api-spec.md`:
 
-```typescript
+```
 // Success
 { data: T, requestId: string }
 
@@ -33,7 +33,7 @@ All endpoints must return responses following `docs/api-spec.md`:
 ## Input validation
 
 - Validate ALL inputs at the controller boundary
-- Use schema validators (Zod, Joi, or equivalent)
+- Use schema validators (Zod, Joi, or equivalent for your language/framework)
 - Return 400 with specific field errors
 - Never trust client-side validation
 

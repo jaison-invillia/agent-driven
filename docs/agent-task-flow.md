@@ -80,11 +80,11 @@ Responsabilidades:
 ---
 
 ### 5) Frontend Developer (`frontend-dev`)
-Implementa código frontend usando Next.js. **Sub-agente** (invocado pelo Staff).
+Implementa código frontend usando o framework definido em `CONTEXT_PACK.md`. **Sub-agente** (invocado pelo Staff).
 
 Responsabilidades:
-- Implementar páginas com SSR onde aplicável
-- Criar componentes, hooks, services
+- Implementar páginas seguindo os patterns do framework frontend
+- Criar componentes, hooks/equivalentes, services
 - Integrar com API conforme `docs/api-spec.md`
 - Tratar estados de UI (loading, error, empty, token expirado)
 

@@ -1,11 +1,14 @@
 ---
-description: "Use when editing backend source code. Enforces Clean Architecture layer boundaries, dependency direction, and naming conventions."
-applyTo: "backend/src/**/*.ts"
+description: "Use when editing backend source code. Enforces architectural layer boundaries, dependency direction, and naming conventions as defined in docs/architecture.md."
+applyTo: "backend/src/**"
 ---
 
 # Backend Architecture Guidelines
 
-## Clean Architecture layers (dependency direction: outer → inner)
+> These guidelines assume the project uses Clean Architecture (see ADR-0001).
+> If a different architectural style is adopted, adapt these rules accordingly and update this file.
+
+## Architecture layers (dependency direction: outer → inner)
 
 ```
 Main → Interfaces → Application → Domain
@@ -40,8 +43,8 @@ Main → Interfaces → Application → Domain
 
 ## Naming conventions
 
-- **Files/folders**: `kebab-case` (e.g., `create-order.ts`, `order-items.ts`)
-- **Classes**: `PascalCase` (e.g., `CreateOrderUseCase`, `OrderRepository`)
+- **Files/folders**: `kebab-case`
+- **Classes**: `PascalCase`
 - **Functions/variables**: `camelCase`
 - **Constants**: `UPPER_SNAKE_CASE`
 - **Ports**: prefix with interface purpose (e.g., `OrderRepository`, `TokenProvider`)

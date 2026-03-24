@@ -1,17 +1,19 @@
 # Copilot Agent Template
 
-Template para desenvolvimento de projetos com **squad de 10 agentes de IA** especializados, usando GitHub Copilot.
+Template para desenvolvimento de projetos com **squad de 11 agentes de IA** especializados, usando GitHub Copilot.
 
 Inclui: agentes configurados, slash commands, skills, instructions contextuais, documentação estruturada e fluxos automatizados (feature, bug fix, review, documentação).
 
-## Stack Base
+## Stack do Projeto
 
-- **Backend:** Node.js + Clean Architecture
-- **Frontend:** Next.js (SSR)
-- **Banco:** MySQL 8
-- **Observabilidade:** New Relic + logs estruturados (JSON)
+<!-- [PREENCHER] Defina a stack do seu projeto aqui ou use o comando /setup-project para configurar automaticamente. -->
 
-> A stack pode ser substituída — adapte os docs e instructions conforme o novo projeto.
+- **Backend:** [PREENCHER] (ex.: Node.js, Python, Java, Go, .NET)
+- **Frontend:** [PREENCHER] (ex.: Next.js, Nuxt.js, SvelteKit, Angular)
+- **Banco:** [PREENCHER] (ex.: PostgreSQL, MySQL, MongoDB, SQLite)
+- **Observabilidade:** [PREENCHER] (ex.: Datadog, New Relic, Grafana, CloudWatch)
+
+> Use o agente `project-setup` (comando `/setup-project`) para configurar a stack e atualizar automaticamente todos os docs e instructions.
 
 ## Como Usar Este Template
 
@@ -19,7 +21,13 @@ Inclui: agentes configurados, slash commands, skills, instructions contextuais, 
 
 Use este repositório como template para criar um novo projeto.
 
-### 2. Preencher documentação de domínio
+### 2. Configurar a stack do projeto (recomendado)
+
+Use o comando `/setup-project` no Copilot Chat para configurar interativamente a stack do projeto. O agente `project-setup` irá coletar informações e atualizar automaticamente toda a documentação.
+
+Alternativamente, preencha manualmente os placeholders `[PREENCHER]` nos docs.
+
+### 3. Preencher documentação de domínio
 
 Os docs abaixo estão com placeholders `[PREENCHER]` — preencha com os dados do seu projeto:
 
@@ -62,11 +70,12 @@ MCPs opcionais: Playwright (testes e2e), DB, Figma, etc.
 
 ### 5. Criar ADRs do projeto
 
-O template inclui 2 ADRs base:
-- `docs/adr/0001-clean-architecture.md` — Estilo arquitetural
-- `docs/adr/0008-structured-logging.md` — Padrão de logs
+O template inclui:
+- `docs/adr/0000-adr-template.md` — Template padrão (copie para criar novas ADRs)
+- `docs/adr/0001-clean-architecture.md` — Exemplo: estilo arquitetural
+- `docs/adr/0008-structured-logging.md` — Exemplo: padrão de logs
 
-Crie novos ADRs para decisões do projeto (auth, banco, hosting, etc.).
+Crie novos ADRs para decisões do projeto (linguagem, banco, framework, auth, hosting, etc.). Remova ou adapte os exemplos conforme necessário.
 
 ### 6. Customizar instructions (opcional)
 
@@ -80,11 +89,11 @@ Revise e customize conforme a stack do projeto:
 | `.github/instructions/testing.instructions.md` | Pirâmide de testes e mocking |
 | `.github/instructions/api-controllers.instructions.md` | Formato de response e validação |
 | `.github/instructions/security.instructions.md` | Auth, JWT, validação |
-| `.github/instructions/frontend-pages.instructions.md` | Next.js patterns |
+| `.github/instructions/frontend-pages.instructions.md` | Patterns do framework frontend |
 
 ## Agentes
 
-10 agentes especializados com papéis definidos:
+11 agentes especializados com papéis definidos:
 
 | Agente | Papel |
 |--------|-------|
@@ -98,6 +107,7 @@ Revise e customize conforme a stack do projeto:
 | **Reviewer** | Code review contra guidelines |
 | **Documenter** | Atualiza docs pós-merge |
 | **Metrifier** | Recomenda métricas e observabilidade |
+| **Project Setup** | Configura stack e atualiza docs do template |
 
 Detalhes completos: [AGENTS.md](AGENTS.md)
 
@@ -105,6 +115,7 @@ Detalhes completos: [AGENTS.md](AGENTS.md)
 
 | Comando | Agente | O que faz |
 |---------|--------|-----------|
+| `/setup-project` | Project Setup | Configura stack e atualiza docs |
 | `/new-feature` | Product Owner | Cria issue a partir de demanda |
 | `/analyze-issue` | Architect | Análise arquitetural |
 | `/implement-issue` | Staff | Planeja e implementa |

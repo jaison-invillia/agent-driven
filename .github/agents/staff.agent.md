@@ -70,7 +70,7 @@ For each file that needs to be created or modified, define:
 - **Dependencies**: what other files it depends on (order matters)
 - **Layer**: which Clean Architecture layer it belongs to
 
-Order of implementation (backend):
+Order of implementation (backend, adapt layers to `docs/architecture.md`):
 1. Domain entities / value objects
 2. Application use cases + ports (interfaces)
 3. Infrastructure repositories / adapters
@@ -91,8 +91,8 @@ Post the implementation plan as a comment on the issue:
 
 | # | File | Action | Layer | Purpose |
 |---|------|--------|-------|---------|
-| 1 | `backend/src/domain/entities/...` | create | Domain | [purpose] |
-| 2 | `backend/src/application/use-cases/...` | create | Application | [purpose] |
+| 1 | `[backend]/src/domain/entities/...` | create | Domain | [purpose] |
+| 2 | `[backend]/src/application/use-cases/...` | create | Application | [purpose] |
 | ... | ... | ... | ... | ... |
 
 ### Implementation order
@@ -132,9 +132,9 @@ Delegate in parallel when backend and frontend are independent.
 ### Step 6 — Validate results
 After sub-agents complete:
 - Verify all planned files were created/modified
-- Run tests to ensure they pass: `npm test` or equivalent
+- Run tests to ensure they pass (using the project's test command)
 - Check that the implementation matches the architectural plan
-- Verify Clean Architecture boundaries are respected
+- Verify architectural boundaries are respected
 
 ### Step 7 — Consult metrifier (optional)
 - Invoke `metrifier` for observability recommendations.
@@ -186,7 +186,7 @@ Keep the issue card updated throughout the process:
 
 - Documentation under `/docs` is the source of truth.
 - Do not invent endpoints, entities, tables, or behavior not documented.
-- Respect Clean Architecture layer boundaries at all times.
+- Respect architectural layer boundaries defined in `docs/architecture.md` at all times.
 - All code changes must have corresponding tests.
 - All logs must include `requestId` per `docs/observability.md`.
 - Never log passwords, tokens, or PII per `docs/security.md`.

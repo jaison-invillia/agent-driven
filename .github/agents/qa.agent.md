@@ -52,12 +52,12 @@ Your primary objective is to validate that implementations meet acceptance crite
 - Understand what was implemented and what should be tested
 
 ### Step 2 — Run automated tests
-Execute in order:
-1. **Linting**: `npm run lint` or equivalent
-2. **Type checking**: `npx tsc --noEmit` or equivalent
-3. **Unit tests**: `npm test -- --testPathPattern=unit`
-4. **Integration tests**: `npm test -- --testPathPattern=integration`
-5. **E2E tests** (if available): `npm run test:e2e`
+Execute in order (adapt commands to the project's stack and tooling):
+1. **Linting**: run the project's lint command
+2. **Type checking**: run the project's type-check command (if applicable)
+3. **Unit tests**: run unit tests
+4. **Integration tests**: run integration tests
+5. **E2E tests** (if available): run e2e tests
 
 Record pass/fail status for each.
 

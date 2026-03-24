@@ -51,6 +51,7 @@ Agents must read the following files before implementing changes:
 | 8 | **Reviewer** | `reviewer.agent.md` | ✅ Yes | read, search, github/* | — |
 | 9 | **Documenter** | `documenter.agent.md` | ✅ Yes | read, edit, search, github/* | — |
 | 10 | **Metrifier** | `metrifier.agent.md` | ✅ Yes | read, search | — |
+| 11 | **Project Setup** | `project-setup.agent.md` | ✅ Yes | read, edit, search, execute | — |
 
 ---
 
@@ -76,7 +77,7 @@ Converts business demands into clear, actionable GitHub Issues.
 Analyzes issues from an architectural perspective.
 
 **Responsibilities:**
-- Identify affected Clean Architecture layers
+- Identify affected architectural layers (per `docs/architecture.md`)
 - Suggest file/module structure per layer
 - Verify compliance with architectural boundaries
 - Propose ADRs when needed
@@ -108,7 +109,7 @@ Central orchestrator that plans and coordinates implementation.
 
 ### 4. Backend Developer (`backend-dev`)
 
-Implements backend code following Clean Architecture. **Sub-agent only** (invoked by Staff).
+Implements backend code following the architectural style defined in `docs/architecture.md`. **Sub-agent only** (invoked by Staff).
 
 **Responsibilities:**
 - Implement domain entities, use cases, ports
@@ -121,11 +122,11 @@ Implements backend code following Clean Architecture. **Sub-agent only** (invoke
 
 ### 5. Frontend Developer (`frontend-dev`)
 
-Implements frontend code using Next.js. **Sub-agent only** (invoked by Staff).
+Implements frontend code using the framework defined in `CONTEXT_PACK.md`. **Sub-agent only** (invoked by Staff).
 
 **Responsibilities:**
-- Implement pages with SSR where applicable
-- Create components, hooks, services
+- Implement pages following project conventions
+- Create components, hooks/equivalents, services
 - Integrate with API per `docs/api-spec.md`
 - Handle UI states (loading, error, empty, token expired)
 - Write frontend tests
@@ -202,6 +203,20 @@ Suggests metrics and observability instrumentation.
 - Advise on SLI/SLO definitions
 
 **Triggers:** "metrifier", "métricas", "observabilidade", "instrumentação"
+
+---
+
+### 11. Project Setup (`project-setup`)
+
+Interactively configures the project's technology stack and updates all template documentation.
+
+**Responsibilities:**
+- Collect technology choices from the user (language, framework, database, APM, etc.)
+- Update all `[PREENCHER]` placeholders across docs and configuration
+- Adapt instruction files (`applyTo` patterns) to match the chosen stack
+- Suggest ADRs for key technical decisions
+
+**Triggers:** "setup project", "configurar projeto", "definir stack", "adaptar template"
 
 ---
 
@@ -283,6 +298,7 @@ architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
 
 | Command | Agent | Purpose |
 |---------|-------|---------|
+| `/setup-project` | project-setup | Configure stack and update docs |
 | `/new-feature` | product-owner | Start new feature flow |
 | `/analyze-issue` | architect | Architectural analysis |
 | `/implement-issue` | staff | Plan and implement |
@@ -304,7 +320,7 @@ architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
 ## Definition of Done
 
 A task is complete when:
-- [ ] Code follows Clean Architecture
+- [ ] Code follows the architectural style defined in `docs/architecture.md`
 - [ ] API matches `docs/api-spec.md`
 - [ ] Schema matches `docs/database.md`
 - [ ] Tests exist and pass
