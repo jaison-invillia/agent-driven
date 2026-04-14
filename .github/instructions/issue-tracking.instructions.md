@@ -71,7 +71,7 @@ Post a final comment with:
 | Agent | Creates issues? | Updates issues? | Creates sub-issues? |
 |-------|----------------|-----------------|---------------------|
 | product-owner | ✅ Yes | ✅ Yes | ✅ When task is large |
-| architect | ❌ No | ✅ Comments only | ❌ No |
+| architect | ❌ No | ✅ Comments only (including conditional requests to `documenter`/`test-advisor` when guidance is not already planned) | ❌ No |
 | staff | ❌ No | ✅ Yes (plan + progress + ambiguity/doc triage) | ✅ When delegating work |
 | qa | ❌ No | ✅ Test results | ❌ No |
 | reviewer | ❌ No | ✅ Review results (only when code changed) | ❌ No |
@@ -86,6 +86,8 @@ When creating an issue, include a standard subtask checklist:
 ```markdown
 ## Subtasks
 - [ ] 🏗️ Architectural analysis (@architect)
+- [ ] 🧭 Documentation guidance covered in architecture phase (subtask + agent comment) when applicable
+- [ ] 🧭 High-level testing guidance covered in architecture phase (subtask + agent comment) when applicable
 - [ ] 🛠️ Implementation plan (@staff)
 - [ ] ❓ Ambiguity and quality check (@staff)
 - [ ] 📝 Documentation mini-plan at task start (@documenter)

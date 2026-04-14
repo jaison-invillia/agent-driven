@@ -82,7 +82,16 @@ Analyzes issues from an architectural perspective.
 - Suggest file/module structure per layer
 - Verify compliance with architectural boundaries
 - Propose ADRs when needed
+- When guidance is not already planned, request in the issue comment:
+	- `documenter` guidance on how to document the demand
+	- `test-advisor` guidance on high-level testing strategy
 - Post architectural analysis as issue comment via MCP
+
+"Already planned" means BOTH are true:
+- relevant subtask exists in the issue checklist
+- prior agent comment already requested/provided that guidance
+
+The `architect` does not delegate execution. Delegation remains with `staff`.
 
 **Triggers:** "architect", "análise arquitetural", "design técnico", "ADR"
 
@@ -262,7 +271,7 @@ User
  │
  ├── product-owner ──→ Creates/updates GitHub Issue
  │
- ├── architect ──→ Posts architectural analysis on Issue
+ ├── architect ──→ Posts architectural analysis on Issue (+ conditional requests to documenter/test-advisor)
  │
  ├── staff (orchestrator)
  │     ├── backend-dev ──→ Implements backend code

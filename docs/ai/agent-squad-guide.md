@@ -10,7 +10,7 @@ A squad é composta por **12 agentes especializados** que colaboram seguindo um 
 
 A comunicação entre agentes acontece de duas formas:
 1. **Via Issues do GitHub**: Agentes escrevem e leem comentários nas issues (MCP)
-2. **Via delegação direta**: O `staff` (orchestrator) invoca sub-agentes automaticamente
+2. **Via delegação direta (somente pelo `staff`)**: O `staff` (orchestrator) invoca sub-agentes automaticamente
 
 ---
 
@@ -132,6 +132,14 @@ description: "..."
 BE/FE implementam → QA valida → /review-pr #PR (somente se houver código) → Reviewer revisa →
 /document-pr #PR → Documenter documenta
 ```
+
+No passo do `Architect`, quando a tarefa ainda não estiver prevista para documentação/testes em alto nível, ele deve solicitar isso no comentário do issue (sem delegar execução):
+- `documenter`: como documentar a demanda
+- `test-advisor`: como testar a demanda em alto nível
+
+"Já previsto" significa BOTH:
+- subtarefa relevante no checklist do issue
+- comentário anterior de agente solicitando/fornecendo a orientação
 
 ### Bug fix
 ```

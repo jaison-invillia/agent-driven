@@ -138,7 +138,7 @@ This repository uses a squad of 12 specialized AI agents defined in `.github/age
 | Agent | When to invoke |
 |-------|---------------|
 | `product-owner` | New demands, issue creation, acceptance criteria, backlog refinement |
-| `architect` | Architectural analysis of issues, layer impact, ADR evaluation |
+| `architect` | Architectural analysis of issues, layer impact, ADR evaluation, and conditional requests for documentation/testing guidance |
 | `staff` | Implementation planning, delegation, PR creation (orchestrator) |
 | `backend-dev` | Backend code implementation (sub-agent of staff) |
 | `frontend-dev` | Frontend code implementation (sub-agent of staff) |
@@ -173,11 +173,24 @@ This repository uses a squad of 12 specialized AI agents defined in `.github/age
 ### Staff orchestration rules
 
 - Before implementation, `staff` must clarify ambiguities and validate task quality.
+- Before implementation, `staff` must confirm issue readiness for documentation/testing guidance with BOTH:
+   - relevant subtask in the issue checklist
+   - prior agent comment requesting/providing that guidance
 - On every task start, `staff` must trigger `documenter` for a mandatory documentation mini-plan (`required` / `optional` / `none`).
 - `staff` must classify testing approach as `feature_nova` or `mudanca_existente` before consulting `test-advisor`.
 - For `mudanca_existente`, adjust existing tests when coverage is already sufficient.
 - `staff` must parallelize independent delegations whenever possible.
 - Before finalizing, `staff` must trigger `reviewer` only when there are code changes.
+
+### Architect collaboration rule
+
+- When guidance is not already planned, `architect` must request in the issue comment:
+   - `documenter` guidance on how to document the demand
+   - `test-advisor` guidance on high-level testing strategy
+- "Already planned" means BOTH are true:
+   - relevant subtask exists in the issue checklist
+   - prior agent comment already requested/provided that guidance
+- `architect` must not delegate execution. Delegation remains with `staff`.
 
 ### Issue tracking rule
 

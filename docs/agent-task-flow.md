@@ -43,9 +43,18 @@ Responsabilidades:
 - Sugerir estrutura de arquivos/módulos por camada
 - Verificar conformidade com fronteiras arquiteturais
 - Propor ADRs quando necessário
+- Quando não estiver previamente planejado, solicitar no comentário do issue:
+   - orientação do `documenter` sobre como documentar a demanda
+   - orientação do `test-advisor` sobre estratégia de testes em alto nível
 - Postar análise arquitetural como comentário no issue via MCP
 
 Entregas: Análise arquitetural como comment no issue.
+
+Critério de "já previsto": considerar previamente planejado apenas quando BOTH forem verdadeiros:
+- existe subtarefa relevante no checklist do issue
+- existe comentário anterior de agente solicitando/fornecendo essa orientação
+
+O `architect` não delega execução para outros agentes; apenas registra a solicitação no issue.
 
 ---
 
@@ -55,6 +64,9 @@ Orquestrador central que planeja e coordena a implementação.
 Responsabilidades:
 - Ler contexto do PO e análise do Architect
 - Esclarecer ambiguidades e validar qualidade da descrição da tarefa antes de iniciar
+- Antes de iniciar implementação, confirmar que o issue já contém BOTH:
+   - subtarefa de cobertura para documentação e testes em alto nível
+   - comentário anterior de agente solicitando/fornecendo essa orientação
 - Acionar `documenter` no início de toda tarefa para mini-plano documental obrigatório
 - Planejar implementação a nível de código (arquivos, ordem, dependências)
 - Documentar plano no issue via MCP
@@ -186,7 +198,7 @@ Usuário
  │
  ├── product-owner ──→ Cria/atualiza Issue
  │
- ├── architect ──→ Posta análise arquitetural no Issue
+ ├── architect ──→ Posta análise arquitetural no Issue (+ solicitações condicionais para documenter/test-advisor)
  │
  ├── staff (orchestrator)
  │     ├── backend-dev ──→ Implementa backend
@@ -259,6 +271,7 @@ Formato padrão:
 0. **Pathfinder** *(opcional)*: Diagnostica a tarefa e sugere o fluxo ideal de agentes
 1. **Product Owner**: Esclarece demanda, cria issue com critérios e subtarefas
 2. **Architect**: Analisa impacto arquitetural, posta análise no issue
+   - Se não estiver "já previsto" (BOTH), solicita no issue `documenter` (documentação da demanda) e `test-advisor` (testes em alto nível)
 3. **Staff**: Valida ambiguidades, aciona documenter (mini-plano), classifica testes, consulta test-advisor e delega para BE/FE em paralelo quando possível
 4. **Backend/Frontend**: Implementam código e testes
 5. **QA**: Executa testes, valida critérios de aceite

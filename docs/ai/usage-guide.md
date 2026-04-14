@@ -127,6 +127,12 @@ O **Architect** posta no issue:
 - Arquivos a criar/modificar por camada
 - Necessidade de ADR (se houver)
 - Riscos e pontos de atenção
+- Se documentação/testes em alto nível ainda não estiverem previstos, solicita no issue:
+	- `documenter`: orientação de como documentar a demanda
+	- `test-advisor`: orientação de estratégia de testes em alto nível
+
+> Considera-se "já previsto" apenas quando BOTH estiverem presentes:
+> 1) subtarefa relevante no checklist do issue e 2) comentário anterior de agente sobre essa orientação.
 
 ### Passo 3: Implementar
 
@@ -137,7 +143,7 @@ O **Architect** posta no issue:
 O **Staff** orquestra tudo automaticamente:
 1. Lê o issue (contexto do PO + análise do Architect)
 2. Lê docs obrigatórios (domain, api-spec, database, architecture)
-3. Valida ambiguidades e qualidade da tarefa
+3. Valida ambiguidades, qualidade da tarefa e cobertura "já prevista" (BOTH) para documentação/testes em alto nível
 4. Aciona `@documenter` para mini-plano documental obrigatório
 5. Classifica como `feature_nova` ou `mudanca_existente`
 6. Consulta `@test-advisor` para estratégia de testes
