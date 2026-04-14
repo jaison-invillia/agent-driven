@@ -6,7 +6,7 @@ Este documento descreve a **metodologia de squad de agentes de IA** usada neste 
 
 ## Visão geral
 
-A squad é composta por **11 agentes especializados** que colaboram seguindo um fluxo inspirado em modelos ágeis. Cada agente tem um papel definido, ferramentas restritas e um escopo claro de atuação.
+A squad é composta por **12 agentes especializados** que colaboram seguindo um fluxo inspirado em modelos ágeis. Cada agente tem um papel definido, ferramentas restritas e um escopo claro de atuação.
 
 A comunicação entre agentes acontece de duas formas:
 1. **Via Issues do GitHub**: Agentes escrevem e leem comentários nas issues (MCP)
@@ -29,6 +29,7 @@ A comunicação entre agentes acontece de duas formas:
     reviewer.agent.md              # Code review
     documenter.agent.md            # Documentação pós-merge
     metrifier.agent.md             # Métricas e observabilidade
+    pathfinder.agent.md            # Consultor de fluxo para tarefas incertas
 
   prompts/                         # Slash commands (.prompt.md)
     new-feature.prompt.md          # /new-feature
@@ -37,6 +38,7 @@ A comunicação entre agentes acontece de duas formas:
     review-pr.prompt.md            # /review-pr
     fix-bug.prompt.md              # /fix-bug
     document-pr.prompt.md          # /document-pr
+    plan-task.prompt.md            # /plan-task
 
   instructions/                    # Guidelines contextuais (.instructions.md)
     backend-architecture.instructions.md
@@ -121,9 +123,11 @@ description: "..."
 
 ## Fluxo de trabalho típico
 
+> **Dica:** Quando a tarefa é incerta ou você não sabe por onde começar, use `/plan-task` para que o `pathfinder` sugira o fluxo ideal.
+
 ### Nova feature
 ```
-/new-feature → PO cria issue → /analyze-issue #N → Architect analisa →
+(pathfinder) → /new-feature → PO cria issue → /analyze-issue #N → Architect analisa →
 /implement-issue #N → Staff planeja e delega → BE/FE implementam →
 QA valida → /review-pr #PR → Reviewer revisa → /document-pr #PR → Documenter documenta
 ```

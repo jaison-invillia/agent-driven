@@ -52,6 +52,7 @@ Agents must read the following files before implementing changes:
 | 9 | **Documenter** | `documenter.agent.md` | ✅ Yes | read, edit, search, github/* | — |
 | 10 | **Metrifier** | `metrifier.agent.md` | ✅ Yes | read, search | — |
 | 11 | **Project Setup** | `project-setup.agent.md` | ✅ Yes | read, edit, search, execute, github/* | — |
+| 12 | **Pathfinder** | `pathfinder.agent.md` | ✅ Yes | read, search | — |
 
 ---
 
@@ -227,10 +228,28 @@ First-use onboarding wizard that detects the environment, configures the project
 
 ---
 
+### 12. Pathfinder (`pathfinder`)
+
+Advisory agent that diagnoses uncertain or complex tasks and suggests the optimal agent workflow. First point of contact when you don't know where to start.
+
+**Responsibilities:**
+- Ask diagnostic questions to understand the task's nature, scope, and uncertainty
+- Read existing cards/issues from any configured tracker to gather context
+- Map tasks to the appropriate agents and their optimal execution order
+- Suggest a high-level development roadmap inspired by agile workflows
+- Identify risks, dependencies, and ambiguities before execution starts
+- Explain why each agent should (or should not) be involved
+
+**Triggers:** "pathfinder", "plan task", "planejar tarefa", "qual fluxo seguir", "por onde começar", "suggest workflow", "guide task", "não sei por onde começar"
+
+---
+
 ## Delegation Model
 
 ```
 User
+ │
+ ├── pathfinder ──→ Suggests agent workflow (optional first step)
  │
  ├── product-owner ──→ Creates/updates GitHub Issue
  │
@@ -279,24 +298,26 @@ Standard format:
 
 ## Agent Execution Flows
 
+> **Tip:** When the task is uncertain or you don't know where to start, use `pathfinder` first (`/plan-task`) to get a recommended workflow before entering any flow below.
+
 ### A) New Feature
 ```
-product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
 ```
 
 ### B) Bug Fix
 ```
-product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
 ```
 
 ### C) New Project (Bootstrap)
 ```
-product-owner (backlog) → architect (structure) → staff (scaffold) → documenter
+(pathfinder) → product-owner (backlog) → architect (structure) → staff (scaffold) → documenter
 ```
 
 ### D) Maintenance / Tech Debt
 ```
-architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
+(pathfinder) → architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
 ```
 
 ---
@@ -306,6 +327,7 @@ architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
 | Command | Agent | Purpose |
 |---------|-------|---------|
 | `/setup-project` | project-setup | Detect environment, configure stack, set up tooling, validate readiness |
+| `/plan-task` | pathfinder | Diagnose a task and suggest the optimal agent workflow |
 | `/new-feature` | product-owner | Start new feature flow |
 | `/analyze-issue` | architect | Architectural analysis |
 | `/implement-issue` | staff | Plan and implement |

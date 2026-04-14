@@ -131,7 +131,7 @@ When generating code changes, include:
 
 ## 7) Agent squad
 
-This repository uses a squad of 11 specialized AI agents defined in `.github/agents/`. See `AGENTS.md` for full details.
+This repository uses a squad of 12 specialized AI agents defined in `.github/agents/`. See `AGENTS.md` for full details.
 
 ### Available agents
 
@@ -148,12 +148,14 @@ This repository uses a squad of 11 specialized AI agents defined in `.github/age
 | `documenter` | Post-merge documentation updates, ADR creation |
 | `metrifier` | Metrics and observability recommendations |
 | `project-setup` | Initial stack configuration, tooling setup, MCP servers, readiness validation |
+| `pathfinder` | Diagnose uncertain tasks and suggest the optimal agent workflow |
 
 ### Slash commands (prompts)
 
 | Command | Purpose |
 |---------|---------|
 | `/setup-project` | Detect environment, configure stack, set up tooling, validate readiness |
+| `/plan-task` | Diagnose a task and suggest the optimal agent workflow |
 | `/new-feature` | Start new feature (PO flow) |
 | `/analyze-issue` | Architectural analysis |
 | `/implement-issue` | Plan and implement issue |

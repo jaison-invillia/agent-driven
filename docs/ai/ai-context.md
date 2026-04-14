@@ -182,9 +182,10 @@ Ela deve:
 
 # 🤖 Squad de Agentes
 
-Este repositório utiliza **11 agentes de IA especializados** que colaboram em fluxos ágeis.
+Este repositório utiliza **12 agentes de IA especializados** que colaboram em fluxos ágeis.
 
 Agentes principais:
+- `pathfinder` — consultor de fluxo para tarefas incertas (ponto de entrada opcional)
 - `product-owner` — demandas → issues
 - `architect` — análise arquitetural
 - `staff` — orquestrador central
@@ -199,6 +200,7 @@ Agentes principais:
 - `metrifier` — métricas e observabilidade
 
 Slash commands disponíveis:
+- `/plan-task` — diagnosticar tarefa e sugerir fluxo (Pathfinder)
 - `/new-feature` — nova feature (PO)
 - `/analyze-issue` — análise arquitetural (Architect)
 - `/implement-issue` — planejar e implementar (Staff)

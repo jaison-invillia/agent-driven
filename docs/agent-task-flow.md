@@ -148,10 +148,27 @@ Responsabilidades:
 
 ---
 
+### 11) Pathfinder (`pathfinder`)
+Consultor de fluxo que diagnostica tarefas incertas e sugere o roteiro ideal de agentes.
+
+Responsabilidades:
+- Realizar perguntas de diagnóstico para entender natureza, escopo e incerteza da tarefa
+- Ler cards/issues de qualquer tracker configurado para coletar contexto
+- Mapear tarefas para os agentes apropriados e sua ordem ideal de execução
+- Sugerir roteiro de desenvolvimento de alto nível inspirado em fluxos ágeis
+- Identificar riscos, dependências e ambiguidades antes da execução
+- Explicar por que cada agente deve (ou não) ser envolvido
+
+Entregas: Roteiro sugerido com sequência de agentes, justificativas, riscos e como iniciar.
+
+---
+
 ## 🔄 Modelo de delegação
 
 ```
 Usuário
+ │
+ ├── pathfinder ──→ Sugere fluxo de agentes (ponto de entrada opcional)
  │
  ├── product-owner ──→ Cria/atualiza Issue
  │
@@ -216,11 +233,14 @@ Formato padrão:
 
 ## 🔁 Fluxos principais
 
+> **Dica:** Quando a tarefa é incerta ou você não sabe por onde começar, use o `pathfinder` primeiro (`/plan-task`) para receber um roteiro recomendado antes de entrar em qualquer fluxo abaixo.
+
 ### A) Nova feature
 ```
-product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
 ```
 
+0. **Pathfinder** *(opcional)*: Diagnostica a tarefa e sugere o fluxo ideal de agentes
 1. **Product Owner**: Esclarece demanda, cria issue com critérios e subtarefas
 2. **Architect**: Analisa impacto arquitetural, posta análise no issue
 3. **Staff**: Planeja implementação, consulta test-advisor, delega para BE/FE
@@ -231,9 +251,10 @@ product-owner → architect → staff → [backend-dev, frontend-dev] → qa →
 
 ### B) Bug fix
 ```
-product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
 ```
 
+0. **Pathfinder** *(opcional)*: Diagnostica o bug e sugere o fluxo de correção
 1. **Product Owner**: Esclarece bug report, define critérios de correção
 2. **Staff**: Investiga root cause, planeja fix mínimo, delega
 3. **Backend/Frontend**: Corrige com menor mudança possível + teste de regressão
@@ -243,9 +264,10 @@ product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → revi
 
 ### C) Novo projeto (bootstrap)
 ```
-product-owner (backlog) → architect (estrutura) → staff (scaffold) → documenter
+(pathfinder) → product-owner (backlog) → architect (estrutura) → staff (scaffold) → documenter
 ```
 
+0. **Pathfinder** *(opcional)*: Diagnostica o escopo do projeto e sugere o fluxo de bootstrap
 1. **Product Owner**: Define backlog inicial (MVP)
 2. **Architect**: Define estilo arquitetural, estrutura de pastas, ADRs iniciais
 3. **Staff**: Cria scaffold do projeto
@@ -253,9 +275,10 @@ product-owner (backlog) → architect (estrutura) → staff (scaffold) → docum
 
 ### D) Manutenção / tech debt
 ```
-architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
+(pathfinder) → architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
 ```
 
+0. **Pathfinder** *(opcional)*: Diagnostica o impacto e sugere a melhor abordagem
 1. **Architect**: Avalia impacto arquitetural da mudança
 2. **Staff**: Planeja e delega implementação
 3. **Backend/Frontend**: Implementam refatoração
