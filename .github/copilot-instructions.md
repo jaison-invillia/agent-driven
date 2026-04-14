@@ -144,8 +144,8 @@ This repository uses a squad of 12 specialized AI agents defined in `.github/age
 | `frontend-dev` | Frontend code implementation (sub-agent of staff) |
 | `test-advisor` | Testing strategy proposals (what to test, how to structure) |
 | `qa` | Test execution, acceptance criteria validation |
-| `reviewer` | Pull Request code review |
-| `documenter` | Post-merge documentation updates, ADR creation |
+| `reviewer` | Pull Request code review (when code changes exist) |
+| `documenter` | Documentation impact mini-plan at task start + final updates |
 | `metrifier` | Metrics and observability recommendations |
 | `project-setup` | Initial stack configuration, tooling setup, MCP servers, readiness validation |
 | `pathfinder` | Diagnose uncertain tasks and suggest the optimal agent workflow |
@@ -161,7 +161,7 @@ This repository uses a squad of 12 specialized AI agents defined in `.github/age
 | `/implement-issue` | Plan and implement issue |
 | `/review-pr` | Code review a PR |
 | `/fix-bug` | Bug fix flow |
-| `/document-pr` | Document a merged PR |
+| `/document-pr` | Run documentation workflow |
 
 ### Skills (multi-step workflows)
 
@@ -169,6 +169,15 @@ This repository uses a squad of 12 specialized AI agents defined in `.github/age
 |-------|---------|
 | `issue-triage` | Full triage: PO → Architect → Staff planning |
 | `full-feature-cycle` | End-to-end: demand → merged, documented PR |
+
+### Staff orchestration rules
+
+- Before implementation, `staff` must clarify ambiguities and validate task quality.
+- On every task start, `staff` must trigger `documenter` for a mandatory documentation mini-plan (`required` / `optional` / `none`).
+- `staff` must classify testing approach as `feature_nova` or `mudanca_existente` before consulting `test-advisor`.
+- For `mudanca_existente`, adjust existing tests when coverage is already sufficient.
+- `staff` must parallelize independent delegations whenever possible.
+- Before finalizing, `staff` must trigger `reviewer` only when there are code changes.
 
 ### Issue tracking rule
 

@@ -137,13 +137,15 @@ O **Architect** posta no issue:
 O **Staff** orquestra tudo automaticamente:
 1. Lê o issue (contexto do PO + análise do Architect)
 2. Lê docs obrigatórios (domain, api-spec, database, architecture)
-3. Monta plano de implementação e posta no issue
-4. Consulta `@test-advisor` para estratégia de testes
-5. Delega para `@backend-dev` (use case, repository, controller, testes)
-6. Delega para `@frontend-dev` (se tiver componente de UI)
-7. Roda testes para validar
-8. Consulta `@metrifier` para observabilidade
-9. Cria branch e abre PR
+3. Valida ambiguidades e qualidade da tarefa
+4. Aciona `@documenter` para mini-plano documental obrigatório
+5. Classifica como `feature_nova` ou `mudanca_existente`
+6. Consulta `@test-advisor` para estratégia de testes
+7. Delega para `@backend-dev` e `@frontend-dev` em paralelo quando possível
+8. Roda testes para validar
+9. Consulta `@metrifier` para observabilidade
+10. Aciona `@reviewer` somente se houver mudança de código
+11. Cria branch e abre PR
 
 > **Dica**: O Staff atualiza o issue com progresso em cada etapa.
 
@@ -159,6 +161,8 @@ O **Reviewer** verifica:
 - Segurança (validação, dados sensíveis)
 - Observabilidade (requestId, logs)
 - Existência de testes
+
+> Execute esta etapa somente quando houver mudança de código.
 
 ### Passo 5: Documentar
 
@@ -180,7 +184,7 @@ Se preferir rodar o ciclo inteiro de uma vez, use a skill `full-feature-cycle`:
 [Descreva a feature que precisa ser implementada com detalhes de negócio.]
 ```
 
-Ao detectar que se trata de uma feature completa, o Copilot pode acionar a skill que executa PO → Architect → Staff → QA → Reviewer → Documenter sequencialmente.
+Ao detectar que se trata de uma feature completa, o Copilot pode acionar a skill com PO → Architect → Staff (documenter-start + classificação de testes) → QA → Reviewer (se houver código) → Documenter.
 
 ---
 
@@ -207,9 +211,11 @@ Em ambos os casos, o **Staff**:
 1. Se não houver issue, cria um com o contexto do bug
 2. Investiga a root cause (lê código, testa hipóteses)
 3. Planeja o fix mínimo necessário
-4. Delega para `@backend-dev` ou `@frontend-dev`
-5. Garante que um teste de regressão é adicionado
-6. Abre PR com a correção
+4. Aciona `@documenter` para mini-plano documental obrigatório
+5. Classifica como `mudanca_existente` e consulta `@test-advisor`
+6. Delega para `@backend-dev` ou `@frontend-dev`
+7. Ajusta testes existentes quando cobertura já for suficiente (ou adiciona novos se houver gaps)
+8. Abre PR com a correção
 
 Depois, siga o mesmo fluxo de review e documentação:
 

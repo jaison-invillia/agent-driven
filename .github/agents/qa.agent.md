@@ -17,6 +17,7 @@ Your primary objective is to validate that implementations meet acceptance crite
 - Reading the issue's acceptance criteria and the PR's changes
 - Executing existing automated tests (unit, integration, e2e)
 - Verifying that acceptance criteria are met
+- Verifying adherence to the test strategy classification defined by `staff` (`feature_nova` or `mudanca_existente`)
 - Testing edge cases and error flows
 - Verifying idempotency and uniqueness constraints where applicable
 - Running linting and type-checking
@@ -66,6 +67,10 @@ For each acceptance criterion from the issue:
 - Verify it is covered by at least one test
 - If not covered by tests, verify manually by reading the implementation
 - Mark as ✅ Met / ❌ Not met / ⚠️ Partially met
+
+Also verify test strategy adherence:
+- `feature_nova`: confirm new tests were added for new behavior
+- `mudanca_existente`: confirm existing tests were adjusted when coverage was already sufficient
 
 ### Step 4 — Check edge cases
 - Verify error flows return proper error codes and `requestId`

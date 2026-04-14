@@ -30,9 +30,12 @@ An issue is **triage-complete** when all of these are true:
 - [ ] ADR decision made (needed or not)
 
 ### Staff checklist
+- [ ] Ambiguities clarified and issue quality validated
+- [ ] Documentation mini-plan triggered with `documenter`
 - [ ] Implementation plan at code level
 - [ ] Files to create/modify listed
 - [ ] Implementation order defined
+- [ ] Task classified (`feature_nova` / `mudanca_existente`) before consulting test-advisor
 - [ ] Testing strategy consulted
 
 ## Demand classification
@@ -42,7 +45,7 @@ An issue is **triage-complete** when all of these are true:
 | New feature | PO → Architect → Staff | Full triage |
 | Bug fix | PO (clarify) → Staff | Architect only if architectural impact |
 | Tech debt | Architect → Staff | PO only if user-facing impact |
-| Documentation | Documenter | Direct, no triage needed |
+| Documentation | Staff → Documenter | Always requires documentation mini-plan at task start |
 | Security fix | PO → Architect → Staff | Always P0 or P1 |
 
 ## Escalation rules

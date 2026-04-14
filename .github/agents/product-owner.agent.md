@@ -68,11 +68,14 @@ Always include a checklist of subtasks in the issue body:
 ```markdown
 ## Subtasks
 - [ ] Architectural analysis (architect agent)
+- [ ] Ambiguity and quality check (staff)
+- [ ] Documentation mini-plan at task start (documenter)
 - [ ] Backend implementation
 - [ ] Frontend implementation
-- [ ] Tests (unit + integration)
-- [ ] Code review
-- [ ] Documentation update
+- [ ] Testing strategy by classification (test-advisor)
+- [ ] Tests (new or adjusted per strategy)
+- [ ] Code review (only if code changes)
+- [ ] Documentation update (if required)
 ```
 
 ### Sub-issues

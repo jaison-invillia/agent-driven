@@ -8,6 +8,8 @@ Use this checklist to verify a feature is truly complete before closing the issu
 - [ ] Priority assigned (P0–P3)
 - [ ] Architectural analysis completed and posted on issue
 - [ ] ADR created if new architectural decision was made
+- [ ] Ambiguities clarified and task quality validated by Staff
+- [ ] Documentation mini-plan created at task start (`required`/`optional`/`none`)
 - [ ] Implementation plan documented on the issue
 
 ## Implementation
@@ -27,8 +29,8 @@ Use this checklist to verify a feature is truly complete before closing the issu
 - [ ] Input validation on all endpoints
 
 ## Testing
-- [ ] Unit tests for all new/modified use cases (mocked ports)
-- [ ] Integration tests for new/modified endpoints
+- [ ] Testing approach classified (`feature_nova` or `mudanca_existente`)
+- [ ] Unit/integration tests created or adjusted according to classification
 - [ ] Error flows tested
 - [ ] Idempotency tested (where applicable)
 - [ ] Uniqueness constraint violations tested
@@ -50,7 +52,7 @@ Use this checklist to verify a feature is truly complete before closing the issu
 - [ ] No sensitive data in logs
 
 ## Code Review
-- [ ] PR reviewed and approved
+- [ ] PR reviewed and approved (only when code changes exist)
 - [ ] All review comments addressed
 - [ ] No security vulnerabilities
 

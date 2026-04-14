@@ -102,10 +102,10 @@ Revise e customize conforme a stack do projeto:
 | **Staff** | Orquestrador: planeja, delega, abre PR |
 | **Backend Dev** | Implementação backend (sub-agente) |
 | **Frontend Dev** | Implementação frontend (sub-agente) |
-| **Test Advisor** | Propõe estratégia de testes |
+| **Test Advisor** | Propõe estratégia de testes por classificação |
 | **QA** | Executa testes e valida critérios |
-| **Reviewer** | Code review contra guidelines |
-| **Documenter** | Atualiza docs pós-merge |
+| **Reviewer** | Code review contra guidelines (quando há mudança de código) |
+| **Documenter** | Mini-plano documental no início + atualização final |
 | **Metrifier** | Recomenda métricas e observabilidade |
 | **Project Setup** | Configura stack e atualiza docs do template |
 

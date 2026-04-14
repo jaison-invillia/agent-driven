@@ -54,15 +54,20 @@ Orquestrador central que planeja e coordena a implementação.
 
 Responsabilidades:
 - Ler contexto do PO e análise do Architect
+- Esclarecer ambiguidades e validar qualidade da descrição da tarefa antes de iniciar
+- Acionar `documenter` no início de toda tarefa para mini-plano documental obrigatório
 - Planejar implementação a nível de código (arquivos, ordem, dependências)
 - Documentar plano no issue via MCP
-- Consultar `test-advisor` para estratégia de testes
+- Classificar a tarefa como `feature_nova` ou `mudanca_existente`
+- Consultar `test-advisor` para estratégia de testes por classificação
 - Delegar para `backend-dev` e/ou `frontend-dev` (sub-agentes)
+- Paralelizar delegações sempre que houver independência de dependências
 - Validar resultados e rodar testes
 - Consultar `metrifier` para recomendações de observabilidade
+- Acionar `reviewer` antes da finalização somente quando houver mudança de código
 - Criar branch e abrir PR via MCP
 
-Delega para: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`
+Delega para: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`
 
 Entregas: Plano documentado no issue + PR aberta.
 
@@ -95,6 +100,9 @@ Propõe estratégias de teste sem escrever código.
 
 Responsabilidades:
 - Analisar tarefas para identificar cenários testáveis
+- Considerar classificação `feature_nova` vs `mudanca_existente` fornecida pelo Staff
+- Em `feature_nova`, priorizar novos testes para novas capacidades
+- Em `mudanca_existente`, priorizar ajuste de testes existentes quando cobertura já for suficiente
 - Propor testes por nível da pirâmide (unit → integration → e2e)
 - Definir estratégias de mock e fixtures
 - Identificar edge cases e cenários de segurança
@@ -124,12 +132,18 @@ Responsabilidades:
 - Verificar existência e cobertura de testes
 - Postar review na PR via MCP
 
+Regra de acionamento:
+- Obrigatório apenas quando houver mudança de código
+- Em tarefas apenas documentais, registrar review como não aplicável no issue
+
 ---
 
 ### 9) Documenter (`documenter`)
-Atualiza documentação após PR aprovada/mergeada.
+Avalia e atualiza documentação desde o início da tarefa até o fechamento.
 
 Responsabilidades:
+- No início de toda tarefa, produzir mini-plano documental obrigatório (`required`, `optional`, `none`)
+- Indicar docs candidatas para atualização e justificativa
 - Analisar diff da PR para identificar mudanças documentáveis
 - Atualizar docs afetados (api-spec, database, domain, architecture, etc.)
 - Criar ADRs para decisões arquiteturais
@@ -181,11 +195,13 @@ Usuário
  │     │     └── test-advisor (consulta)
  │     ├── test-advisor ──→ Propõe estratégia de testes
  │     ├── metrifier ──→ Sugere métricas
+ │     ├── reviewer ──→ Revisa apenas com mudança de código
+ │     ├── documenter ──→ Mini-plano documental no início
  │     └── qa ──→ Valida implementação
  │
- ├── reviewer ──→ Revisa PR
+ ├── reviewer ──→ Revisa PR quando houver mudança de código
  │
- └── documenter ──→ Atualiza documentação pós-merge
+ └── documenter ──→ Mini-plano inicial + atualização final
 ```
 
 ---
@@ -237,34 +253,34 @@ Formato padrão:
 
 ### A) Nova feature
 ```
-(pathfinder) → product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner → architect → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica a tarefa e sugere o fluxo ideal de agentes
 1. **Product Owner**: Esclarece demanda, cria issue com critérios e subtarefas
 2. **Architect**: Analisa impacto arquitetural, posta análise no issue
-3. **Staff**: Planeja implementação, consulta test-advisor, delega para BE/FE
+3. **Staff**: Valida ambiguidades, aciona documenter (mini-plano), classifica testes, consulta test-advisor e delega para BE/FE em paralelo quando possível
 4. **Backend/Frontend**: Implementam código e testes
 5. **QA**: Executa testes, valida critérios de aceite
-6. **Reviewer**: Revisa PR contra guidelines
-7. **Documenter**: Atualiza documentação pós-merge
+6. **Reviewer**: Revisa PR contra guidelines quando houver mudança de código
+7. **Documenter**: Revalida impacto e atualiza documentação no fechamento
 
 ### B) Bug fix
 ```
-(pathfinder) → product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner (clarify) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica o bug e sugere o fluxo de correção
 1. **Product Owner**: Esclarece bug report, define critérios de correção
-2. **Staff**: Investiga root cause, planeja fix mínimo, delega
-3. **Backend/Frontend**: Corrige com menor mudança possível + teste de regressão
+2. **Staff**: Investiga root cause, valida ambiguidades, aciona documenter (mini-plano), classifica como `mudanca_existente`, planeja fix mínimo e delega
+3. **Backend/Frontend**: Corrige com menor mudança possível + ajuste de testes existentes (ou novos testes quando houver gaps)
 4. **QA**: Valida que o bug foi corrigido e não há regressão
-5. **Reviewer**: Verifica qualidade da correção
+5. **Reviewer**: Verifica qualidade da correção quando houver mudança de código
 6. **Documenter**: Atualiza se houve mudança de contrato
 
 ### C) Novo projeto (bootstrap)
 ```
-(pathfinder) → product-owner (backlog) → architect (estrutura) → staff (scaffold) → documenter
+(pathfinder) → product-owner (backlog) → architect (estrutura) → staff(+documenter-start, scaffold) → documenter(final)
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica o escopo do projeto e sugere o fluxo de bootstrap
@@ -275,7 +291,7 @@ Formato padrão:
 
 ### D) Manutenção / tech debt
 ```
-(pathfinder) → architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
+(pathfinder) → architect → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica o impacto e sugere a melhor abordagem
@@ -290,11 +306,13 @@ Formato padrão:
 ## ✅ Definition of Done (DoD)
 
 Uma tarefa está concluída quando:
+- [ ] Mini-plano documental registrado no início (`required`/`optional`/`none`)
 - [ ] Docs atualizados (se houve mudança de contrato/domínio/banco)
 - [ ] Implementação respeita `docs/architecture.md`
 - [ ] API aderente a `docs/api-spec.md`
-- [ ] Testes adicionados/atualizados
+- [ ] Estratégia de testes definida (`feature_nova`/`mudanca_existente`)
+- [ ] Testes adicionados/ajustados conforme estratégia
 - [ ] Observabilidade mínima (requestId + logs/erros)
-- [ ] Revisão de qualidade concluída
+- [ ] Revisão de qualidade concluída quando houver mudança de código
 - [ ] Issue card atualizado com status final
 - [ ] PR vinculada ao issue

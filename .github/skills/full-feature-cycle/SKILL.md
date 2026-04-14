@@ -1,6 +1,6 @@
 ---
 name: full-feature-cycle
-description: "Complete feature lifecycle: from demand to merged PR with documentation. Orchestrates all agents through the full pipeline: PO → Architect → Staff → BE/FE → QA → Reviewer → Documenter. Use for end-to-end feature delivery."
+description: "Complete feature lifecycle: from demand to merged PR with documentation. Orchestrates PO → Architect → Staff (with documenter start + test classification) → BE/FE → QA → Reviewer (code-change only) → Documenter final. Use for end-to-end feature delivery."
 argument-hint: "Describe the feature or provide the issue number"
 ---
 
@@ -27,9 +27,13 @@ End-to-end workflow for delivering a complete feature, from initial demand to me
 ### Phase 2 — Implementation (Staff + BE/FE)
 
 3. Invoke `staff` agent with the issue number
+   - Clarifies ambiguities and validates task quality
+   - Triggers `documenter` for mandatory mini documentation plan
+   - Classifies testing approach as `feature_nova` or `mudanca_existente`
    - Plans implementation at code level
-   - Consults `test-advisor` for testing strategy
+   - Consults `test-advisor` for testing strategy by classification
    - Delegates to `backend-dev` and/or `frontend-dev`
+   - Parallelizes independent delegations whenever possible
    - Sub-agents implement code and tests
    - Staff validates and opens PR
 
@@ -41,12 +45,14 @@ End-to-end workflow for delivering a complete feature, from initial demand to me
    - Posts QA report
 
 5. Invoke `reviewer` agent with the PR number
+   - Only when there are code changes
    - Reviews code against all guidelines
    - Posts review with approve/request changes
 
 ### Phase 4 — Documentation (Documenter)
 
-6. After PR is approved/merged, invoke `documenter` agent with PR number
+6. Invoke `documenter` at task start (mini-plan) and again after implementation with PR number
+   - Start: classify doc impact (`required`/`optional`/`none`)
    - Updates affected documentation
    - Creates ADR if architectural decisions were made
    - Updates CONTEXT_PACK if significant

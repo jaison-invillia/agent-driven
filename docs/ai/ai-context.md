@@ -190,14 +190,12 @@ Agentes principais:
 - `architect` — análise arquitetural
 - `staff` — orquestrador central
 - `backend-dev` / `frontend-dev` — implementação (sub-agentes do Staff)
-- `test-advisor` — estratégia de testes
+- `test-advisor` — estratégia de testes por classificação (`feature_nova`/`mudanca_existente`)
 - `qa` — validação e execução de testes
-- `reviewer` — code review de PRs
-- `documenter` — documentação pós-merge
+- `reviewer` — code review de PRs quando houver mudança de código
+- `documenter` — mini-plano documental no início + atualização final
 - `metrifier` — métricas e observabilidade
 - `project-setup` — configuração inicial da stack do projeto
-- `documenter` — documentação pós-merge
-- `metrifier` — métricas e observabilidade
 
 Slash commands disponíveis:
 - `/plan-task` — diagnosticar tarefa e sugerir fluxo (Pathfinder)
@@ -206,7 +204,7 @@ Slash commands disponíveis:
 - `/implement-issue` — planejar e implementar (Staff)
 - `/review-pr` — code review (Reviewer)
 - `/fix-bug` — correção de bug (Staff)
-- `/document-pr` — documentar pós-merge (Documenter)
+- `/document-pr` — documentar mudanças (Documenter)
 
 Referência completa:
 - `AGENTS.md`

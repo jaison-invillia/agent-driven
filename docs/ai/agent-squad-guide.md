@@ -27,7 +27,7 @@ A comunicação entre agentes acontece de duas formas:
     test-advisor.agent.md          # Estratégia de testes
     qa.agent.md                    # Validação e testes
     reviewer.agent.md              # Code review
-    documenter.agent.md            # Documentação pós-merge
+    documenter.agent.md            # Mini-plano documental + atualização final
     metrifier.agent.md             # Métricas e observabilidade
     pathfinder.agent.md            # Consultor de fluxo para tarefas incertas
 
@@ -128,14 +128,15 @@ description: "..."
 ### Nova feature
 ```
 (pathfinder) → /new-feature → PO cria issue → /analyze-issue #N → Architect analisa →
-/implement-issue #N → Staff planeja e delega → BE/FE implementam →
-QA valida → /review-pr #PR → Reviewer revisa → /document-pr #PR → Documenter documenta
+/implement-issue #N → Staff esclarece ambiguidades, aciona documenter, classifica testes e delega →
+BE/FE implementam → QA valida → /review-pr #PR (somente se houver código) → Reviewer revisa →
+/document-pr #PR → Documenter documenta
 ```
 
 ### Bug fix
 ```
 /fix-bug → Staff investiga e planeja → BE/FE corrigem →
-QA valida → /review-pr #PR → Reviewer revisa → /document-pr #PR
+QA valida → /review-pr #PR (somente se houver código) → Reviewer revisa → /document-pr #PR
 ```
 
 ---

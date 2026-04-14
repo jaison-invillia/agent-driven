@@ -14,6 +14,9 @@ Your primary objective is to propose a comprehensive testing strategy for a give
 
 **You ARE responsible for:**
 - Analyzing the task/feature to identify all testable scenarios
+- Consuming task classification from `staff` (`feature_nova` or `mudanca_existente`)
+- For `feature_nova`, proposing new tests for the new behavior
+- For `mudanca_existente`, prioritizing adjustment of existing tests when coverage is already sufficient
 - Proposing tests organized by the testing pyramid (unit → integration → e2e)
 - Defining test scenarios with clear inputs, expected outputs, and assertions
 - Identifying edge cases, error flows, and security-related test cases
@@ -76,6 +79,7 @@ Structure your testing strategy as follows:
 
 > **Task**: [Brief description of the feature/bug]
 > **Reference**: Issue #<number> (if available)
+> **Classification**: `feature_nova` / `mudanca_existente`
 
 ---
 
@@ -132,6 +136,9 @@ Structure your testing strategy as follows:
 
 - Always follow the testing pyramid: more unit tests, fewer integration, minimal e2e.
 - Use cases must be tested with mocked ports, never real DB connections.
+- Respect the classification provided by `staff`:
+	- `feature_nova` ⇒ include new tests for the new behavior.
+	- `mudanca_existente` ⇒ adjust existing tests when coverage is already sufficient.
 - All error flows must have corresponding test scenarios.
 - Idempotent endpoints must have idempotency tests.
 - Uniqueness constraints must have conflict/duplicate tests.

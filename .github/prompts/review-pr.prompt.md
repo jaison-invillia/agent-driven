@@ -6,6 +6,8 @@ argument-hint: "PR number (e.g., #15)"
 
 Perform a comprehensive code review for the specified Pull Request:
 
+Use this flow only when the task contains code changes.
+
 1. Fetch the PR and its linked issue via MCP
 2. Read all mandatory documentation (architecture, API spec, security, observability, guidelines)
 3. Review against the full checklist: architectural compliance (per `docs/architecture.md`), API contracts, security, observability, tests, code quality

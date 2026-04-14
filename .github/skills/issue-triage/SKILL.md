@@ -41,10 +41,13 @@ End-to-end workflow for triaging a new demand through the agent pipeline until i
 
 1. Invoke the `staff` agent with the issue number
 2. The Staff will:
+   - Clarify ambiguities and validate task quality
+   - Trigger `documenter` for mandatory mini documentation plan
    - Read the PO's task and Architect's analysis
    - Plan implementation at code level
    - Document the plan on the issue
-   - Consult test-advisor for testing strategy
+   - Classify testing approach as `feature_nova` or `mudanca_existente`
+   - Consult test-advisor for testing strategy by classification
 3. The issue is now **implementation-ready**
 
 ## Triage Criteria
@@ -59,5 +62,6 @@ Refer to [triage criteria](./references/triage-criteria.md) for priority definit
 - [ ] Architectural analysis posted as comment
 - [ ] ADR drafted if needed
 - [ ] Implementation plan documented
-- [ ] Testing strategy outlined
+- [ ] Documentation mini-plan outlined
+- [ ] Testing strategy outlined by classification
 - [ ] Subtask checklist in issue body

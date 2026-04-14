@@ -133,22 +133,22 @@ Generate an ordered agent roadmap with:
 
 ### Feature (well-defined)
 ```
-product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
+product-owner → architect → staff(+documenter-start + test-classification) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### Feature (vague or uncertain)
 ```
-product-owner (clarify) → architect (assess impact) → test-advisor (plan tests) → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter → metrifier
+product-owner (clarify) → architect (assess impact) → staff(clarify + documenter-start + classify tests) → test-advisor (plan tests) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final) → metrifier
 ```
 
 ### Bug fix
 ```
-product-owner (clarify bug) → staff (investigate + plan) → [backend-dev/frontend-dev] → qa → reviewer → documenter
+product-owner (clarify bug) → staff (investigate + documenter-start + `mudanca_existente`) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### Refactoring / Tech debt
 ```
-architect (assess impact) → test-advisor (regression strategy) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
+architect (assess impact) → staff (documenter-start + classify tests) → test-advisor (regression strategy) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### Exploration / Spike
@@ -158,17 +158,17 @@ architect (feasibility) → staff (prototype) → [backend-dev/frontend-dev] →
 
 ### Documentation-only change
 ```
-documenter
+staff(+documenter-start) → documenter(final)
 ```
 
 ### New project / Bootstrap
 ```
-project-setup → product-owner (initial backlog) → architect (define structure) → staff (scaffold) → documenter
+project-setup → product-owner (initial backlog) → architect (define structure) → staff(+documenter-start, scaffold) → documenter(final)
 ```
 
 ### Observability / Metrics improvement
 ```
-metrifier (recommendations) → architect (validate approach) → staff → [backend-dev] → reviewer → documenter
+metrifier (recommendations) → architect (validate approach) → staff(+documenter-start) → [backend-dev] → reviewer(code-change) → documenter(final)
 ```
 
 > These are **templates**, not rigid paths. Always adapt based on the diagnostic phase. Some steps can be skipped, reordered, or added based on the specific task.

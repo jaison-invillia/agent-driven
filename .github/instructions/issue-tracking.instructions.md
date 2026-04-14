@@ -72,10 +72,10 @@ Post a final comment with:
 |-------|----------------|-----------------|---------------------|
 | product-owner | ✅ Yes | ✅ Yes | ✅ When task is large |
 | architect | ❌ No | ✅ Comments only | ❌ No |
-| staff | ❌ No | ✅ Yes (plan + progress) | ✅ When delegating work |
+| staff | ❌ No | ✅ Yes (plan + progress + ambiguity/doc triage) | ✅ When delegating work |
 | qa | ❌ No | ✅ Test results | ❌ No |
-| reviewer | ❌ No | ✅ Review results | ❌ No |
-| documenter | ❌ No | ✅ Doc update summary | ❌ No |
+| reviewer | ❌ No | ✅ Review results (only when code changed) | ❌ No |
+| documenter | ❌ No | ✅ Mini-plan at task start + final doc summary | ❌ No |
 
 ---
 
@@ -87,12 +87,14 @@ When creating an issue, include a standard subtask checklist:
 ## Subtasks
 - [ ] 🏗️ Architectural analysis (@architect)
 - [ ] 🛠️ Implementation plan (@staff)
+- [ ] ❓ Ambiguity and quality check (@staff)
+- [ ] 📝 Documentation mini-plan at task start (@documenter)
 - [ ] 💻 Backend implementation (@backend-dev)
 - [ ] 🎨 Frontend implementation (@frontend-dev)
-- [ ] 🧪 Testing strategy (@test-advisor)
+- [ ] 🧪 Testing strategy by classification (@test-advisor)
 - [ ] ✅ QA validation (@qa)
 - [ ] 📊 Metrics recommendation (@metrifier)
-- [ ] 🔍 Code review (@reviewer)
+- [ ] 🔍 Code review (@reviewer, only if code changes)
 - [ ] 📝 Documentation update (@documenter)
 ```
 

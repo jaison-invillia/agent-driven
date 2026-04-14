@@ -226,21 +226,21 @@ Agents:
 | frontend-dev | Frontend implementation (sub-agent) |
 | test-advisor | Testing strategy |
 | qa | Test execution and validation |
-| reviewer | PR code review |
-| documenter | Post-merge documentation |
+| reviewer | PR code review (only when code changes exist) |
+| documenter | Documentation mini-plan at task start + final update |
 | metrifier | Metrics and observability |
 | project-setup | Initial stack configuration |
 
 Delegation model:
 
-staff → [backend-dev, frontend-dev, test-advisor, qa, metrifier]
+staff → [backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter]
 
 Main flows:
 
-A) New feature: product-owner → architect → staff → [BE, FE] → qa → reviewer → documenter
-B) Bug fix: product-owner → staff → [BE/FE] → qa → reviewer → documenter
-C) Bootstrap: product-owner → architect → staff → documenter
-D) Tech debt: architect → staff → [BE/FE] → reviewer → documenter
+A) New feature: product-owner → architect → staff(+documenter-start) → [BE, FE] → qa → reviewer(code-change) → documenter(final)
+B) Bug fix: product-owner → staff(+documenter-start) → [BE/FE] → qa → reviewer(code-change) → documenter(final)
+C) Bootstrap: product-owner → architect → staff(+documenter-start) → documenter(final)
+D) Tech debt: architect → staff(+documenter-start) → [BE/FE] → reviewer(code-change) → documenter(final)
 
 Slash commands:
 

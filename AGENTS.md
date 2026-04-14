@@ -43,7 +43,7 @@ Agents must read the following files before implementing changes:
 |---|-------|------|------------|-------|-------------|
 | 1 | **Product Owner** | `product-owner.agent.md` | ✅ Yes | read, search, github/* | — |
 | 2 | **Architect** | `architect.agent.md` | ✅ Yes | read, search, github/* | — |
-| 3 | **Staff (Orchestrator)** | `staff.agent.md` | ✅ Yes | read, edit, search, execute, github/*, agent | backend-dev, frontend-dev, test-advisor, qa, metrifier |
+| 3 | **Staff (Orchestrator)** | `staff.agent.md` | ✅ Yes | read, edit, search, execute, github/*, agent | backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter |
 | 4 | **Backend Developer** | `backend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
 | 5 | **Frontend Developer** | `frontend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
 | 6 | **Test Advisor** | `test-advisor.agent.md` | ✅ Yes | read, search | — |
@@ -93,16 +93,20 @@ Analyzes issues from an architectural perspective.
 Central orchestrator that plans and coordinates implementation.
 
 **Responsibilities:**
+- Clarify ambiguities and validate issue quality before implementation starts
 - Read PO context and Architect analysis from the issue
 - Plan implementation at code level (files, order, dependencies)
 - Document the plan on the issue via MCP
-- Consult `test-advisor` for testing strategy
+- Trigger `documenter` at task start for documentation impact mini-plan
+- Classify work as `feature_nova` or `mudanca_existente` before test planning
+- Consult `test-advisor` for testing strategy based on classification
 - Delegate to `backend-dev` and/or `frontend-dev` sub-agents
 - Validate results and run tests
 - Consult `metrifier` for observability recommendations
+- Trigger `reviewer` before finalizing only when code changes exist
 - Create branch and open PR via MCP
 
-**Delegates to:** `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`
+**Delegates to:** `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`
 
 **Triggers:** "staff", "orchestrator", "planejar implementação", "executar tarefa"
 
@@ -140,6 +144,9 @@ Proposes testing strategies without writing test code.
 
 **Responsibilities:**
 - Analyze tasks to identify all testable scenarios
+- Consume task classification from Staff (`feature_nova` vs `mudanca_existente`)
+- For `feature_nova`, propose new tests for new behavior
+- For `mudanca_existente`, prefer adjusting existing tests when coverage is already sufficient
 - Propose tests by pyramid level (unit → integration → e2e)
 - Define mocking strategies and fixtures
 - Identify edge cases and security test scenarios
@@ -181,9 +188,11 @@ Reviews Pull Requests against project guidelines.
 
 ### 9. Documenter (`documenter`)
 
-Updates documentation after PR approval/merge.
+Assesses and updates documentation needs from task start through completion.
 
 **Responsibilities:**
+- On every task start, produce a mandatory mini documentation plan (`required`, `optional`, `none`)
+- Indicate docs likely impacted and recommended actions before implementation
 - Analyze PR diff to identify doc-worthy changes
 - Update affected docs (api-spec, database, domain, architecture, etc.)
 - Create ADRs for architectural decisions
@@ -261,12 +270,14 @@ User
  │     ├── frontend-dev ──→ Implements frontend code
  │     │     └── test-advisor (consulta)
  │     ├── test-advisor ──→ Proposes test strategy
- │     ├── metrifier ──→ Suggests metrics
- │     └── qa ──→ Validates implementation
+│     ├── metrifier ──→ Suggests metrics
+│     ├── reviewer ──→ Reviews only when code changed
+│     ├── documenter ──→ Mini-plan at task start (+ final doc validation)
+│     └── qa ──→ Validates implementation
  │
- ├── reviewer ──→ Reviews PR
- │
- └── documenter ──→ Updates documentation post-merge
+├── reviewer ──→ Reviews PR when code changes exist
+│
+└── documenter ──→ Starts with doc mini-plan and closes with doc updates
 ```
 
 ---
@@ -302,22 +313,22 @@ Standard format:
 
 ### A) New Feature
 ```
-(pathfinder) → product-owner → architect → staff → [backend-dev, frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner → architect → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### B) Bug Fix
 ```
-(pathfinder) → product-owner (clarify) → staff → [backend-dev/frontend-dev] → qa → reviewer → documenter
+(pathfinder) → product-owner (clarify) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### C) New Project (Bootstrap)
 ```
-(pathfinder) → product-owner (backlog) → architect (structure) → staff (scaffold) → documenter
+(pathfinder) → product-owner (backlog) → architect (structure) → staff(+documenter-start, scaffold) → documenter(final)
 ```
 
 ### D) Maintenance / Tech Debt
 ```
-(pathfinder) → architect → staff → [backend-dev/frontend-dev] → reviewer → documenter
+(pathfinder) → architect → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
 ```
 
 ---
@@ -333,7 +344,7 @@ Standard format:
 | `/implement-issue` | staff | Plan and implement |
 | `/review-pr` | reviewer | Code review |
 | `/fix-bug` | staff | Bug fix flow |
-| `/document-pr` | documenter | Post-merge documentation |
+| `/document-pr` | documenter | Documentation workflow |
 
 ---
 
@@ -352,10 +363,12 @@ A task is complete when:
 - [ ] Code follows the architectural style defined in `docs/architecture.md`
 - [ ] API matches `docs/api-spec.md`
 - [ ] Schema matches `docs/database.md`
-- [ ] Tests exist and pass
+- [ ] Tests follow strategy by classification (`feature_nova` or `mudanca_existente`)
 - [ ] Logging includes `requestId`
 - [ ] Security rules respected
-- [ ] Documentation updated if required
+- [ ] Documentation mini-plan was produced at task start
+- [ ] Documentation updated if required by mini-plan or final diff
+- [ ] Code review completed when code changed
 - [ ] Issue card updated with final status
 - [ ] PR linked to issue
 
