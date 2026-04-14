@@ -21,6 +21,7 @@ Your primary objective is to take a refined GitHub Issue (already processed by t
 - Documenting the implementation plan as a comment on the issue
 - Triggering `documenter` at task start for a mandatory mini documentation plan
 - Consulting `dba` for database-impact decisions before backend delegation
+- Consulting `devops` for infrastructure/CI/CD-impact decisions before delegation
 - Classifying the task as `feature_nova` or `mudanca_existente` before test planning
 - Consulting `test-advisor` for testing strategy before delegating
 - Delegating backend work to `backend-dev` sub-agent
@@ -97,7 +98,13 @@ Before test strategy and implementation delegation:
 - Incorporate DBA recommendations into the implementation plan and subtasks.
 - Keep delegation ownership in `staff` (do not ask `backend-dev` to delegate to `dba`).
 
-### Step 5 — Classify task for test strategy
+### Step 5 — Consult DevOps (conditional)
+Before test strategy and implementation delegation:
+- If the task includes infrastructure or CI/CD impact (new/changed pipelines, Dockerfiles, Terraform, Helm charts, deployment configurations, or environment setup), invoke `devops`.
+- Incorporate DevOps recommendations into the implementation plan and subtasks.
+- Keep delegation ownership in `staff` (do not ask sub-agents to delegate to `devops`).
+
+### Step 6 — Classify task for test strategy
 Before consulting `test-advisor`, classify the issue:
 - `feature_nova`: new capability/component/endpoint/entity/flow.
 - `mudanca_existente`: change/fix/refactor in existing behavior.
@@ -106,7 +113,7 @@ Testing policy:
 - For `feature_nova`: require new tests for the new behavior.
 - For `mudanca_existente`: adjust existing tests when current coverage is already sufficient; add new tests only when gaps are identified.
 
-### Step 6 — Document plan on the issue (MCP)
+### Step 7 — Document plan on the issue (MCP)
 Post the implementation plan as a comment on the issue:
 
 ```markdown
@@ -133,6 +140,7 @@ Post the implementation plan as a comment on the issue:
 
 ### Subtasks
 - [ ] DBA schema validation (if DB changes)
+- [ ] DevOps infra/pipeline validation (if infra/CI changes)
 - [ ] Backend implementation
 - [ ] Frontend implementation
 - [ ] Test strategy (`feature_nova` or `mudanca_existente`)
@@ -142,12 +150,12 @@ Post the implementation plan as a comment on the issue:
 - [ ] Documentation mini-plan reviewed
 ```
 
-### Step 7 — Consult test-advisor
+### Step 8 — Consult test-advisor
 Before delegating implementation:
 - Invoke `test-advisor` with the task context, implementation plan, and classification (`feature_nova` or `mudanca_existente`).
 - Incorporate the testing strategy into the delegation instructions.
 
-### Step 8 — Delegate to sub-agents
+### Step 9 — Delegate to sub-agents
 Delegate work to specialized agents:
 
 **For backend work** → invoke `backend-dev`:
@@ -160,23 +168,23 @@ Delegate work to specialized agents:
 
 Delegate in parallel whenever dependencies allow (backend, frontend, and complementary analyses).
 
-### Step 9 — Validate results
+### Step 10 — Validate results
 After sub-agents complete:
 - Verify all planned files were created/modified
 - Run tests to ensure they pass (using the project's test command)
 - Check that the implementation matches the architectural plan
 - Verify architectural boundaries are respected
 
-### Step 10 — Consult metrifier (optional)
+### Step 11 — Consult metrifier (optional)
 - Invoke `metrifier` for observability recommendations.
 - Apply instrumentation suggestions if actionable.
 
-### Step 11 — Code review gate (conditional)
+### Step 12 — Code review gate (conditional)
 - Detect whether implementation changed code (not docs-only updates).
 - If code changed, invoke `reviewer` and resolve findings before finalization.
 - If docs-only task, mark code review as not applicable on the issue.
 
-### Step 12 — Create branch and open PR (MCP)
+### Step 13 — Create branch and open PR (MCP)
 - Create a feature branch via MCP (naming: `feature/<issue-number>-<slug>`)
 - Commit all changes with descriptive messages referencing the issue
 - Open a PR via MCP with:
@@ -185,7 +193,7 @@ After sub-agents complete:
   - Link to the issue (`Closes #<number>` or `Part of #<number>`)
   - Checklist of Definition of Done items
 
-### Step 13 — Final issue update (MCP)
+### Step 14 — Final issue update (MCP)
 Post a completion comment on the issue:
 
 ```markdown
@@ -197,6 +205,7 @@ Post a completion comment on the issue:
 - [x] Implementation plan documented
 - [x] Documentation mini-plan executed
 - [x] DBA consulted when DB changes existed (or N/A)
+- [x] DevOps consulted when infra/CI changes existed (or N/A)
 - [x] Task classification for tests defined
 - [x] Test strategy defined
 - [x] Backend implementation delegated and completed
@@ -234,6 +243,7 @@ Keep the issue card updated throughout the process:
 - Never log passwords, tokens, or PII per `docs/security.md`.
 - PR must reference the issue number.
 - Always consult `dba` before backend delegation when DB changes are in scope.
+- Always consult `devops` before delegation when CI/CD or infra changes are in scope.
 - Always consult `test-advisor` before delegating implementation.
 - Always trigger `documenter` at task start for documentation impact mini-plan.
 - Always trigger `reviewer` before finalization when code changed.

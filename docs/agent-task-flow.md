@@ -71,6 +71,7 @@ Responsabilidades:
    - comentário anterior de agente solicitando/fornecendo essa orientação
 - Acionar `documenter` no início de toda tarefa para mini-plano documental obrigatório
 - Consultar `dba` sempre que houver impacto de banco (schema, migrações, constraints, índices, performance de query)
+- Consultar `devops` sempre que houver impacto de infraestrutura/CI (pipelines, Docker, Terraform, deployment)
 - Planejar implementação a nível de código (arquivos, ordem, dependências)
 - Documentar plano no card/issue via MCP
 - Classificar a tarefa como `feature_nova` ou `mudanca_existente`
@@ -82,7 +83,7 @@ Responsabilidades:
 - Acionar `reviewer` antes da finalização somente quando houver mudança de código
 - Criar branch e abrir PR via MCP
 
-Delega para: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`, `dba`
+Delega para: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`, `dba`, `devops`
 
 Entregas: Plano documentado no card/issue + PR aberta.
 
@@ -206,6 +207,24 @@ Entregas: Análise estruturada de banco (schema/migration/index/risks) publicada
 
 ---
 
+### 13) DevOps (`devops`)
+Especialista em infraestrutura, CI/CD e deployment para este repositório.
+
+Responsabilidades:
+- Analisar requisitos de issues que impactam pipelines CI/CD, infraestrutura ou deployment
+- Projetar e criar GitHub Actions workflows (ou equivalente para a stack documentada)
+- Criar e revisar Dockerfiles, docker-compose e configurações de orquestração de containers
+- Projetar e criar Infrastructure as Code (Terraform, Helm ou equivalente)
+- Propor estratégias de deployment (blue-green, canary, rolling, feature flags)
+- Revisar segurança de pipelines (gestão de secrets, OIDC, least-privilege, SHA pinning)
+- Aconselhar sobre configuração de ambientes e estratégias de promoção
+- Definir estratégias de rollback e padrões de health check
+- Solicitar atualização documental ao `documenter` quando houver mudança de infra
+
+Entregas: Análise estruturada de DevOps (pipeline/container/IaC/deployment/risks) publicada no card/issue.
+
+---
+
 ## 🔄 Modelo de delegação
 
 ```
@@ -219,8 +238,11 @@ Usuário
  │
  ├── dba ──→ Posta análise de banco para tarefas com impacto em persistência
  │
+ ├── devops ──→ Posta análise de infra/CI para tarefas com impacto em infraestrutura
+ │
  ├── staff (orchestrator)
  │     ├── dba (consulta obrigatória quando houver impacto de banco)
+ │     ├── devops (consulta obrigatória quando houver impacto de infra/CI)
  │     ├── backend-dev ──→ Implementa backend
  │     │     └── test-advisor (consulta)
  │     ├── frontend-dev ──→ Implementa frontend
@@ -293,7 +315,7 @@ Formato padrão:
 
 ### A) Nova feature
 ```
-(pathfinder) → product-owner → architect → dba(se houver DB) → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
+(pathfinder) → product-owner → architect → dba(se houver DB) → devops(se houver infra/CI) → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica a tarefa e sugere o fluxo ideal de agentes
@@ -308,7 +330,7 @@ Formato padrão:
 
 ### B) Bug fix
 ```
-(pathfinder) → product-owner (clarify) → dba(se houver DB) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
+(pathfinder) → product-owner (clarify) → dba(se houver DB) → devops(se houver infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica o bug e sugere o fluxo de correção
@@ -332,7 +354,7 @@ Formato padrão:
 
 ### D) Manutenção / tech debt
 ```
-(pathfinder) → architect → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
+(pathfinder) → architect → devops(se houver infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica o impacto e sugere a melhor abordagem
@@ -352,6 +374,7 @@ Uma tarefa está concluída quando:
 - [ ] Implementação respeita `docs/architecture.md`
 - [ ] API aderente a `docs/api-spec.md`
 - [ ] Validação de banco concluída pelo `dba` quando houver mudança de DB
+- [ ] Validação de infra/CI concluída pelo `devops` quando houver mudança de infraestrutura
 - [ ] Estratégia de testes definida (`feature_nova`/`mudanca_existente`)
 - [ ] Testes adicionados/ajustados conforme estratégia
 - [ ] Observabilidade mínima (requestId + logs/erros)

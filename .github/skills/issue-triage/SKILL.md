@@ -1,6 +1,6 @@
 ---
 name: issue-triage
-description: "Complete issue triage workflow: from raw demand to implementation-ready issue. Orchestrates Product Owner → Architect → DBA(if DB) → Staff planning. Use when a new demand arrives and needs full triage through the agent pipeline."
+description: "Complete issue triage workflow: from raw demand to implementation-ready issue. Orchestrates Product Owner → Architect → DBA(if DB) → DevOps(if infra/CI) → Staff planning. Use when a new demand arrives and needs full triage through the agent pipeline."
 argument-hint: "Describe the demand or provide the issue number"
 ---
 
@@ -47,6 +47,15 @@ End-to-end workflow for triaging a new demand through the agent pipeline until i
    - Post database recommendations on the approved card when tracker supports comments
 3. Wait for the analysis to be posted
 
+### Phase 2.6 — Infrastructure/DevOps Analysis (conditional)
+
+1. If the architectural analysis indicates infrastructure or CI/CD impact (pipelines, Docker, Terraform, deployment, environment), invoke the `devops` agent with the approved card/issue reference
+2. The DevOps agent will:
+   - Analyze pipeline/container/IaC/deployment impact
+   - Review security (secrets management, SHA pinning, least-privilege)
+   - Post infrastructure recommendations on the approved card when tracker supports comments
+3. Wait for the analysis to be posted
+
 ### Phase 3 — Implementation Planning
 
 1. Invoke the `staff` agent with the approved card/issue number
@@ -54,6 +63,7 @@ End-to-end workflow for triaging a new demand through the agent pipeline until i
    - Clarify ambiguities and validate task quality
    - Trigger `documenter` for mandatory mini documentation plan
    - Consult `dba` before backend delegation when DB changes are in scope
+   - Consult `devops` before delegation when infra/CI changes are in scope
    - Read the PO's task and Architect's analysis
    - Plan implementation at code level
    - Document the plan on the issue
@@ -73,6 +83,7 @@ Refer to [triage criteria](./references/triage-criteria.md) for priority definit
 - [ ] Priority assigned (P0–P3)
 - [ ] Architectural analysis posted as comment
 - [ ] DBA analysis posted when DB impact exists
+- [ ] DevOps analysis posted when infra/CI impact exists
 - [ ] ADR drafted if needed
 - [ ] Implementation plan documented
 - [ ] Documentation mini-plan outlined

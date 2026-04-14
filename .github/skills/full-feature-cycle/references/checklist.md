@@ -11,6 +11,8 @@ Use this checklist to verify a feature is truly complete before closing the issu
 - [ ] Ambiguities clarified and task quality validated by Staff
 - [ ] Documentation mini-plan created at task start (`required`/`optional`/`none`)
 - [ ] Implementation plan documented on the issue
+- [ ] DBA analysis completed when DB impact exists
+- [ ] DevOps analysis completed when infra/CI impact exists
 
 ## Implementation
 - [ ] Code follows architectural boundaries per `docs/architecture.md`
@@ -50,6 +52,14 @@ Use this checklist to verify a feature is truly complete before closing the issu
 - [ ] Error responses include `requestId`
 - [ ] Appropriate log levels (debug/info/warn/error)
 - [ ] No sensitive data in logs
+
+## Infrastructure / DevOps
+- [ ] CI/CD pipeline validated (when infra changes exist)
+- [ ] Third-party actions/images pinned by SHA
+- [ ] No hardcoded secrets in pipeline or infrastructure files
+- [ ] Dockerfile follows best practices (non-root, multi-stage, health checks)
+- [ ] Infrastructure changes have rollback strategy
+- [ ] DevOps agent consulted when infra/CI impact exists
 
 ## Code Review
 - [ ] PR reviewed and approved (only when code changes exist)

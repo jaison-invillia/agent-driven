@@ -1,6 +1,6 @@
 ---
 name: full-feature-cycle
-description: "Complete feature lifecycle: from demand to merged PR with documentation. Orchestrates PO → Architect → DBA(if DB) → Staff (with documenter start + test classification) → BE/FE → QA → Reviewer (code-change only) → Documenter final. Use for end-to-end feature delivery."
+description: "Complete feature lifecycle: from demand to merged PR with documentation. Orchestrates PO → Architect → DBA(if DB) → DevOps(if infra/CI) → Staff (with documenter start + test classification) → BE/FE → QA → Reviewer (code-change only) → Documenter final. Use for end-to-end feature delivery."
 argument-hint: "Describe the feature or provide the issue number"
 ---
 
@@ -27,7 +27,10 @@ End-to-end workflow for delivering a complete feature, from initial demand to me
 3. If DB impact exists, invoke `dba` agent with the same issue number
    - Posts database analysis (schema/migrations/constraints/indexes/risks)
    - Requests documentation updates through `documenter` when needed
-4. If no writable MCP support exists, stop in draft-only mode and ask for manual card creation before continuing the full cycle
+4. If infra/CI impact exists, invoke `devops` agent with the same issue number
+   - Posts infrastructure analysis (pipeline/container/IaC/deployment/risks)
+   - Requests documentation updates through `documenter` when needed
+5. If no writable MCP support exists, stop in draft-only mode and ask for manual card creation before continuing the full cycle
 
 ### Phase 2 — Implementation (Staff + BE/FE)
 
@@ -35,6 +38,7 @@ End-to-end workflow for delivering a complete feature, from initial demand to me
    - Clarifies ambiguities and validates task quality
    - Triggers `documenter` for mandatory mini documentation plan
    - Consults `dba` when database impact exists (before backend delegation)
+   - Consults `devops` when infra/CI impact exists (before delegation)
    - Classifies testing approach as `feature_nova` or `mudanca_existente`
    - Plans implementation at code level
    - Consults `test-advisor` for testing strategy by classification

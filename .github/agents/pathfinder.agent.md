@@ -59,6 +59,7 @@ Use this catalog to decide which agents to include in the recommended flow:
 | **product-owner** | Task is vague, needs business clarification, acceptance criteria are missing, or an issue/card needs to be created | Structured issue with acceptance criteria and priority |
 | **architect** | Task may impact architecture, touches multiple layers, introduces new patterns, or needs an ADR | Architectural analysis with affected layers and file structure |
 | **dba** | Task involves DB changes (schema, constraints, migrations, indexes, query performance) | Database analysis with schema/migration/index recommendations |
+| **devops** | Task involves CI/CD pipelines, Docker, Terraform, infrastructure, deployment, or environment configuration | Infrastructure/pipeline analysis with creation or recommendations |
 | **staff** | Task requires code implementation and coordination of multiple sub-agents | Implementation plan, delegation to BE/FE, PR creation |
 | **backend-dev** | Task requires backend code changes (domain, use cases, repositories, controllers) | Backend implementation with tests |
 | **frontend-dev** | Task requires frontend code changes (pages, components, hooks, API integration) | Frontend implementation with tests |
@@ -133,12 +134,12 @@ Generate an ordered agent roadmap with:
 
 ### Feature (well-defined)
 ```
-product-owner → architect → dba(if DB) → staff(+documenter-start + test-classification) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
+product-owner → architect → dba(if DB) → devops(if infra/CI) → staff(+documenter-start + test-classification) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### Feature (vague or uncertain)
 ```
-product-owner (clarify) → architect (assess impact) → dba(if DB impact) → staff(clarify + documenter-start + classify tests) → test-advisor (plan tests) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final) → metrifier
+product-owner (clarify) → architect (assess impact) → dba(if DB impact) → devops(if infra/CI impact) → staff(clarify + documenter-start + classify tests) → test-advisor (plan tests) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final) → metrifier
 ```
 
 ### Bug fix
@@ -148,7 +149,7 @@ product-owner (clarify bug) → staff (investigate + documenter-start + `mudanca
 
 ### Refactoring / Tech debt
 ```
-architect (assess impact) → staff (documenter-start + classify tests) → test-advisor (regression strategy) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
+architect (assess impact) → devops(if infra/CI impact) → staff (documenter-start + classify tests) → test-advisor (regression strategy) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### Database-focused change
@@ -174,6 +175,11 @@ project-setup → product-owner (initial backlog) → architect (define structur
 ### Observability / Metrics improvement
 ```
 metrifier (recommendations) → architect (validate approach) → staff(+documenter-start) → [backend-dev] → reviewer(code-change) → documenter(final)
+```
+
+### Infrastructure / DevOps change
+```
+devops → architect(if broader architectural impact) → staff(+documenter-start) → [backend-dev] → reviewer(code-change) → documenter(final)
 ```
 
 > These are **templates**, not rigid paths. Always adapt based on the diagnostic phase. Some steps can be skipped, reordered, or added based on the specific task.

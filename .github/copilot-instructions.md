@@ -131,7 +131,7 @@ When generating code changes, include:
 
 ## 7) Agent squad
 
-This repository uses a squad of 13 specialized AI agents defined in `.github/agents/`. See `AGENTS.md` for full details.
+This repository uses a squad of 14 specialized AI agents defined in `.github/agents/`. See `AGENTS.md` for full details.
 
 ### Available agents
 
@@ -150,6 +150,7 @@ This repository uses a squad of 13 specialized AI agents defined in `.github/age
 | `metrifier` | Metrics and observability recommendations |
 | `project-setup` | Initial stack configuration, tooling setup, MCP servers, readiness validation |
 | `pathfinder` | Diagnose uncertain tasks and suggest the optimal agent workflow |
+| `devops` | CI/CD pipelines, infrastructure (Terraform, Docker, K8s), deployment strategies, environment configuration |
 
 ### Slash commands (prompts)
 
@@ -164,6 +165,8 @@ This repository uses a squad of 13 specialized AI agents defined in `.github/age
 | `/review-pr` | Code review a PR |
 | `/fix-bug` | Bug fix flow |
 | `/document-pr` | Run documentation workflow |
+| `/devops` | CI/CD pipelines, infrastructure, containers, deployment strategy |
+| `/analyze-infra` | Infrastructure and CI/CD impact analysis |
 
 ### Skills (multi-step workflows)
 
@@ -180,6 +183,7 @@ This repository uses a squad of 13 specialized AI agents defined in `.github/age
    - prior agent comment requesting/providing that guidance
 - On every task start, `staff` must trigger `documenter` for a mandatory documentation mini-plan (`required` / `optional` / `none`).
 - When DB impact exists, `staff` must consult `dba` before delegating backend implementation.
+- When CI/CD, infrastructure, or deployment impact exists, `staff` must consult `devops` before delegating implementation.
 - `staff` must classify testing approach as `feature_nova` or `mudanca_existente` before consulting `test-advisor`.
 - For `mudanca_existente`, adjust existing tests when coverage is already sufficient.
 - `staff` must parallelize independent delegations whenever possible.
@@ -188,6 +192,7 @@ This repository uses a squad of 13 specialized AI agents defined in `.github/age
 ### Reviewer collaboration rule
 
 - If a PR contains database migration/schema changes and no DBA validation is evident, `reviewer` should recommend DBA review before approval.
+- If a PR contains CI/CD workflows, Dockerfiles, Terraform, or infrastructure changes and no DevOps validation is evident, `reviewer` should recommend DevOps review before approval.
 
 ### Architect collaboration rule
 

@@ -182,13 +182,15 @@ Ela deve:
 
 # 🤖 Squad de Agentes
 
-Este repositório utiliza **12 agentes de IA especializados** que colaboram em fluxos ágeis.
+Este repositório utiliza **14 agentes de IA especializados** que colaboram em fluxos ágeis.
 
 Agentes principais:
 - `pathfinder` — consultor de fluxo para tarefas incertas (ponto de entrada opcional)
 - `product-owner` — demandas → rascunhos/cards do tracker
 - `architect` — análise arquitetural
 - `staff` — orquestrador central
+- `dba` — análise de banco de dados (schema, migrações, constraints, índices, rollback)
+- `devops` — CI/CD, infraestrutura, containers, deployment, configuração de ambientes
 - `backend-dev` / `frontend-dev` — implementação (sub-agentes do Staff)
 - `test-advisor` — estratégia de testes por classificação (`feature_nova`/`mudanca_existente`)
 - `qa` — validação e execução de testes
@@ -198,13 +200,17 @@ Agentes principais:
 - `project-setup` — configuração inicial da stack do projeto
 
 Slash commands disponíveis:
+- `/setup-project` — configurar stack e tooling do projeto (Project Setup)
 - `/plan-task` — diagnosticar tarefa e sugerir fluxo (Pathfinder)
 - `/new-feature` — nova feature (PO)
 - `/analyze-issue` — análise arquitetural (Architect)
+- `/analyze-database` — análise de banco de dados (DBA)
 - `/implement-issue` — planejar e implementar (Staff)
 - `/review-pr` — code review (Reviewer)
 - `/fix-bug` — correção de bug (Staff)
 - `/document-pr` — documentar mudanças (Documenter)
+- `/devops` — CI/CD, infraestrutura, containers, deployment (DevOps)
+- `/analyze-infra` — análise de impacto em infraestrutura/CI (DevOps)
 
 Referência completa:
 - `AGENTS.md`

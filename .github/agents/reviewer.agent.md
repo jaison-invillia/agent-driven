@@ -114,6 +114,15 @@ For each changed file, verify:
 - [ ] FK actions (`ON DELETE` / `ON UPDATE`) are explicit when applicable
 - [ ] Recommend `dba` review in PR summary if DBA validation is not documented in issue/PR context
 
+**CI/CD & Infrastructure-specific (when PR touches `**/.github/workflows/**`, `**/Dockerfile*`, `**/terraform/**`, `**/helm/**`):**
+- [ ] Third-party actions/images pinned by SHA (not mutable tag)
+- [ ] No hardcoded secrets, tokens, or credentials
+- [ ] Explicit `permissions` block with least-privilege scope
+- [ ] Rollback strategy defined for deployment changes
+- [ ] Resource limits set for containers (CPU, memory)
+- [ ] Health checks included for deployed services
+- [ ] Recommend `devops` review in PR summary if DevOps validation is not documented in issue/PR context
+
 ### Step 4 — Post review (MCP)
 Post a structured review on the PR via MCP with:
 - Overall verdict: Approve / Request Changes

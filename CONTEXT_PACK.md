@@ -43,6 +43,13 @@ Database
 Monitoring
 - [PREENCHER] Ferramenta de APM/observabilidade (ex.: Datadog, New Relic, Grafana, CloudWatch)
 
+Infrastructure
+- [PREENCHER] CI/CD (ex.: GitHub Actions, GitLab CI, CircleCI)
+- [PREENCHER] Containerização (ex.: Docker, Podman)
+- [PREENCHER] Orquestração (ex.: Kubernetes, ECS, Docker Compose)
+- [PREENCHER] IaC (ex.: Terraform, Pulumi, CloudFormation)
+- [PREENCHER] Cloud provider (ex.: AWS, GCP, Azure, nenhum)
+
 ---
 
 # Architectural Style
@@ -213,7 +220,7 @@ Preferred workflow:
 
 # AI Agent Squad
 
-This project uses a squad of 13 specialized AI agents.
+This project uses a squad of 14 specialized AI agents.
 
 Agents:
 
@@ -232,21 +239,22 @@ Agents:
 | metrifier | Metrics and observability |
 | project-setup | Initial stack configuration |
 | pathfinder | Diagnoses uncertain tasks and suggests agent workflow |
+| devops | CI/CD pipelines, infrastructure, containers, deployment strategies, environment configuration |
 
 Delegation model:
 
-staff → [dba(when DB impact), backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter]
+staff → [dba(when DB impact), devops(when infra/CI impact), backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter]
 
 Main flows:
 
-A) New feature: product-owner → architect → dba(if DB) → staff(+documenter-start) → [BE, FE] → qa → reviewer(code-change) → documenter(final)
-B) Bug fix: product-owner → dba(if DB) → staff(+documenter-start) → [BE/FE] → qa → reviewer(code-change) → documenter(final)
+A) New feature: product-owner → architect → dba(if DB) → devops(if infra/CI) → staff(+documenter-start) → [BE, FE] → qa → reviewer(code-change) → documenter(final)
+B) Bug fix: product-owner → dba(if DB) → devops(if infra/CI) → staff(+documenter-start) → [BE/FE] → qa → reviewer(code-change) → documenter(final)
 C) Bootstrap: product-owner → architect → staff(+documenter-start) → documenter(final)
-D) Tech debt: architect → staff(+documenter-start) → [BE/FE] → reviewer(code-change) → documenter(final)
+D) Tech debt: architect → devops(if infra/CI) → staff(+documenter-start) → [BE/FE] → reviewer(code-change) → documenter(final)
 
 Slash commands:
 
-/setup-project, /plan-task, /new-feature, /analyze-issue, /analyze-database, /implement-issue, /review-pr, /fix-bug, /document-pr
+/setup-project, /plan-task, /new-feature, /analyze-issue, /analyze-database, /implement-issue, /review-pr, /fix-bug, /document-pr, /devops, /analyze-infra
 
 Reference:
 AGENTS.md

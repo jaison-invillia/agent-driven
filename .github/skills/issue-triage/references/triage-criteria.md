@@ -47,9 +47,11 @@ An issue is **triage-complete** when all of these are true:
 | Tech debt | Architect → Staff | PO only if user-facing impact |
 | Documentation | Staff → Documenter | Always requires documentation mini-plan at task start |
 | Security fix | PO → Architect → Staff | Always P0 or P1 |
+| Infra/DevOps | DevOps → Architect(if broader) → Staff | DBA only if DB impact |
 
 ## Escalation rules
 
 - If PO cannot clarify after 2 rounds of questions → escalate to human
 - If Architect identifies ADR-breaking change → require human approval
 - If Staff estimates > 5 files changed → suggest splitting into sub-issues
+- If DevOps flags production-critical infra change → require human approval

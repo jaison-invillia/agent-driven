@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This document defines the **AI agent squad** used in this repository, their responsibilities, delegation model, and collaboration flow.
+This document defines the **AI agent squad** (14 agents) used in this repository, their responsibilities, delegation model, and collaboration flow.
 
 It is intended for use with **GitHub Copilot, AI coding agents, and automated development workflows**.
 
@@ -43,7 +43,7 @@ Agents must read the following files before implementing changes:
 |---|-------|------|------------|-------|-------------|
 | 1 | **Product Owner** | `product-owner.agent.md` | ✅ Yes | read, search, github/* | — |
 | 2 | **Architect** | `architect.agent.md` | ✅ Yes | read, search, github/* | — |
-| 3 | **Staff (Orchestrator)** | `staff.agent.md` | ✅ Yes | read, edit, search, execute, github/*, agent | backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter |
+| 3 | **Staff (Orchestrator)** | `staff.agent.md` | ✅ Yes | read, edit, search, execute, github/*, agent | backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter, devops |
 | 4 | **DBA** | `dba.agent.md` | ✅ Yes | read, search, github/* | documenter |
 | 5 | **Backend Developer** | `backend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
 | 6 | **Frontend Developer** | `frontend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
@@ -54,6 +54,7 @@ Agents must read the following files before implementing changes:
 | 11 | **Metrifier** | `metrifier.agent.md` | ✅ Yes | read, search | — |
 | 12 | **Project Setup** | `project-setup.agent.md` | ✅ Yes | read, edit, search, execute, github/* | — |
 | 13 | **Pathfinder** | `pathfinder.agent.md` | ✅ Yes | read, search | — |
+| 14 | **DevOps** | `devops.agent.md` | ✅ Yes | read, edit, search, execute, github/* | documenter |
 
 ---
 
@@ -281,6 +282,25 @@ Advisory agent that diagnoses uncertain or complex tasks and suggests the optima
 
 ---
 
+### 14. DevOps (`devops`)
+
+Owns all infrastructure, CI/CD, and deployment-related technical decisions and implementations for this repository.
+
+**Responsibilities:**
+- Analyze issue requirements that impact CI/CD pipelines, infrastructure, or deployment
+- Design and create GitHub Actions workflows (or equivalent CI/CD pipelines for the documented stack)
+- Create and review Dockerfiles, docker-compose, and container orchestration files
+- Design and create Infrastructure as Code (Terraform, Helm, or equivalent)
+- Propose deployment strategies (blue-green, canary, rolling, feature flags)
+- Review pipeline security (secret management, OIDC, least-privilege, SHA pinning)
+- Advise on environment configuration and promotion strategies
+- Define rollback strategies and health check patterns
+- Trigger `documenter` when infrastructure-related docs must be updated
+
+**Triggers:** "devops", "pipeline", "CI/CD", "infrastructure", "terraform", "docker", "kubernetes", "helm", "deploy", "container", "workflow", "infra"
+
+---
+
 ## Delegation Model
 
 ```
@@ -294,8 +314,11 @@ User
  │
  ├── dba ──→ Owns database analysis and migration/constraint/index recommendations
  │
+ ├── devops ──→ Owns CI/CD, infrastructure, and deployment analysis/creation
+ │
  ├── staff (orchestrator)
  │     ├── dba (when DB impact exists)
+ │     ├── devops (when infra/CI/CD impact exists)
  │     ├── backend-dev ──→ Implements backend code
  │     │     └── test-advisor (consulta)
  │     ├── frontend-dev ──→ Implements frontend code
@@ -344,12 +367,12 @@ Standard format:
 
 ### A) New Feature
 ```
-(pathfinder) → product-owner → architect → dba(if DB changes) → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
+(pathfinder) → product-owner → architect → dba(if DB changes) → devops(if infra/CI) → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### B) Bug Fix
 ```
-(pathfinder) → product-owner (clarify) → dba(if DB changes) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
+(pathfinder) → product-owner (clarify) → dba(if DB changes) → devops(if infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
 ### C) New Project (Bootstrap)
@@ -359,7 +382,7 @@ Standard format:
 
 ### D) Maintenance / Tech Debt
 ```
-(pathfinder) → architect → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
+(pathfinder) → architect → devops(if infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
 ```
 
 ---
@@ -377,6 +400,8 @@ Standard format:
 | `/review-pr` | reviewer | Code review |
 | `/fix-bug` | staff | Bug fix flow |
 | `/document-pr` | documenter | Documentation workflow |
+| `/devops` | devops | CI/CD pipelines, infrastructure, containers, deployment strategy |
+| `/analyze-infra` | devops | Infrastructure and CI/CD impact analysis |
 
 ---
 
@@ -396,6 +421,7 @@ A task is complete when:
 - [ ] API matches `docs/api-spec.md`
 - [ ] Schema matches `docs/database.md`
 - [ ] DBA validation completed when DB changes exist
+- [ ] DevOps validation completed when CI/CD or infra changes exist
 - [ ] Tests follow strategy by classification (`feature_nova` or `mudanca_existente`)
 - [ ] Logging includes `requestId`
 - [ ] Security rules respected
