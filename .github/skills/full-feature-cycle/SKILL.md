@@ -19,10 +19,12 @@ End-to-end workflow for delivering a complete feature, from initial demand to me
 ### Phase 1 — Triage (PO + Architect)
 
 1. Invoke `product-owner` agent with the feature demand
-   - Creates issue with acceptance criteria, priority, subtasks
-2. Invoke `architect` agent with the issue number
+   - Produces a tracker-card draft with acceptance criteria, priority, and subtasks
+   - Waits for explicit approval before any tracker write
+2. If approved and writable MCP support exists, invoke `architect` agent with the created card/issue number
    - Posts architectural analysis and file structure
    - Identifies if ADR is needed
+3. If no writable MCP support exists, stop in draft-only mode and ask for manual card creation before continuing the full cycle
 
 ### Phase 2 — Implementation (Staff + BE/FE)
 
@@ -71,5 +73,6 @@ Refer to the [full checklist](./references/checklist.md) for the Definition of D
 
 - Each phase depends on the previous one completing successfully
 - If any phase fails or is blocked, resolve before proceeding
-- The issue card should be updated by each agent throughout
+- The approved tracker card should be updated by each agent throughout
+- The product-owner must always show the draft and wait for explicit approval before creating or updating any tracker card
 - All work must respect project documentation as source of truth

@@ -186,7 +186,7 @@ Este repositório utiliza **12 agentes de IA especializados** que colaboram em f
 
 Agentes principais:
 - `pathfinder` — consultor de fluxo para tarefas incertas (ponto de entrada opcional)
-- `product-owner` — demandas → issues
+- `product-owner` — demandas → rascunhos/cards do tracker
 - `architect` — análise arquitetural
 - `staff` — orquestrador central
 - `backend-dev` / `frontend-dev` — implementação (sub-agentes do Staff)

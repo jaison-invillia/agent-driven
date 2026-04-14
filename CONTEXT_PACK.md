@@ -219,7 +219,7 @@ Agents:
 
 | Agent | Role |
 |-------|------|
-| product-owner | Converts demands into GitHub Issues |
+| product-owner | Converts demands into tracker card drafts and approved work items |
 | architect | Architectural analysis |
 | staff | Orchestrator — plans and delegates |
 | backend-dev | Backend implementation (sub-agent) |

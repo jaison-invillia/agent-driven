@@ -53,7 +53,9 @@ Estes docs já estão preenchidos com padrões genéricos — revise e adapte se
 
 ### 4. Configurar MCP
 
-Crie `.vscode/mcp.json` com o GitHub MCP (obrigatório para os agentes interagirem com issues e PRs):
+Configure `.vscode/mcp.json` com o MCP do tracker/ferramentas definidos no projeto. O template vem com GitHub por padrão, mas o fluxo pode ser adaptado para Jira, Linear ou outro tracker.
+
+Exemplo mínimo com GitHub:
 
 ```json
 {
@@ -66,7 +68,9 @@ Crie `.vscode/mcp.json` com o GitHub MCP (obrigatório para os agentes interagir
 }
 ```
 
-MCPs opcionais: Playwright (testes e2e), DB, Figma, etc.
+MCPs opcionais: Playwright (testes e2e), DB, Figma e um tracker alternativo.
+
+> Se não houver MCP com permissão de escrita para o tracker escolhido, o `product-owner` opera em modo `draft-only`: mostra o rascunho do card e aguarda criação manual.
 
 ### 5. Criar ADRs do projeto
 
@@ -97,7 +101,7 @@ Revise e customize conforme a stack do projeto:
 
 | Agente | Papel |
 |--------|-------|
-| **Product Owner** | Demandas → issues com critérios de aceite |
+| **Product Owner** | Demandas → rascunhos e cards no tracker com critérios de aceite |
 | **Architect** | Análise arquitetural de issues |
 | **Staff** | Orquestrador: planeja, delega, abre PR |
 | **Backend Dev** | Implementação backend (sub-agente) |
@@ -116,7 +120,7 @@ Detalhes completos: [AGENTS.md](AGENTS.md)
 | Comando | Agente | O que faz |
 |---------|--------|-----------|
 | `/setup-project` | Project Setup | Configura stack e atualiza docs |
-| `/new-feature` | Product Owner | Cria issue a partir de demanda |
+| `/new-feature` | Product Owner | Monta rascunho do card e cria após aprovação |
 | `/analyze-issue` | Architect | Análise arquitetural |
 | `/implement-issue` | Staff | Planeja e implementa |
 | `/fix-bug` | Staff | Investiga e corrige bug |

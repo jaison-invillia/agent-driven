@@ -9,7 +9,7 @@ Este documento descreve a **metodologia de squad de agentes de IA** usada neste 
 A squad é composta por **12 agentes especializados** que colaboram seguindo um fluxo inspirado em modelos ágeis. Cada agente tem um papel definido, ferramentas restritas e um escopo claro de atuação.
 
 A comunicação entre agentes acontece de duas formas:
-1. **Via Issues do GitHub**: Agentes escrevem e leem comentários nas issues (MCP)
+1. **Via tracker configurado**: Agentes leem/escrevem em cards/issues/tickets quando o MCP do projeto suporta isso
 2. **Via delegação direta (somente pelo `staff`)**: O `staff` (orchestrator) invoca sub-agentes automaticamente
 
 ---
@@ -19,7 +19,7 @@ A comunicação entre agentes acontece de duas formas:
 ```
 .github/
   agents/                          # Agentes (.agent.md)
-    product-owner.agent.md         # Converte demandas em issues
+    product-owner.agent.md         # Converte demandas em rascunhos/cards do tracker
     architect.agent.md             # Análise arquitetural
     staff.agent.md                 # Orquestrador (central)
     backend-dev.agent.md           # Implementação backend (sub-agente)
@@ -127,7 +127,7 @@ description: "..."
 
 ### Nova feature
 ```
-(pathfinder) → /new-feature → PO cria issue → /analyze-issue #N → Architect analisa →
+(pathfinder) → /new-feature → PO mostra rascunho e cria card após aprovação → /analyze-issue #N → Architect analisa →
 /implement-issue #N → Staff esclarece ambiguidades, aciona documenter, classifica testes e delega →
 BE/FE implementam → QA valida → /review-pr #PR (somente se houver código) → Reviewer revisa →
 /document-pr #PR → Documenter documenta
@@ -175,9 +175,9 @@ QA valida → /review-pr #PR (somente se houver código) → Reviewer revisa →
 ## Customização para diferentes contextos
 
 ### Usando Jira em vez de GitHub Issues
-- Substitua `github/*` no tools por um MCP de Jira (quando disponível)
-- Adapte referências a "GitHub Issue" nos agentes para "Jira ticket"
-- O protocolo de issue tracking permanece o mesmo (formato de comments)
+- Configure um MCP de Jira com permissão de leitura/escrita quando disponível
+- Adapte o `product-owner`, o prompt `/new-feature` e o protocolo de tracking para usar "ticket/card" como termo padrão
+- Sem MCP de escrita, opere em modo `draft-only` e faça a criação manual no Jira
 
 ### Usando Confluence em vez de `/docs`
 - Adapte referências de `docs/*.md` para links do Confluence

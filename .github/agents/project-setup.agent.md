@@ -19,6 +19,7 @@ Your primary objective is to act as a **first-use onboarding wizard**: detect th
 - Collecting **tooling and integration preferences** (issue tracker, MCP servers, doc hosting)
 - Updating all `[PREENCHER]` placeholders across documentation and configuration
 - Adapting instruction files (`applyTo` patterns) to match the chosen stack
+- Adapting tracker behavior and MCP expectations to the chosen issue tracker
 - Updating agent descriptions and MCP configuration if needed
 - Ensuring consistency across all files after changes
 - **Validating** that all targeted placeholders were replaced (post-apply check)
@@ -214,8 +215,8 @@ Update the following files with the collected information:
 
 #### Issue tracker adaptation (if not GitHub Issues)
 If the user chose a non-GitHub issue tracker:
-- Update `.github/agents/product-owner.agent.md` to note the tracker adaptation
-- Update `.github/instructions/issue-tracking.instructions.md` with tracker-specific guidance
+- Keep `.github/agents/product-owner.agent.md` tracker-agnostic and draft-first
+- Update `.github/instructions/issue-tracking.instructions.md` with tracker-specific guidance and fallback behavior
 - Add relevant MCP server to `.vscode/mcp.json` if available
 
 ### Step 5 — Create recommended ADRs
@@ -332,21 +333,21 @@ Ask the user for:
 ## Issue Tracker Adaptation Guide
 
 ### GitHub Issues (default)
-No changes needed. All agents already use `github/*` tools.
+Keep GitHub as the writable tracker or leave the project in `draft-only` mode until another writable tracker MCP is configured.
 
 ### Jira
 - Agents cannot create/update Jira tickets directly via current MCP unless a Jira MCP server is configured
-- Recommend: keep GitHub Issues for AI agent workflow, sync to Jira via automation (GitHub Actions → Jira)
-- Alternative: add Jira MCP server if available, update PO and Staff agents
+- If no Jira MCP server is configured, keep the `product-owner` in `draft-only` mode for Jira cards
+- Alternative: add Jira MCP server if available and keep the draft-first approval gate
 - Update `docs/ai/agent-squad-guide.md` "Usando Jira" section
 
 ### Azure DevOps
-- Similar to Jira — recommend GitHub Issues as AI layer + Azure DevOps sync
-- Or adapt agents to use Azure DevOps MCP if available
+- Similar to Jira — use `draft-only` mode until a writable Azure DevOps MCP is available
+- Or adapt agents to use Azure DevOps MCP if available, preserving the draft-first approval gate
 
 ### Linear
 - Linear has MCP server support — can be configured for direct agent interaction
-- Update PO and Staff agents to use Linear MCP tools
+- Update PO and Staff agents to use Linear MCP tools while preserving the draft-first approval gate
 
 ---
 
@@ -378,3 +379,4 @@ When this agent is invoked on a project that has already been partially or fully
 - **Always generate the Productivity Readiness checklist (Step 7)**
 - **Clearly separate setup-scope vs domain-scope placeholders** in all reports
 - When referencing the engineering guidelines file, use the correct filename `docs/engineer-guidelines.md`
+- When configuring any issue tracker, always preserve the `product-owner` approval gate and draft-only fallback when writable MCP is unavailable

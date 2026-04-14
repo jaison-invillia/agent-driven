@@ -2,7 +2,7 @@
 
 Guia prático de como usar os agentes de IA no dia a dia. Cada cenário mostra **exatamente o que digitar** no Copilot Chat do VS Code e o que esperar de cada passo.
 
-> **Pré-requisito**: VS Code com GitHub Copilot ativo e MCP do GitHub configurado em `.vscode/mcp.json`.
+> **Pré-requisito**: VS Code com GitHub Copilot ativo e MCP do tracker/ferramentas configurado em `.vscode/mcp.json`.
 
 ---
 
@@ -11,7 +11,7 @@ Guia prático de como usar os agentes de IA no dia a dia. Cada cenário mostra *
 | Comando | O que faz | Agente |
 |---------|-----------|--------|
 | `/setup-project` | Configura stack e atualiza docs do template | Project Setup |
-| `/new-feature` | Cria issue a partir de uma demanda | Product Owner |
+| `/new-feature` | Monta rascunho do card e cria após aprovação | Product Owner |
 | `/analyze-issue` | Análise arquitetural de um issue | Architect |
 | `/implement-issue` | Planeja e implementa um issue | Staff |
 | `/fix-bug` | Investiga e corrige um bug | Staff |
@@ -49,7 +49,8 @@ Crie issues para as funcionalidades principais do MVP.
 
 O **Product Owner** vai:
 - Fazer perguntas de esclarecimento (se necessário)
-- Criar issues no GitHub com critérios de aceite e subtarefas
+- Mostrar o rascunho dos cards com critérios de aceite e subtarefas
+- Criar os cards no tracker só após aprovação explícita e quando houver MCP de escrita
 - Atribuir prioridades (P0–P3)
 
 ### Passo 2: Definir a arquitetura
@@ -101,7 +102,7 @@ O **Documenter** vai:
 
 Fluxo completo: demanda → issue → análise → código → testes → review → docs.
 
-### Passo 1: Criar o issue
+### Passo 1: Montar o card
 
 ```
 /new-feature
@@ -110,11 +111,16 @@ Fluxo completo: demanda → issue → análise → código → testes → review
 incluindo regras de negócio e comportamento esperado.]
 ```
 
-O **Product Owner** cria o issue com:
+O **Product Owner** prepara o card com:
 - Contexto da demanda
 - Critérios de aceite (Given/When/Then)
 - Prioridade
 - Checklist de subtarefas
+
+Antes de qualquer criação/atualização remota, ele:
+- mostra o rascunho completo no chat
+- espera aprovação explícita
+- se não houver MCP de escrita, entrega o card em modo `draft-only`
 
 ### Passo 2: Análise arquitetural
 
@@ -190,7 +196,7 @@ Se preferir rodar o ciclo inteiro de uma vez, use a skill `full-feature-cycle`:
 [Descreva a feature que precisa ser implementada com detalhes de negócio.]
 ```
 
-Ao detectar que se trata de uma feature completa, o Copilot pode acionar a skill com PO → Architect → Staff (documenter-start + classificação de testes) → QA → Reviewer (se houver código) → Documenter.
+Ao detectar que se trata de uma feature completa, o Copilot pode acionar a skill com PO (draft-first) → Architect → Staff (documenter-start + classificação de testes) → QA → Reviewer (se houver código) → Documenter.
 
 ---
 

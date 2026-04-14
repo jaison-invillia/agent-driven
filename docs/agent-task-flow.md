@@ -22,39 +22,41 @@ Referências obrigatórias:
 ## 👥 Agentes e responsabilidades
 
 ### 1) Product Owner (`product-owner`)
-Converte demandas de negócio em issues claras e acionáveis.
+Converte demandas de negócio em cards/issues/tickets claros e acionáveis.
 
 Responsabilidades:
 - Esclarecer demandas ambíguas (gate bloqueante)
 - Definir critérios de aceite (Given/When/Then)
 - Atribuir prioridade (P0–P3)
-- Criar/atualizar Issues no GitHub via MCP com checklist de subtarefas
+- Exibir o rascunho do card antes de qualquer escrita no tracker e aguardar aprovação explícita
+- Criar/atualizar cards no tracker configurado via MCP com checklist de subtarefas
+- Operar em modo `draft-only` quando não houver suporte de escrita no tracker
 - Validar soluções implementadas contra critérios de aceite
 
-Entregas: Issue criada com contexto, critérios, prioridade e subtarefas.
+Entregas: Rascunho estruturado do card e, após aprovação, card criado/atualizado com contexto, critérios, prioridade e subtarefas.
 
 ---
 
 ### 2) Architect (`architect`)
-Analisa issues sob perspectiva arquitetural.
+Analisa cards/issues aprovados sob perspectiva arquitetural.
 
 Responsabilidades:
 - Identificar camadas arquiteturais afetadas (conforme `docs/architecture.md`)
 - Sugerir estrutura de arquivos/módulos por camada
 - Verificar conformidade com fronteiras arquiteturais
 - Propor ADRs quando necessário
-- Quando não estiver previamente planejado, solicitar no comentário do issue:
+- Quando não estiver previamente planejado, solicitar no comentário do card/issue:
    - orientação do `documenter` sobre como documentar a demanda
    - orientação do `test-advisor` sobre estratégia de testes em alto nível
-- Postar análise arquitetural como comentário no issue via MCP
+- Postar análise arquitetural como comentário no card/issue via MCP
 
-Entregas: Análise arquitetural como comment no issue.
+Entregas: Análise arquitetural como comment no card/issue.
 
 Critério de "já previsto": considerar previamente planejado apenas quando BOTH forem verdadeiros:
-- existe subtarefa relevante no checklist do issue
+- existe subtarefa relevante no checklist do card/issue
 - existe comentário anterior de agente solicitando/fornecendo essa orientação
 
-O `architect` não delega execução para outros agentes; apenas registra a solicitação no issue.
+O `architect` não delega execução para outros agentes; apenas registra a solicitação no card/issue.
 
 ---
 
@@ -64,12 +66,12 @@ Orquestrador central que planeja e coordena a implementação.
 Responsabilidades:
 - Ler contexto do PO e análise do Architect
 - Esclarecer ambiguidades e validar qualidade da descrição da tarefa antes de iniciar
-- Antes de iniciar implementação, confirmar que o issue já contém BOTH:
+- Antes de iniciar implementação, confirmar que o card/issue já contém BOTH:
    - subtarefa de cobertura para documentação e testes em alto nível
    - comentário anterior de agente solicitando/fornecendo essa orientação
 - Acionar `documenter` no início de toda tarefa para mini-plano documental obrigatório
 - Planejar implementação a nível de código (arquivos, ordem, dependências)
-- Documentar plano no issue via MCP
+- Documentar plano no card/issue via MCP
 - Classificar a tarefa como `feature_nova` ou `mudanca_existente`
 - Consultar `test-advisor` para estratégia de testes por classificação
 - Delegar para `backend-dev` e/ou `frontend-dev` (sub-agentes)
@@ -81,7 +83,7 @@ Responsabilidades:
 
 Delega para: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`
 
-Entregas: Plano documentado no issue + PR aberta.
+Entregas: Plano documentado no card/issue + PR aberta.
 
 ---
 
@@ -196,7 +198,7 @@ Usuário
  │
  ├── pathfinder ──→ Sugere fluxo de agentes (ponto de entrada opcional)
  │
- ├── product-owner ──→ Cria/atualiza Issue
+ ├── product-owner ──→ Exibe rascunho e cria/atualiza card após aprovação
  │
  ├── architect ──→ Posta análise arquitetural no Issue (+ solicitações condicionais para documenter/test-advisor)
  │
@@ -218,15 +220,20 @@ Usuário
 
 ---
 
-## 📋 Protocolo de Issue Tracking
+## 📋 Protocolo de Tracking
 
-Todos os agentes com acesso ao GitHub MCP devem manter o card atualizado:
+Todos os agentes com acesso ao tracker configurado devem manter o card atualizado:
 
 1. **Ao iniciar**: Comentar indicando que o agente está atuando
 2. **Progresso**: Atualizar com o que foi feito e o que falta
 3. **Subtarefas**: Usar checklists (`- [ ]`) para rastrear progresso
-4. **Sub-issues**: Criar issues vinculadas para tarefas grandes
+4. **Child items**: Criar itens filhos/vinculados para tarefas grandes quando o tracker suportar
 5. **Ao finalizar**: Postar resumo com links para PR e status das subtarefas
+
+Regra adicional do `product-owner`:
+- Sempre mostrar o rascunho completo antes de criar/atualizar o card
+- Sempre aguardar aprovação explícita
+- Se não houver MCP de escrita, entregar apenas o rascunho pronto para criação manual
 
 Formato padrão:
 ```markdown
@@ -257,6 +264,9 @@ Formato padrão:
 5. **Testes acompanham mudanças**
    - Use cases devem ter unit tests; endpoints críticos, integration.
 
+6. **Draft before write**
+   - O `product-owner` nunca cria ou atualiza card sem mostrar o rascunho e receber aprovação explícita.
+
 ---
 
 ## 🔁 Fluxos principais
@@ -269,8 +279,8 @@ Formato padrão:
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica a tarefa e sugere o fluxo ideal de agentes
-1. **Product Owner**: Esclarece demanda, cria issue com critérios e subtarefas
-2. **Architect**: Analisa impacto arquitetural, posta análise no issue
+1. **Product Owner**: Esclarece demanda, monta rascunho do card, aguarda aprovação e então cria/atualiza o item no tracker quando houver suporte
+2. **Architect**: Analisa impacto arquitetural, posta análise no card aprovado
    - Se não estiver "já previsto" (BOTH), solicita no issue `documenter` (documentação da demanda) e `test-advisor` (testes em alto nível)
 3. **Staff**: Valida ambiguidades, aciona documenter (mini-plano), classifica testes, consulta test-advisor e delega para BE/FE em paralelo quando possível
 4. **Backend/Frontend**: Implementam código e testes
@@ -284,7 +294,7 @@ Formato padrão:
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica o bug e sugere o fluxo de correção
-1. **Product Owner**: Esclarece bug report, define critérios de correção
+1. **Product Owner**: Esclarece bug report, define critérios de correção e monta o rascunho do card quando necessário
 2. **Staff**: Investiga root cause, valida ambiguidades, aciona documenter (mini-plano), classifica como `mudanca_existente`, planeja fix mínimo e delega
 3. **Backend/Frontend**: Corrige com menor mudança possível + ajuste de testes existentes (ou novos testes quando houver gaps)
 4. **QA**: Valida que o bug foi corrigido e não há regressão
@@ -297,7 +307,7 @@ Formato padrão:
 ```
 
 0. **Pathfinder** *(opcional)*: Diagnostica o escopo do projeto e sugere o fluxo de bootstrap
-1. **Product Owner**: Define backlog inicial (MVP)
+1. **Product Owner**: Define backlog inicial (MVP) em rascunhos aprováveis e cria os cards quando houver suporte
 2. **Architect**: Define estilo arquitetural, estrutura de pastas, ADRs iniciais
 3. **Staff**: Cria scaffold do projeto
 4. **Documenter**: Documenta estrutura e decisões
@@ -327,5 +337,5 @@ Uma tarefa está concluída quando:
 - [ ] Testes adicionados/ajustados conforme estratégia
 - [ ] Observabilidade mínima (requestId + logs/erros)
 - [ ] Revisão de qualidade concluída quando houver mudança de código
-- [ ] Issue card atualizado com status final
+- [ ] Card do tracker atualizado com status final
 - [ ] PR vinculada ao issue

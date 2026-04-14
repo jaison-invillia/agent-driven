@@ -1,39 +1,48 @@
 ---
-description: "Use when working with GitHub Issues, updating task status, managing subtasks, tracking progress, creating sub-issues, or maintaining issue cards. Applies to all agents that interact with GitHub Issues via MCP."
+description: "Use when working with project tracker cards/issues/tickets, updating task status, managing subtasks, tracking progress, creating child items, or maintaining work cards. Applies to agents that interact with the configured tracker via MCP or operate in draft-only mode."
 ---
 
-# Issue Tracking Protocol
+# Tracker Card Protocol
 
-This instruction defines the standard for how agents must keep GitHub Issue cards updated during execution.
+This instruction defines the standard for how agents must keep project tracker cards updated during execution.
 
 ## Core principle
 
-Every agent that interacts with GitHub Issues via MCP must keep the card updated with relevant progress, ensuring full visibility of what has been done and what remains.
+Every agent that interacts with the configured tracker via MCP must keep the work card updated with relevant progress, ensuring full visibility of what has been done and what remains.
+
+If no writable tracker MCP is available, the agent must operate in **draft-only mode** and clearly state that no remote card was created or updated.
 
 ---
 
 ## Obligations
 
 ### 1. On start
-Post a comment indicating the agent is acting and what it will do.
+Post a comment or tracker update indicating the agent is acting and what it will do.
 
 ### 2. Incremental progress
-Update the issue with what has been done and what remains.
+Update the card with what has been done and what remains.
 
 ### 3. Subtask checklists
-Create or update a checklist of subtasks using GitHub markdown task lists (`- [ ]`), marking each item as it is completed.
+Create or update a checklist of subtasks using tracker-native checklists when available, or markdown task lists (`- [ ]`) when supported, marking each item as it is completed.
 
 ### 4. Sub-issues
-When a task is too large for a single issue:
-- Create sub-issues for major components
-- Link to parent using "Part of #N" in the sub-issue body
-- Reference all sub-issues in the parent issue body
+When a task is too large for a single card:
+- Create child cards/sub-issues for major components when the tracker supports them
+- Link to the parent using the tracker's native relationship model when available
+- Reference all child items in the parent card description when possible
 
 ### 5. On completion
 Post a final comment with:
 - Summary of what was done
 - Links to PRs/commits
 - Status of all subtasks
+
+### 6. Product Owner approval gate
+Before creating or updating any tracker card, the `product-owner` must:
+- Show the complete draft in the chat
+- Wait for explicit user approval
+- Create/update the remote card only after approval and only if writable tracker tooling exists
+- Fall back to `READY - draft only` when writable tooling is unavailable
 
 ---
 
@@ -68,20 +77,20 @@ Post a final comment with:
 
 ## Agent-specific expectations
 
-| Agent | Creates issues? | Updates issues? | Creates sub-issues? |
-|-------|----------------|-----------------|---------------------|
-| product-owner | ✅ Yes | ✅ Yes | ✅ When task is large |
-| architect | ❌ No | ✅ Comments only (including conditional requests to `documenter`/`test-advisor` when guidance is not already planned) | ❌ No |
-| staff | ❌ No | ✅ Yes (plan + progress + ambiguity/doc triage) | ✅ When delegating work |
-| qa | ❌ No | ✅ Test results | ❌ No |
+| Agent | Creates cards? | Updates cards? | Creates child items? |
+|-------|----------------|----------------|----------------------|
+| product-owner | ✅ After explicit approval and only with writable MCP | ✅ After explicit approval and only with writable MCP | ✅ When task is large and tracker supports it |
+| architect | ❌ No | ✅ Comments/notes only on approved cards when supported (including conditional requests to `documenter`/`test-advisor` when guidance is not already planned) | ❌ No |
+| staff | ❌ No | ✅ Yes on approved cards (plan + progress + ambiguity/doc triage) | ✅ When delegating work and tracker supports it |
+| qa | ❌ No | ✅ Test results on approved cards | ❌ No |
 | reviewer | ❌ No | ✅ Review results (only when code changed) | ❌ No |
-| documenter | ❌ No | ✅ Mini-plan at task start + final doc summary | ❌ No |
+| documenter | ❌ No | ✅ Mini-plan at task start + final doc summary on approved cards | ❌ No |
 
 ---
 
 ## Subtask checklist template (for Product Owner)
 
-When creating an issue, include a standard subtask checklist:
+When creating a tracker card, include a standard subtask checklist when the tracker supports it:
 
 ```markdown
 ## Subtasks
@@ -100,4 +109,6 @@ When creating an issue, include a standard subtask checklist:
 - [ ] 📝 Documentation update (@documenter)
 ```
 
-Not all subtasks apply to every issue. The Product Owner should include only relevant ones.
+Not all subtasks apply to every card. The Product Owner should include only relevant ones.
+
+If the tracker is unavailable for writing, return the same structure in the draft shown to the user and explicitly mark it as manual-creation content.

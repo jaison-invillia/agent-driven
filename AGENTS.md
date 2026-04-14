@@ -60,13 +60,15 @@ Agents must read the following files before implementing changes:
 
 ### 1. Product Owner (`product-owner`)
 
-Converts business demands into clear, actionable GitHub Issues.
+Converts business demands into clear, actionable tracker cards/issues/tickets.
 
 **Responsibilities:**
 - Clarify ambiguous demands (blocking gate)
 - Define acceptance criteria (Given/When/Then)
 - Assign priority (P0–P3)
-- Create/update GitHub Issues via MCP with subtask checklists
+- Show the card draft before any tracker write and wait for explicit approval
+- Create/update tracker cards via the configured MCP/tooling with subtask checklists
+- Fall back to structured draft-only mode when no writable tracker MCP exists
 - Validate implemented solutions against acceptance criteria
 
 **Triggers:** "product owner", "PO", "nova demanda", "criar issue", "refinar tarefa"
@@ -269,7 +271,7 @@ User
  │
  ├── pathfinder ──→ Suggests agent workflow (optional first step)
  │
- ├── product-owner ──→ Creates/updates GitHub Issue
+ ├── product-owner ──→ Drafts tracker card and creates/updates it after approval
  │
  ├── architect ──→ Posts architectural analysis on Issue (+ conditional requests to documenter/test-advisor)
  │
@@ -291,9 +293,9 @@ User
 
 ---
 
-## Issue Tracking Protocol
+## Tracker Card Protocol
 
-All agents that interact with GitHub Issues must keep the card updated:
+All agents that interact with the configured tracker must keep the card updated:
 
 1. **On start**: Post comment indicating the agent is acting
 2. **Progress**: Update with what's been done and what remains
@@ -378,7 +380,7 @@ A task is complete when:
 - [ ] Documentation mini-plan was produced at task start
 - [ ] Documentation updated if required by mini-plan or final diff
 - [ ] Code review completed when code changed
-- [ ] Issue card updated with final status
+- [ ] Tracker card updated with final status
 - [ ] PR linked to issue
 
 ---
