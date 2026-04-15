@@ -1,46 +1,46 @@
 # 📑 API Specification (REST)
 
-<!-- TEMPLATE: Preencha este documento com os contratos da API do seu projeto. -->
-<!-- Consulte docs/engineering-docs-recommendation.md para orientações detalhadas. -->
+<!-- TEMPLATE: Fill this document with your project's API contracts. -->
+<!-- See docs/engineering-docs-recommendation.md for detailed guidance. -->
 
-Este documento especifica os **contratos da API** do projeto (REST/JSON).
+This document specifies the project's **API contracts** (REST/JSON).
 
-Referências:
-- Visão geral: `README.md`
-- Arquitetura: `docs/architecture.md`
-- Domínio: `docs/domain.md`
-- Banco: `docs/database.md`
+References:
+- Overview: `README.md`
+- Architecture: `docs/architecture.md`
+- Domain: `docs/domain.md`
+- Database: `docs/database.md`
 
 ---
 
-## ✅ Convenções
+## ✅ Conventions
 
 ### Base URL
 - Local: `http://localhost:3001`
-- Prefixo: `/api/v1`
+- Prefix: `/api/v1`
 
-Exemplo: `GET /api/v1/[recurso]`
+Example: `GET /api/v1/[resource]`
 
-### Formato
+### Format
 - Request/Response: `application/json`
-- Datas: ISO 8601 (`YYYY-MM-DDTHH:mm:ss.sssZ`)
+- Dates: ISO 8601 (`YYYY-MM-DDTHH:mm:ss.sssZ`)
 
-### Autenticação
+### Authentication
 
-> **[PREENCHER]** Defina o esquema de autenticação (ex.: JWT Bearer, API Key, OAuth2).
+> **[FILL]** Define the authentication scheme (e.g.: JWT Bearer, API Key, OAuth2).
 
 - Header: `Authorization: Bearer <token>`
 
-### Paginação (quando aplicável)
-Parâmetros:
+### Pagination (when applicable)
+Parameters:
 - `page` (default: 1)
 - `pageSize` (default: 20, max: 100)
 
-Resposta:
+Response:
 - `meta.page`, `meta.pageSize`, `meta.totalItems`, `meta.totalPages`
 
-### Erros (padrão)
-Formato comum:
+### Errors (standard)
+Common format:
 
 ```json
 {
@@ -55,7 +55,7 @@ Formato comum:
 }
 ```
 
-Códigos comuns:
+Common codes:
 - `VALIDATION_ERROR` → 400
 - `UNAUTHORIZED` → 401
 - `FORBIDDEN` → 403
@@ -67,11 +67,11 @@ Códigos comuns:
 
 ## 🔐 Auth
 
-> **[PREENCHER]** Documente os endpoints de autenticação do seu projeto.
+> **[FILL]** Document your project's authentication endpoints.
 
 ### POST /auth/register
 
-**Auth:** Não
+**Auth:** No
 
 #### Request
 ```json
@@ -83,33 +83,33 @@ Códigos comuns:
 ```
 
 #### Responses
-- **201 Created** — Usuário criado
-- **409 Conflict** — Email já existe
+- **201 Created** — User created
+- **409 Conflict** — Email already exists
 - **400 Validation Error**
 
 ---
 
 ### POST /auth/login
 
-**Auth:** Não
+**Auth:** No
 
 #### Response
-- **200 OK** — Token de acesso retornado
-- **401 Unauthorized** — Credenciais inválidas
+- **200 OK** — Access token returned
+- **401 Unauthorized** — Invalid credentials
 
 ---
 
-## 📦 Recursos
+## 📦 Resources
 
-> **[PREENCHER]** Documente os endpoints de cada recurso do sistema seguindo o padrão abaixo.
+> **[FILL]** Document the endpoints for each system resource following the pattern below.
 
-### GET /[recurso]
+### GET /[resource]
 
-> **[PREENCHER]** Descreva o endpoint.
+> **[FILL]** Describe the endpoint.
 
-**Auth:** Sim/Não
+**Auth:** Yes/No
 
-#### Query Params (opcional)
+#### Query Params (optional)
 - `page`, `pageSize`
 
 #### Response
@@ -117,11 +117,11 @@ Códigos comuns:
 
 ---
 
-### GET /[recurso]/{id}
+### GET /[resource]/{id}
 
-> **[PREENCHER]** Descreva o endpoint.
+> **[FILL]** Describe the endpoint.
 
-**Auth:** Sim/Não
+**Auth:** Yes/No
 
 #### Path Params
 - `id` (number)
@@ -132,11 +132,11 @@ Códigos comuns:
 
 ---
 
-### POST /[recurso]
+### POST /[resource]
 
-> **[PREENCHER]** Descreva o endpoint.
+> **[FILL]** Describe the endpoint.
 
-**Auth:** Sim/Não
+**Auth:** Yes/No
 
 #### Request
 ```json
@@ -149,16 +149,16 @@ Códigos comuns:
 
 ---
 
-## 🔁 Idempotência e Consistência
+## 🔁 Idempotency and Consistency
 
-> **[PREENCHER]** Liste endpoints que devem ser idempotentes e regras de unicidade que o backend deve garantir.
+> **[FILL]** List endpoints that should be idempotent and uniqueness rules that the backend must enforce.
 
 ---
 
-## 📌 Checklist de Implementação
+## 📌 Implementation Checklist
 
-- [ ] Middleware de autenticação (401/403)
-- [ ] Validação de input (400)
-- [ ] Padronização de erros com `requestId`
-- [ ] Paginação em listagens
-- [ ] Endpoints idempotentes onde necessário
+- [ ] Authentication middleware (401/403)
+- [ ] Input validation (400)
+- [ ] Error standardization with `requestId`
+- [ ] Pagination on listings
+- [ ] Idempotent endpoints where necessary

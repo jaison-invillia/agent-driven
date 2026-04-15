@@ -1,195 +1,195 @@
 # 🔒 Security
 
-Este documento define o baseline de **segurança** do projeto: autenticação, autorização, validação, proteção de dados e práticas de desenvolvimento seguro.
+This document defines the project's **security** baseline: authentication, authorization, validation, data protection, and secure development practices.
 
-Referências:
-- Arquitetura: `docs/architecture.md`
+References:
+- Architecture: `docs/architecture.md`
 - Guidelines: `docs/engineer-guidelines.md`
-- Contratos/API: `docs/api-spec.md`
-- Banco: `docs/database.md`
-- Observabilidade: `docs/observability.md`
+- Contracts/API: `docs/api-spec.md`
+- Database: `docs/database.md`
+- Observability: `docs/observability.md`
 
 ---
 
-## 🎯 Objetivos
+## 🎯 Goals
 
-- Proteger contas e dados dos usuários.
-- Evitar classes comuns de vulnerabilidades (OWASP Top 10).
-- Definir um baseline de segurança para implementação incremental.
-- Minimizar vazamento de dados (PII) e credenciais.
-
----
-
-## ✅ Princípios
-
-- **Secure by default**: rotas sensíveis protegidas por padrão.
-- **Least privilege**: permissões mínimas necessárias.
-- **Defense in depth**: múltiplas camadas de proteção (auth + validação + DB constraints).
-- **Não confiar no client**: toda validação crítica ocorre no backend.
+- Protect user accounts and data.
+- Avoid common vulnerability classes (OWASP Top 10).
+- Define a security baseline for incremental implementation.
+- Minimize data (PII) and credential leakage.
 
 ---
 
-## 🔐 Autenticação (JWT)
+## ✅ Principles
 
-### Regras
-- Rotas protegidas exigem `Authorization: Bearer <token>`.
-- Tokens inválidos/ausentes → **401 UNAUTHORIZED**.
-- Nunca logar token completo (no máximo prefixo + hash/truncado, se necessário).
-- Senhas nunca são armazenadas em texto puro:
-  - armazenar apenas `password_hash` (algoritmo seguro recomendado, ex.: bcrypt, argon2, scrypt).
+- **Secure by default**: sensitive routes protected by default.
+- **Least privilege**: minimum necessary permissions.
+- **Defense in depth**: multiple layers of protection (auth + validation + DB constraints).
+- **Don't trust the client**: all critical validation happens on the backend.
 
-### Expiração e rotação (baseline)
-- `expiresIn` no login (ex.: 1h).
-- Refresh token é opcional no MVP; se introduzido, documentar em `docs/api-spec.md`.
+---
+
+## 🔐 Authentication (JWT)
+
+### Rules
+- Protected routes require `Authorization: Bearer <token>`.
+- Invalid/missing tokens → **401 UNAUTHORIZED**.
+- Never log the full token (at most prefix + hash/truncated, if necessary).
+- Passwords are never stored in plain text:
+  - store only `password_hash` (recommended secure algorithm, e.g.: bcrypt, argon2, scrypt).
+
+### Expiration and rotation (baseline)
+- `expiresIn` on login (e.g.: 1h).
+- Refresh token is optional for MVP; if introduced, document in `docs/api-spec.md`.
 
 ### Logout
-- No MVP (JWT stateless), logout é client-side (remover token).
-- Se blacklist/rotation for necessária, introduzir store (ex.: Redis) e documentar.
+- For MVP (stateless JWT), logout is client-side (remove token).
+- If blacklist/rotation is needed, introduce a store (e.g.: Redis) and document it.
 
 ---
 
-## 🛂 Autorização (Access Control)
+## 🛂 Authorization (Access Control)
 
-### Regras mínimas
-- Usuário só acessa dados do **próprio** contexto.
-- Endpoints atuais são “user scoped”.
-- Admin endpoints (futuro) devem exigir RBAC.
+### Minimum rules
+- User can only access data from their **own** context.
+- Current endpoints are "user scoped".
+- Admin endpoints (future) must require RBAC.
 
-### Admin (futuro)
-- Introduzir `role` no usuário (ex.: `user`, `admin`) **somente quando necessário**.
-- Documentar RBAC em `docs/domain.md` e `docs/api-spec.md`.
-
----
-
-## ✅ Validação e Sanitização de Input
-
-### Regras
-- Validar input em **todos** endpoints.
-- Retornar 400 com `VALIDATION_ERROR` conforme `docs/api-spec.md`.
-- Sanitizar strings quando aplicável (ex.: trim, limites de tamanho).
-- Rejeitar payloads com campos inesperados (quando possível).
-
-### Exemplos de validações mínimas
-- `email` formato válido e tamanho máximo
-- `password` tamanho mínimo e máximo
-- IDs numéricos validados (ex.: `entityId`)
-- URLs devem ser validadas quando aplicável
+### Admin (future)
+- Introduce `role` on user (e.g.: `user`, `admin`) **only when necessary**.
+- Document RBAC in `docs/domain.md` and `docs/api-spec.md`.
 
 ---
 
-## 🧱 Proteção contra Injection
+## ✅ Input Validation and Sanitization
+
+### Rules
+- Validate input on **all** endpoints.
+- Return 400 with `VALIDATION_ERROR` per `docs/api-spec.md`.
+- Sanitize strings when applicable (e.g.: trim, length limits).
+- Reject payloads with unexpected fields (when possible).
+
+### Minimum validation examples
+- `email` valid format and maximum length
+- `password` minimum and maximum length
+- Numeric IDs validated (e.g.: `entityId`)
+- URLs should be validated when applicable
+
+---
+
+## 🧱 Injection Protection
 
 ### SQL Injection
-- Usar queries parametrizadas/ORM.
-- Nunca concatenar input do usuário em SQL.
-- Garantir constraints e FKs conforme `docs/database.md`.
+- Use parameterized queries/ORM.
+- Never concatenate user input in SQL.
+- Ensure constraints and FKs per `docs/database.md`.
 
-### Outros injections
-- Nunca renderizar HTML de inputs do usuário sem sanitização (frontend).
-- Evitar SSRF (se no futuro houver fetch de URLs externas).
+### Other injections
+- Never render HTML from user inputs without sanitization (frontend).
+- Avoid SSRF (if in the future there is fetching of external URLs).
 
 ---
 
-## 🧩 CSRF, CORS e Cookies
+## 🧩 CSRF, CORS, and Cookies
 
-### Token em header (baseline)
-- JWT em `Authorization` reduz risco de CSRF (comparado a cookie auth).
-- Se no futuro usar cookies:
+### Token in header (baseline)
+- JWT in `Authorization` reduces CSRF risk (compared to cookie auth).
+- If cookies are used in the future:
   - `HttpOnly`, `Secure`, `SameSite=Lax/Strict`
-  - implementar CSRF tokens
+  - implement CSRF tokens
 
 ### CORS
-- Configurar allowlist de origens (staging/prod).
-- Não usar `*` em produção.
+- Configure origin allowlist (staging/prod).
+- Do not use `*` in production.
 
 ---
 
-## 🧠 Rate Limiting (recomendado)
+## 🧠 Rate Limiting (recommended)
 
-No MVP pode ser opcional, mas recomendado em produção:
-- `/auth/login`: limitar tentativas por IP/usuário
-- `/auth/register`: limitar criação por IP
-- resposta: 429 `TOO_MANY_REQUESTS` (se adotado, documentar no API spec)
+Optional for MVP, but recommended in production:
+- `/auth/login`: limit attempts per IP/user
+- `/auth/register`: limit creation per IP
+- response: 429 `TOO_MANY_REQUESTS` (if adopted, document in API spec)
 
 ---
 
 ## 🔑 Secrets Management
 
-### Regras
-- Nunca commitar secrets no repositório.
-- Usar variáveis de ambiente.
-- Separar configs por ambiente (dev/staging/prod).
-- Rotacionar tokens/keys quando expostos.
+### Rules
+- Never commit secrets to the repository.
+- Use environment variables.
+- Separate configs per environment (dev/staging/prod).
+- Rotate tokens/keys when exposed.
 
-### Exemplos de secrets
+### Secret examples
 - DB password
-- Secret de autenticação / private keys
-- License keys de ferramentas de APM/observabilidade
+- Authentication secret / private keys
+- APM/observability tool license keys
 
 ---
 
-## 🧾 Logging e PII
+## 🧾 Logging and PII
 
-### Regras
-- Não logar:
+### Rules
+- Do not log:
   - password, password_hash
-  - JWT token completo
-  - payloads completos em rotas sensíveis
-- Logs devem conter `requestId` para correlação (ver `docs/observability.md`).
-- Em erros, evitar retornar stack trace ao client.
+  - full JWT token
+  - complete payloads on sensitive routes
+- Logs must contain `requestId` for correlation (see `docs/observability.md`).
+- In errors, avoid returning stack traces to the client.
 
-PII (mínimo):
-- Em logs, preferir `userId` ao invés de email/nome.
-
----
-
-## 📦 Dependências e Supply Chain
-
-### Regras
-- Manter dependências atualizadas (patch/minor frequentes).
-- Ativar scanning de vulnerabilidades (ex.: GitHub Dependabot, Snyk, GHAS, ou equivalente).
-- Validar licenses quando necessário.
-
-### Hardening do gerenciador de pacotes
-- Bloquear scripts perigosos quando possível (se aplicável ao gerenciador de pacotes usado).
-- Revisar dependências transitivas críticas.
+PII (minimum):
+- In logs, prefer `userId` over email/name.
 
 ---
 
-## 🧪 Checklist de segurança por endpoint (baseline)
+## 📦 Dependencies and Supply Chain
+
+### Rules
+- Keep dependencies updated (frequent patch/minor).
+- Enable vulnerability scanning (e.g.: GitHub Dependabot, Snyk, GHAS, or equivalent).
+- Validate licenses when necessary.
+
+### Package manager hardening
+- Block dangerous scripts when possible (if applicable to the package manager used).
+- Review critical transitive dependencies.
+
+---
+
+## 🧪 Security checklist per endpoint (baseline)
 
 ### Auth
 - Register:
-  - validação de email/senha
-  - evitar enumeração de usuários em mensagens
+  - email/password validation
+  - avoid user enumeration in messages
 - Login:
-  - resposta genérica para credenciais inválidas
-  - rate limit recomendado
+  - generic response for invalid credentials
+  - rate limiting recommended
 
-### Recursos protegidos
-- exigir token válido
-- validar IDs de recursos
-- garantir integridade referencial entre entidades
-- idempotência em operações de escrita (quando aplicável)
-- acesso restrito ao dono do recurso
-
----
-
-## 🧯 Security Testing (mínimo)
-
-- Unit tests para validações críticas
-- Integration tests para:
-  - 401 sem token
-  - 403 quando recurso não pertence
-  - 409 em conflito (ex.: email duplicado)
-- Teste de regressão para bug de autorização (IDOR)
+### Protected resources
+- require valid token
+- validate resource IDs
+- ensure referential integrity between entities
+- idempotency on write operations (when applicable)
+- access restricted to the resource owner
 
 ---
 
-## 🤖 Regras para IA
+## 🧯 Security Testing (minimum)
 
-- Não introduzir novos endpoints sem atualizar `docs/api-spec.md`.
-- Não criar campos/tabelas sem atualizar `docs/domain.md` e `docs/database.md`.
-- Implementar validações de input em todos endpoints.
-- Nunca gerar código que logue secrets ou PII indevida.
-- Qualquer mudança em auth deve refletir este documento.
+- Unit tests for critical validations
+- Integration tests for:
+  - 401 without token
+  - 403 when resource does not belong
+  - 409 on conflict (e.g.: duplicate email)
+- Regression test for authorization bugs (IDOR)
+
+---
+
+## 🤖 Rules for AI
+
+- Do not introduce new endpoints without updating `docs/api-spec.md`.
+- Do not create fields/tables without updating `docs/domain.md` and `docs/database.md`.
+- Implement input validations on all endpoints.
+- Never generate code that logs secrets or improper PII.
+- Any auth change must be reflected in this document.

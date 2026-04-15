@@ -6,17 +6,17 @@ agent: project-setup
 
 # Setup Project
 
-Configure este projeto definindo a stack de tecnologias, ferramentas e convenções.
+Configure this project by defining the technology stack, tools, and conventions.
 
-O agente `project-setup` irá:
+The `project-setup` agent will:
 
-1. **Detectar o ambiente** automaticamente: verificar MCP servers, arquivos de projeto existentes e placeholders já preenchidos (Phase 0).
-2. **Coletar informações** sobre o projeto: linguagem, framework, banco de dados, ferramentas de observabilidade, issue tracker, MCP servers, etc.
-3. **Confirmar as escolhas** antes de aplicar mudanças.
-4. **Atualizar automaticamente** toda a documentação e configuração do template (README.md, CONTEXT_PACK.md, docs/, .github/instructions/, .vscode/mcp.json, etc.).
-5. **Sugerir ADRs** para registrar as decisões técnicas tomadas.
-6. **Validar** que todos os placeholders de stack foram preenchidos.
-7. **Gerar checklist de Copilot Productivity Readiness** — mostrando o que está pronto e o que precisa de ação.
+1. **Detect the environment** automatically: check MCP servers, existing project files, and already-filled placeholders (Phase 0).
+2. **Collect information** about the project: language, framework, database, observability tools, issue tracker, MCP servers, etc.
+3. **Confirm choices** before applying changes.
+4. **Automatically update** all template documentation and configuration (README.md, CONTEXT_PACK.md, docs/, .github/instructions/, .vscode/mcp.json, etc.).
+5. **Suggest ADRs** to record the technical decisions made.
+6. **Validate** that all stack placeholders have been filled.
+7. **Generate Copilot Productivity Readiness checklist** — showing what is ready and what needs action.
 
-> **Dica:** Este é o primeiro passo recomendado após clonar o template.
-> Se já rodou antes, o agente detecta o que já foi configurado e oferece atualização seletiva.
+> **Tip:** This is the recommended first step after cloning the template.
+> If already run before, the agent detects what was configured and offers selective updates.

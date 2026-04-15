@@ -1,45 +1,45 @@
-# 🔄 Guia de Replicação
+# 🔄 Replication Guide
 
-Guia passo a passo para criar um novo projeto a partir deste template.
+Step-by-step guide to create a new project from this template.
 
-> **Nota**: Este repositório É o template. Use-o como base para criar novos projetos.
-
----
-
-## Pré-requisitos
-
-- VS Code com extensão GitHub Copilot (com suporte a agentes)
-- Acesso ao MCP do GitHub (já configurado no Copilot)
-- Repositório Git inicializado a partir deste template
+> **Note**: This repository IS the template. Use it as a base to create new projects.
 
 ---
 
-## Passo 1 — Criar repositório a partir do template
+## Prerequisites
 
-Use este repositório como template no GitHub (botão "Use this template") ou copie a estrutura manualmente.
+- VS Code with the GitHub Copilot extension (with agent support)
+- Access to the GitHub MCP (pre-configured in Copilot)
+- Git repository initialized from this template
 
-A estrutura que será herdada:
+---
+
+## Step 1 — Create a repository from the template
+
+Use this repository as a template on GitHub ("Use this template" button) or copy the structure manually.
+
+The inherited structure:
 
 ```
 .github/
-  agents/            # 11 agentes especializados
-  prompts/           # 6 slash commands
-  instructions/      # 7 instructions contextuais
+  agents/            # 14 specialized agents
+  prompts/           # 11 slash commands
+  instructions/      # 8 contextual instructions
   skills/            # 2 skills (issue-triage, full-feature-cycle)
   copilot-instructions.md
 
-docs/                # Documentação estruturada com placeholders
-AGENTS.md            # Definição da squad
-CONTEXT_PACK.md      # Snapshot condensado com placeholders
-README.md            # Guia do template
+docs/                # Structured documentation with placeholders
+AGENTS.md            # Squad definition
+CONTEXT_PACK.md      # Condensed snapshot with placeholders
+README.md            # Template guide
 ```
 
 ---
 
-## Passo 2 — Configurar MCP
+## Step 2 — Configure MCP
 
-### GitHub MCP (obrigatório)
-O MCP do GitHub já vem configurado com o Copilot. Verifique `.vscode/mcp.json`:
+### GitHub MCP (required)
+The GitHub MCP comes pre-configured with Copilot. Check `.vscode/mcp.json`:
 
 ```json
 {
@@ -52,8 +52,8 @@ O MCP do GitHub já vem configurado com o Copilot. Verifique `.vscode/mcp.json`:
 }
 ```
 
-### MCPs adicionais (opcional)
-Para adicionar Figma, Playwright ou outros MCPs, adicione entradas ao `mcp.json`:
+### Additional MCPs (optional)
+To add Figma, Playwright, or other MCPs, add entries to `mcp.json`:
 
 ```json
 {
@@ -72,109 +72,109 @@ Para adicionar Figma, Playwright ou outros MCPs, adicione entradas ao `mcp.json`
 
 ---
 
-## Passo 3 — Configurar a stack do projeto (recomendado)
+## Step 3 — Configure the project stack (recommended)
 
-Use o comando `/setup-project` no Copilot Chat. O agente `project-setup` irá perguntar sobre a stack do projeto e atualizar automaticamente toda a documentação.
+Use the `/setup-project` command in Copilot Chat. The `project-setup` agent will ask about the project stack and automatically update all documentation.
 
 ```
 /setup-project
 ```
 
-Alternativamente, preencha manualmente os placeholders `[PREENCHER]`.
+Alternatively, manually fill in the `[FILL]` placeholders.
 
-## Passo 4 — Preencher a documentação de domínio
+## Step 4 — Fill in domain documentation
 
-### Documentos com placeholders `[PREENCHER]`
-Os seguintes documentos já possuem a estrutura pronta — basta preencher com os dados do seu projeto:
+### Documents with `[FILL]` placeholders
+The following documents have a ready structure — just fill in with your project data:
 
-| Documento | Obrigatório? | Propósito |
-|-----------|-------------|-----------|
-| `docs/domain.md` | ✅ | Entidades e regras de negócio |
-| `docs/api-spec.md` | ✅ (se tem API) | Contratos HTTP |
-| `docs/database.md` | ✅ (se tem DB) | Schema e constraints |
-| `docs/local-setup.md` | ✅ | Setup do ambiente local |
-| `CONTEXT_PACK.md` | Recomendado | Snapshot para onboarding rápido |
-| `docs/ai/ai-context.md` | Recomendado | Contexto condensado para IA |
+| Document | Required? | Purpose |
+|----------|----------|---------|
+| `docs/domain.md` | ✅ | Entities and business rules |
+| `docs/api-spec.md` | ✅ (if has API) | HTTP contracts |
+| `docs/database.md` | ✅ (if has DB) | Schema and constraints |
+| `docs/local-setup.md` | ✅ | Local environment setup |
+| `CONTEXT_PACK.md` | Recommended | Snapshot for quick onboarding |
+| `docs/ai/ai-context.md` | Recommended | Condensed context for AI |
 
-### Documentos já preenchidos (revisar e adaptar se necessário)
+### Pre-filled documents (review and adapt if needed)
 
-| Documento | Propósito |
-|-----------|-----------|
-| `docs/architecture.md` | Estilo arquitetural e camadas |
-| `docs/security.md` | Baseline de segurança |
-| `docs/engineer-guidelines.md` | Padrões de código e testes |
-| `docs/observability.md` | Logging e monitoramento |
-| `docs/project-structure.md` | Layout de pastas |
+| Document | Purpose |
+|----------|---------|
+| `docs/architecture.md` | Architectural style and layers |
+| `docs/security.md` | Security baseline |
+| `docs/engineer-guidelines.md` | Code standards and tests |
+| `docs/observability.md` | Logging and monitoring |
+| `docs/project-structure.md` | Folder layout |
 
-## Passo 5 — Customizar os agentes (se necessário)
+## Step 5 — Customize the agents (if needed)
 
-### Ajustes mínimos necessários
+### Minimum adjustments needed
 
-> **Nota:** Se você usou `/setup-project`, a maioria desses ajustes já foi feita automaticamente.
+> **Note:** If you used `/setup-project`, most of these adjustments were already made automatically.
 
-1. **Product Owner**: Adaptar se usar Jira em vez de GitHub Issues
-2. **Architect**: Adaptar referências de ADRs e estilo arquitetural
-3. **Backend/Frontend**: Adaptar para stack tecnológica do projeto
-4. **Test Advisor**: Adaptar para framework de testes do projeto
+1. **Product Owner**: Adapt if using Jira instead of GitHub Issues
+2. **Architect**: Adapt ADR references and architectural style
+3. **Backend/Frontend**: Adapt for the project's technology stack
+4. **Test Advisor**: Adapt for the project's testing framework
 
-### Ajustes nas Instructions
+### Instruction adjustments
 
-Adaptar os `applyTo` patterns nos `.instructions.md` para a estrutura de pastas do novo projeto.
+Adapt the `applyTo` patterns in `.instructions.md` files for the new project's folder structure.
 
-Revise cada `.instructions.md` e ajuste:
-- Patterns de `applyTo` para a estrutura do novo projeto
-- Convenções de naming se diferentes
-- Regras específicas da stack
-
----
-
-## Passo 6 — Testar
-
-### Teste rápido de cada agente
-1. Abra o VS Code no novo repositório
-2. No Copilot Chat, invoque cada agente e verifique se responde conforme o papel
-3. Teste cada slash command (`/new-feature`, `/analyze-issue`, etc.)
-
-### Teste de fluxo end-to-end
-1. `/new-feature` → PO deve criar uma issue
-2. `/analyze-issue #N` → Architect deve postar análise
-3. `/implement-issue #N` → Staff deve planejar e delegar
-4. `/review-pr #N` → Reviewer deve revisar
-5. `/document-pr #N` → Documenter deve atualizar docs
+Review each `.instructions.md` and adjust:
+- `applyTo` patterns for the new project structure
+- Naming conventions if different
+- Stack-specific rules
 
 ---
 
-## Passo 7 — Documentar
+## Step 6 — Test
 
-Crie ou atualize o `AGENTS.md` do novo repositório com:
-- Lista dos agentes ativos
-- Fluxos de trabalho específicos do projeto
-- Customizações feitas na replicação
+### Quick test of each agent
+1. Open VS Code in the new repository
+2. In Copilot Chat, invoke each agent and verify it responds according to its role
+3. Test each slash command (`/new-feature`, `/analyze-issue`, etc.)
 
----
-
-## Checklist de replicação
-
-- [ ] Repositório criado a partir do template
-- [ ] MCP configurado em `.vscode/mcp.json`
-- [ ] `/setup-project` executado (ou placeholders preenchidos manualmente)
-- [ ] `docs/domain.md` preenchido com entidades e regras de negócio
-- [ ] `docs/database.md` preenchido com schema e constraints
-- [ ] `docs/api-spec.md` preenchido com endpoints e contratos
-- [ ] `docs/local-setup.md` preenchido com instruções de setup
-- [ ] `CONTEXT_PACK.md` preenchido com snapshot do projeto
-- [ ] `docs/ai/ai-context.md` atualizado com contexto do sistema
-- [ ] ADRs criados para decisões do projeto (`docs/adr/`)
-- [ ] Instructions adaptados para estrutura do projeto (se necessário)
-- [ ] Teste de cada agente realizado
-- [ ] Fluxo end-to-end testado
+### End-to-end flow test
+1. `/new-feature` → PO should create an issue
+2. `/analyze-issue #N` → Architect should post analysis
+3. `/implement-issue #N` → Staff should plan and delegate
+4. `/review-pr #N` → Reviewer should review
+5. `/document-pr #N` → Documenter should update docs
 
 ---
 
-## Dicas
+## Step 7 — Document
 
-- **Comece com `/setup-project`**: Configuração automatizada economiza tempo e garante consistência
-- **Comece simples**: Use apenas PO + Architect + Staff + BE/FE + Reviewer no início
-- **Adicione gradualmente**: QA, Documenter e Metrifier podem ser adicionados depois
-- **Documente primeiro**: A qualidade dos agentes depende da qualidade da documentação
-- **Itere**: Ajuste as instruções dos agentes conforme aprende o que funciona melhor
+Create or update the `AGENTS.md` of the new repository with:
+- List of active agents
+- Project-specific workflows
+- Customizations made during replication
+
+---
+
+## Replication checklist
+
+- [ ] Repository created from template
+- [ ] MCP configured in `.vscode/mcp.json`
+- [ ] `/setup-project` executed (or placeholders manually filled)
+- [ ] `docs/domain.md` filled with entities and business rules
+- [ ] `docs/database.md` filled with schema and constraints
+- [ ] `docs/api-spec.md` filled with endpoints and contracts
+- [ ] `docs/local-setup.md` filled with setup instructions
+- [ ] `CONTEXT_PACK.md` filled with project snapshot
+- [ ] `docs/ai/ai-context.md` updated with system context
+- [ ] ADRs created for project decisions (`docs/adr/`)
+- [ ] Instructions adapted for project structure (if needed)
+- [ ] Each agent tested
+- [ ] End-to-end flow tested
+
+---
+
+## Tips
+
+- **Start with `/setup-project`**: Automated configuration saves time and ensures consistency
+- **Start simple**: Use only PO + Architect + Staff + BE/FE + Reviewer at the beginning
+- **Add gradually**: QA, Documenter, and Metrifier can be added later
+- **Document first**: Agent quality depends on documentation quality
+- **Iterate**: Adjust agent instructions as you learn what works best

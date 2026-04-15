@@ -11,60 +11,60 @@ directory is the **source of truth**.
 
 # Project Overview
 
-<!-- [PREENCHER] Preencha com nome, propósito e fluxo principal do projeto. -->
+<!-- [FILL] Fill with your project's name, purpose, and main flow. -->
 
-Project: [Nome do Projeto]
+Project: [Project Name]
 
 Purpose:
-[Descreva o propósito do sistema em 1-2 frases]
+[Describe the system's purpose in 1-2 sentences]
 
 Core user flow:
 
-[Passo 1] → [Passo 2] → [Passo 3] → [Resultado]
+[Step 1] → [Step 2] → [Step 3] → [Result]
 
 ---
 
 # Technology Stack
 
-<!-- [PREENCHER] Defina a stack do projeto. Use /setup-project para configurar automaticamente. -->
+<!-- [FILL] Define the project stack. Use /setup-project to configure automatically. -->
 
 Backend
-- [PREENCHER] Linguagem/runtime (ex.: Node.js, Python, Java, Go, .NET)
-- [PREENCHER] Estilo arquitetural (ex.: Clean Architecture, Hexagonal, Modular, MVC)
-- [PREENCHER] Tipo de API (ex.: REST, GraphQL, gRPC)
+- [FILL] Language/runtime (e.g.: Node.js, Python, Java, Go, .NET)
+- [FILL] Architectural style (e.g.: Clean Architecture, Hexagonal, Modular, MVC)
+- [FILL] API type (e.g.: REST, GraphQL, gRPC)
 
 Frontend
-- [PREENCHER] Framework (ex.: Next.js, Nuxt.js, SvelteKit, Angular, nenhum)
-- [PREENCHER] Estratégia de renderização (ex.: SSR, SSG, SPA, híbrido)
+- [FILL] Framework (e.g.: Next.js, Nuxt.js, SvelteKit, Angular, none)
+- [FILL] Rendering strategy (e.g.: SSR, SSG, SPA, hybrid)
 
 Database
-- [PREENCHER] Banco de dados (ex.: PostgreSQL, MySQL, MongoDB, SQLite)
+- [FILL] Database (e.g.: PostgreSQL, MySQL, MongoDB, SQLite)
 
 Monitoring
-- [PREENCHER] Ferramenta de APM/observabilidade (ex.: Datadog, New Relic, Grafana, CloudWatch)
+- [FILL] APM/observability tool (e.g.: Datadog, New Relic, Grafana, CloudWatch)
 
 Infrastructure
-- [PREENCHER] CI/CD (ex.: GitHub Actions, GitLab CI, CircleCI)
-- [PREENCHER] Containerização (ex.: Docker, Podman)
-- [PREENCHER] Orquestração (ex.: Kubernetes, ECS, Docker Compose)
-- [PREENCHER] IaC (ex.: Terraform, Pulumi, CloudFormation)
-- [PREENCHER] Cloud provider (ex.: AWS, GCP, Azure, nenhum)
+- [FILL] CI/CD (e.g.: GitHub Actions, GitLab CI, CircleCI)
+- [FILL] Containerization (e.g.: Docker, Podman)
+- [FILL] Orchestration (e.g.: Kubernetes, ECS, Docker Compose)
+- [FILL] IaC (e.g.: Terraform, Pulumi, CloudFormation)
+- [FILL] Cloud provider (e.g.: AWS, GCP, Azure, none)
 
 ---
 
 # Architectural Style
 
-<!-- [PREENCHER] Adapte conforme o estilo arquitetural adotado no projeto. -->
+<!-- [FILL] Adapt according to the architectural style adopted in the project. -->
 
-Backend follows **[PREENCHER] estilo arquitetural** (ex.: Clean Architecture, Hexagonal, Modular, MVC).
+Backend follows **[FILL] architectural style** (e.g.: Clean Architecture, Hexagonal, Modular, MVC).
 
 Layers:
 
-[PREENCHER] Liste as camadas conforme o estilo adotado.
+[FILL] List the layers according to the adopted style.
 
 Dependency direction:
 
-[PREENCHER] Defina a direção de dependência entre camadas.
+[FILL] Define the dependency direction between layers.
 
 Rules:
 
@@ -80,7 +80,7 @@ docs/architecture.md
 
 # Core Domain Model
 
-<!-- [PREENCHER] Liste as entidades principais do projeto e seus relacionamentos. -->
+<!-- [FILL] List the project's main entities and their relationships. -->
 
 Main entities:
 
@@ -90,8 +90,8 @@ Main entities:
 
 Relationships:
 
-[Entity1] → [relação] → [Entity2]
-[Entity2] → [relação] → [Entity3]
+[Entity1] → [relationship] → [Entity2]
+[Entity2] → [relationship] → [Entity3]
 
 Reference:
 docs/domain.md
@@ -100,10 +100,10 @@ docs/domain.md
 
 # Business Logic
 
-<!-- [PREENCHER] Descreva as regras de negócio mais importantes. -->
+<!-- [FILL] Describe the most important business rules. -->
 
-> Documente aqui as regras centrais do domínio (ex.: condições de completude,
-> unicidade, idempotência, etc.)
+> Document the core domain rules here (e.g.: completeness conditions,
+> uniqueness, idempotency, etc.)
 
 Reference:
 docs/domain.md
@@ -112,18 +112,18 @@ docs/domain.md
 
 # Database Overview
 
-<!-- [PREENCHER] Liste tabelas e constraints principais. -->
+<!-- [FILL] List main tables and constraints. -->
 
 Primary tables:
 
-[tabela1]
-[tabela2]
-[tabela3]
+[table1]
+[table2]
+[table3]
 
 Important constraints:
 
-[tabela_x]:
-UNIQUE([campo1], [campo2])
+[table_x]:
+UNIQUE([field1], [field2])
 
 Reference:
 docs/database.md
@@ -138,11 +138,11 @@ Base path:
 
 Authentication:
 
-<!-- [PREENCHER] Defina o método de autenticação (ex.: JWT Bearer Token) -->
+<!-- [FILL] Define the authentication method (e.g.: JWT Bearer Token) -->
 
 Important endpoints:
 
-<!-- [PREENCHER] Liste os endpoints principais -->
+<!-- [FILL] List the main endpoints -->
 
 Reference:
 docs/api-spec.md
@@ -163,7 +163,7 @@ requestId
 
 Monitoring:
 
-[PREENCHER] Ferramenta de APM/observabilidade
+[FILL] APM/observability tool
 
 Reference:
 docs/observability.md
@@ -213,8 +213,8 @@ Preferred workflow:
 
 # Key ADR Decisions
 
-> **[PREENCHER]** Registre aqui as ADRs do projeto conforme decisões forem tomadas.
-> Use `docs/adr/0000-adr-template.md` como base para criar novas ADRs.
+> **[FILL]** Record project ADRs here as decisions are made.
+> Use `docs/adr/0000-adr-template.md` as a base to create new ADRs.
 
 ---
 
@@ -249,7 +249,7 @@ Main flows:
 
 A) New feature: product-owner → architect → dba(if DB) → devops(if infra/CI) → staff(+documenter-start) → [BE, FE] → qa → reviewer(code-change) → documenter(final)
 B) Bug fix: product-owner → dba(if DB) → devops(if infra/CI) → staff(+documenter-start) → [BE/FE] → qa → reviewer(code-change) → documenter(final)
-C) Bootstrap: product-owner → architect → staff(+documenter-start) → documenter(final)
+C) Bootstrap: product-owner → architect → project-setup → staff(+documenter-start) → documenter(final)
 D) Tech debt: architect → devops(if infra/CI) → staff(+documenter-start) → [BE/FE] → reviewer(code-change) → documenter(final)
 
 Slash commands:

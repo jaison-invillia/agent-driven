@@ -1,180 +1,180 @@
 # 🧭 Engineering Guidelines
 
-Este documento define padrões e regras de engenharia para o projeto.
+This document defines engineering standards and rules for the project.
 
-Referências:
-- Visão geral: `README.md`
-- Arquitetura: `docs/architecture.md`
-- Domínio: `docs/domain.md`
-- Banco: `docs/database.md`
+References:
+- Overview: `README.md`
+- Architecture: `docs/architecture.md`
+- Domain: `docs/domain.md`
+- Database: `docs/database.md`
 - API: `docs/api-spec.md`
 
 ---
 
-## ✅ Objetivos
+## ✅ Goals
 
-- Aumentar previsibilidade e qualidade do código.
-- Reduzir retrabalho em PRs (padrões claros).
-- Facilitar colaboração humano + IA (Copilot/agents).
-- Manter o sistema testável e evolutivo.
+- Increase code predictability and quality.
+- Reduce rework in PRs (clear standards).
+- Facilitate human + AI collaboration (Copilot/agents).
+- Keep the system testable and evolvable.
 
 ---
 
-## 🏗️ Arquitetura
+## 🏗️ Architecture
 
-As decisões arquiteturais (estilo, camadas e regras de dependência) estão definidas em:
+Architectural decisions (style, layers, and dependency rules) are defined in:
 
 ➡ `docs/architecture.md`
 
-**Regra:** todas as contribuições devem respeitar os limites e responsabilidades descritos nesse documento.
+**Rule:** all contributions must respect the boundaries and responsibilities described in that document.
 
 ---
 
 ## 📝 ADRs (Architecture Decision Records)
 
-ADRs registram decisões arquiteturais significativas do projeto. Cada ADR é um documento curto com contexto, decisão, consequências e mitigações.
+ADRs record significant architectural decisions for the project. Each ADR is a short document with context, decision, consequences, and mitigations.
 
-### Quando criar uma ADR?
-- Escolha de estilo arquitetural, banco de dados, framework ou linguagem
-- Padrão de autenticação/autorização
-- Estratégia de logging/observabilidade
-- Qualquer decisão técnica que afete múltiplos componentes ou seja difícil de reverter
+### When to create an ADR?
+- Choice of architectural style, database, framework, or language
+- Authentication/authorization pattern
+- Logging/observability strategy
+- Any technical decision that affects multiple components or is hard to reverse
 
-### Convenções
-- **Diretório:** `docs/adr/`
-- **Numeração:** sequencial com 4 dígitos (`0001`, `0002`, ...)
-- **Nome do arquivo:** `NNNN-titulo-descritivo.md` em kebab-case
-- **Template:** copiar `docs/adr/0000-adr-template.md` como base
-- **Ciclo de vida:** `Proposed` → `Accepted` → `Deprecated` → `Superseded by ADR-NNNN`
-- **Aprovação:** toda ADR deve ser submetida via PR para revisão do time
+### Conventions
+- **Directory:** `docs/adr/`
+- **Numbering:** sequential with 4 digits (`0001`, `0002`, ...)
+- **Filename:** `NNNN-descriptive-title.md` in kebab-case
+- **Template:** copy `docs/adr/0000-adr-template.md` as a base
+- **Lifecycle:** `Proposed` → `Accepted` → `Deprecated` → `Superseded by ADR-NNNN`
+- **Approval:** every ADR must be submitted via PR for team review
 
-### Processo
-1. Copie `docs/adr/0000-adr-template.md` como `docs/adr/NNNN-titulo.md`
-2. Preencha todas as seções (contexto, alternativas, decisão, consequências)
-3. Abra um PR para revisão
-4. Após aprovação, mude o status para `Accepted`
+### Process
+1. Copy `docs/adr/0000-adr-template.md` as `docs/adr/NNNN-title.md`
+2. Fill in all sections (context, alternatives, decision, consequences)
+3. Open a PR for review
+4. After approval, change status to `Accepted`
 
-> Consulte `docs/adr/0000-adr-template.md` para o template completo com instruções e mini-exemplo.
+> See `docs/adr/0000-adr-template.md` for the full template with instructions and mini-example.
 
 ---
 
-## 🧾 Padrões de Código
+## 🧾 Code Standards
 
-### Linguagem e padrão
+### Language and standard
 
-<!-- [PREENCHER] Defina a stack do projeto. Use /setup-project para configurar. -->
+<!-- [FILL] Define the project stack. Use /setup-project to configure. -->
 
-- Backend: [PREENCHER] (ex.: Node.js + TypeScript, Python, Java, Go)
-- Frontend: [PREENCHER] (ex.: Next.js, Nuxt.js, SvelteKit, Angular)
-- Preferir **código explícito** ao “mágico” (principalmente com IA).
+- Backend: [FILL] (e.g.: Node.js + TypeScript, Python, Java, Go)
+- Frontend: [FILL] (e.g.: Next.js, Nuxt.js, SvelteKit, Angular)
+- Prefer **explicit code** over "magic" (especially with AI).
 
-### Nomes
-- Pastas: `kebab-case` (ex.: `order-items`)
-- Arquivos: `kebab-case` (ex.: `order-service.[ext]`)
+### Naming
+- Folders: `kebab-case` (e.g.: `order-items`)
+- Files: `kebab-case` (e.g.: `order-service.[ext]`)
 - Classes: `PascalCase`
-- Funções/variáveis: `camelCase`
-- Constantes: `UPPER_SNAKE_CASE`
+- Functions/variables: `camelCase`
+- Constants: `UPPER_SNAKE_CASE`
 
 ### DTOs
-- Requests/responses HTTP devem usar **DTOs**, não entidades do domínio diretamente.
-- DTOs HTTP vivem em `interfaces/http/dto`.
-- Não “vazar” detalhes de infraestrutura (ex.: campos de banco) para DTOs públicos.
+- HTTP requests/responses must use **DTOs**, not domain entities directly.
+- HTTP DTOs live in `interfaces/http/dto`.
+- Do not "leak" infrastructure details (e.g.: database fields) into public DTOs.
 
 ---
 
-## 🧪 Testes
+## 🧪 Tests
 
-### Pirâmide recomendada
-- **Unit tests (principal foco):** domain + application
-- **Integration tests:** repositories + API endpoints críticos
-- **E2E (mínimo viável):** fluxo feliz principal
+### Recommended pyramid
+- **Unit tests (main focus):** domain + application
+- **Integration tests:** repositories + critical API endpoints
+- **E2E (minimum viable):** main happy path
 
-### Regras
-- Cada Use Case deve ter testes de:
-  - fluxo feliz
-  - validação de entrada
-  - casos de erro esperados (ex.: curso não existe)
-- Use Cases devem ser testados com **mocks das ports** (interfaces), não com DB real.
-
----
-
-## 🔐 Segurança
-
-- JWT obrigatório para rotas protegidas (ver `docs/api-spec.md`).
-- Nunca logar:
-  - senha
-  - token completo
-  - dados sensíveis
-- Validar input em todos endpoints.
-- Proteger contra SQL injection (queries parametrizadas / ORM).
-- Rate limit (futuro) para endpoints de auth.
+### Rules
+- Each Use Case must have tests for:
+  - happy path
+  - input validation
+  - expected error cases (e.g.: resource not found)
+- Use Cases must be tested with **port mocks** (interfaces), not with a real database.
 
 ---
 
-## 📦 Persistência
+## 🔐 Security
 
-- Migrations versionadas no diretório de migrations do projeto (conforme `docs/project-structure.md`).
-- Constraints do banco **devem refletir regras do domínio** quando possível.
-- Unicidade conforme definido em `docs/database.md`.
+- JWT required for protected routes (see `docs/api-spec.md`).
+- Never log:
+  - passwords
+  - full tokens
+  - sensitive data
+- Validate input on all endpoints.
+- Protect against SQL injection (parameterized queries / ORM).
+- Rate limiting (future) for auth endpoints.
 
 ---
 
-## 🧰 Observabilidade & Logs
+## 📦 Persistence
 
-### APM / Monitoramento
+- Versioned migrations in the project's migrations directory (per `docs/project-structure.md`).
+- Database constraints **should reflect domain rules** when possible.
+- Uniqueness as defined in `docs/database.md`.
 
-<!-- [PREENCHER] Defina a ferramenta de APM (ex.: Datadog, New Relic, Grafana, CloudWatch). -->
+---
 
-- Instrumentar API e capturar erros não tratados.
-- Garantir correlação por `requestId` (ver padrão de erro no `docs/api-spec.md`).
+## 🧰 Observability & Logs
+
+### APM / Monitoring
+
+<!-- [FILL] Define the APM tool (e.g.: Datadog, New Relic, Grafana, CloudWatch). -->
+
+- Instrument API and capture unhandled errors.
+- Ensure correlation via `requestId` (see error pattern in `docs/api-spec.md`).
 
 ### Logging
-Requisitos mínimos para o logger:
-- níveis: `debug`, `info`, `warn`, `error`
-- logs estruturados (JSON)
-- incluir `requestId` sempre que possível
-- não incluir dados sensíveis
+Minimum requirements for the logger:
+- levels: `debug`, `info`, `warn`, `error`
+- structured logs (JSON)
+- include `requestId` whenever possible
+- do not include sensitive data
 
 ---
 
 ## 🔁 Git Workflow
 
 - Branches:
-  - `main`: estável
-  - `feat/<tema>`: features
-  - `fix/<tema>`: correções
-  - `chore/<tema>`: manutenção
-- PR obrigatório para merge em `main`.
-- PR deve incluir:
-  - descrição do que mudou
-  - checklist de testes
-  - link de issue (se houver)
+  - `main`: stable
+  - `feat/<topic>`: features
+  - `fix/<topic>`: fixes
+  - `chore/<topic>`: maintenance
+- PR required for merge into `main`.
+- PR must include:
+  - description of what changed
+  - test checklist
+  - issue link (if any)
 
 ---
 
 ## ✅ Definition of Done (DoD)
 
-Uma tarefa só é “done” quando:
-- [ ] código implementado respeitando `docs/architecture.md`
-- [ ] testes (unit/integration) adicionados quando aplicável
-- [ ] lint/format passando
-- [ ] endpoints aderentes a `docs/api-spec.md`
-- [ ] migrations incluídas quando houver alteração de schema
-- [ ] logs e tratamento de erro adequados
-- [ ] documentação atualizada (se necessário)
+A task is only "done" when:
+- [ ] code implemented respecting `docs/architecture.md`
+- [ ] tests (unit/integration) added when applicable
+- [ ] lint/format passing
+- [ ] endpoints adhering to `docs/api-spec.md`
+- [ ] migrations included when schema changed
+- [ ] adequate logs and error handling
+- [ ] documentation updated (if necessary)
 
 ---
 
-## 🤖 Regras para IA (Copilot / Agents)
+## 🤖 Rules for AI (Copilot / Agents)
 
-- Sempre ler antes de codar:
+- Always read before coding:
   - `README.md`
   - `docs/architecture.md`
   - `docs/domain.md`
   - `docs/database.md`
   - `docs/api-spec.md`
-  - este documento `docs/engineer-guidelines.md`
-- Não inventar endpoints nem tabelas fora da documentação.
-- Em caso de dúvida: propor alteração na documentação **antes** de gerar código.
-- Evitar “embelezamento” de código (emojis, comentários redundantes, etc.).
-- Preferir pequenas mudanças com commits/PRs menores e revisáveis.
+  - this document `docs/engineer-guidelines.md`
+- Do not invent endpoints or tables outside the documentation.
+- When in doubt: propose a documentation change **before** generating code.
+- Avoid "embellishing" code (emojis, redundant comments, etc.).
+- Prefer small changes with smaller, reviewable commits/PRs.

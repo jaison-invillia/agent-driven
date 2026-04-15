@@ -1,34 +1,34 @@
 # 🛠️ Local Setup
 
-<!-- TEMPLATE: Preencha este documento com as instruções de setup do seu projeto. -->
+<!-- TEMPLATE: Fill this document with your project's setup instructions. -->
 
-Este documento descreve como preparar e executar o projeto localmente (backend + frontend).
+This document describes how to prepare and run the project locally (backend + frontend).
 
-Referências:
-- Visão geral: `README.md`
-- Estrutura do repositório: `docs/project-structure.md`
+References:
+- Overview: `README.md`
+- Repository structure: `docs/project-structure.md`
 - API: `docs/api-spec.md`
-- Banco: `docs/database.md`
+- Database: `docs/database.md`
 
 ---
 
-## ✅ Pré-requisitos
+## ✅ Prerequisites
 
-### Ferramentas
+### Tools
 
-<!-- [PREENCHER] Defina os pré-requisitos do projeto. Use /setup-project para configurar. -->
+<!-- [FILL] Define the project prerequisites. Use /setup-project to configure. -->
 
-- **[PREENCHER]** Runtime/linguagem (ex.: Node.js LTS, Python 3.x, Java 21, Go 1.22)
-- **[PREENCHER]** Gerenciador de pacotes (ex.: npm, pnpm, pip, maven, go modules)
-- **[PREENCHER]** Banco de dados (ex.: PostgreSQL, MySQL, MongoDB, SQLite)
+- **[FILL]** Runtime/language (e.g.: Node.js LTS, Python 3.x, Java 21, Go 1.22)
+- **[FILL]** Package manager (e.g.: npm, pnpm, pip, maven, go modules)
+- **[FILL]** Database (e.g.: PostgreSQL, MySQL, MongoDB, SQLite)
 - Git
 
-### Opcional (recomendado)
-- Docker / Docker Compose (para subir dependências e facilitar setup)
+### Optional (recommended)
+- Docker / Docker Compose (to run dependencies and simplify setup)
 
 ---
 
-## 📦 Clonar o repositório
+## 📦 Clone the repository
 
 ```bash
 git clone <repo-url>
@@ -37,22 +37,22 @@ cd <repo-folder>
 
 ---
 
-## 🗄️ Banco de dados
+## 🗄️ Database
 
-> **[PREENCHER]** Instruções para configurar o banco de dados do projeto.
+> **[FILL]** Instructions for configuring the project's database.
 
-### Opção A) Banco local instalado
+### Option A) Local installed database
 
-1. Inicie o banco de dados
-2. Crie o banco:
+1. Start the database
+2. Create the database:
 
 ```sql
-CREATE DATABASE [nome_do_banco];
+CREATE DATABASE [database_name];
 ```
 
-### Opção B) Docker (recomendado)
+### Option B) Docker (recommended)
 
-> **[PREENCHER]** Adicione ou referencie o `docker-compose.yml` do projeto.
+> **[FILL]** Add or reference the project's `docker-compose.yml`.
 
 ```bash
 docker compose up -d
@@ -60,40 +60,40 @@ docker compose up -d
 
 ---
 
-## ⚙️ Variáveis de ambiente
+## ⚙️ Environment variables
 
 ### Backend
 
-Crie o arquivo de variáveis de ambiente do backend baseado em `.env.example`:
+Create the backend environment variables file based on `.env.example`:
 
-> **[PREENCHER]** Liste as variáveis de ambiente necessárias.
+> **[FILL]** List the required environment variables.
 
 ```env
 # Server
-PORT=[PREENCHER]
+PORT=[FILL]
 ENV=development
 
 # Database
 DB_HOST=localhost
-DB_PORT=[PREENCHER]
-DB_NAME=[nome_do_banco]
-DB_USER=[PREENCHER]
-DB_PASSWORD=[PREENCHER]
+DB_PORT=[FILL]
+DB_NAME=[database_name]
+DB_USER=[FILL]
+DB_PASSWORD=[FILL]
 
 # Auth
-# [PREENCHER] Variáveis de autenticação (ex.: JWT_SECRET, API_KEY, etc.)
+# [FILL] Authentication variables (e.g.: JWT_SECRET, API_KEY, etc.)
 
 # Observability
-# [PREENCHER] Variáveis de observabilidade (ex.: APM_ENABLED, APM_LICENSE_KEY, etc.)
+# [FILL] Observability variables (e.g.: APM_ENABLED, APM_LICENSE_KEY, etc.)
 ```
 
 ### Frontend
 
-Crie o arquivo de variáveis de ambiente do frontend:
+Create the frontend environment variables file:
 
 ```env
-# [PREENCHER] Variáveis do frontend
-API_BASE_URL=http://localhost:[PREENCHER]/api/v1
+# [FILL] Frontend variables
+API_BASE_URL=http://localhost:[FILL]/api/v1
 ```
 
 ---
@@ -101,84 +101,82 @@ API_BASE_URL=http://localhost:[PREENCHER]/api/v1
 ## 🔧 Backend
 
 ```bash
-cd [diretório-do-backend]
-# [PREENCHER] Comando para instalar dependências (ex.: npm install, pip install -r requirements.txt)
+cd [backend-directory]
+# [FILL] Command to install dependencies (e.g.: npm install, pip install -r requirements.txt)
 ```
 
-### Rodar migrations
+### Run migrations
 
-> A ferramenta de migration será definida na implementação.
-> O schema de referência está em `docs/database.md`.
+> The migration tool will be defined during implementation.
+> The reference schema is in `docs/database.md`.
 
 ```bash
-# [PREENCHER] Comando de migration (ex.: npm run migrate, alembic upgrade head, flyway migrate)
+# [FILL] Migration command (e.g.: npm run migrate, alembic upgrade head, flyway migrate)
 ```
 
-### Rodar seeds (opcional)
+### Run seeds (optional)
 
-> **[PREENCHER]** Adicione instruções de seed quando disponíveis.
+> **[FILL]** Add seed instructions when available.
 
 ```bash
-# [PREENCHER] Comando de seed
+# [FILL] Seed command
 ```
 
-### Iniciar
+### Start
 
 ```bash
-# [PREENCHER] Comando para iniciar o backend (ex.: npm run dev, python manage.py runserver)
+# [FILL] Command to start the backend (e.g.: npm run dev, python manage.py runserver)
 ```
 
-Backend disponível em `http://localhost:[PREENCHER]`.
+Backend available at `http://localhost:[FILL]`.
 
 ---
 
 ## 🌐 Frontend
 
 ```bash
-cd [diretório-do-frontend]
-# [PREENCHER] Comando para instalar dependências
-# [PREENCHER] Comando para iniciar o frontend
+cd [frontend-directory]
+# [FILL] Command to install dependencies
+# [FILL] Command to start the frontend
 ```
 
-Frontend disponível em `http://localhost:[PREENCHER]`.
+Frontend available at `http://localhost:[FILL]`.
 
 ---
 
-## ✅ Verificar
+## ✅ Verify
 
-- Backend: `http://localhost:[PREENCHER]/health`
-- Frontend: `http://localhost:[PREENCHER]`
+- Backend: `http://localhost:[FILL]/health`
+- Frontend: `http://localhost:[FILL]`
 
 ---
 
 ## 🐛 Troubleshooting
 
-| Problema | Solução |
-|----------|---------|
-| Erro de conexão com banco | Verificar se o banco está rodando e as credenciais em `.env` |
-| Porta em uso | Alterar `PORT` no `.env` |
-| Migrations falham | Verificar se o banco foi criado e credenciais estão corretas |
+| Problem | Solution |
+|---------|----------|
+| Database connection error | Check if the database is running and credentials in `.env` |
+| Port in use | Change `PORT` in `.env` |
+| Migrations fail | Check if the database was created and credentials are correct |
 
-## 🧯 Troubleshooting
+### Port in use
+- Backend: adjust `PORT` in the environment variables file
+- Frontend: adjust the port per the framework
 
-### Porta em uso
-- Backend: ajuste `PORT` no arquivo de variáveis de ambiente
-- Frontend: ajuste a porta conforme o framework
+### Database connection error
+Check:
+- Database is running
+- Credentials in the environment variables file
+- Database port is accessible
 
-### Erro de conexão com DB
-Verifique:
-- Banco de dados rodando
-- Credenciais no arquivo de variáveis de ambiente
-- Porta do banco liberada
-
-### JWT inválido
-Verifique:
-- Secret de autenticação configurado no backend
-- token no header `Authorization`
+### Invalid JWT
+Check:
+- Authentication secret configured in the backend
+- Token in `Authorization` header
 
 ---
 
-## 📌 Onde salvar
+## 📌 Where to save
 
-Recomendado:
+Recommended:
 - `docs/local-setup.md`

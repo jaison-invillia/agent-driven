@@ -1,46 +1,53 @@
-# 📚 Guia da Squad de Agentes IA
+# 📚 AI Agent Squad Guide
 
-Este documento descreve a **metodologia de squad de agentes de IA** usada neste repositório, como ela funciona, como criar novos agentes e como customizar para diferentes contextos.
-
----
-
-## Visão geral
-
-A squad é composta por **12 agentes especializados** que colaboram seguindo um fluxo inspirado em modelos ágeis. Cada agente tem um papel definido, ferramentas restritas e um escopo claro de atuação.
-
-A comunicação entre agentes acontece de duas formas:
-1. **Via tracker configurado**: Agentes leem/escrevem em cards/issues/tickets quando o MCP do projeto suporta isso
-2. **Via delegação direta (somente pelo `staff`)**: O `staff` (orchestrator) invoca sub-agentes automaticamente
+This document describes the **AI agent squad methodology** used in this repository, how it works, how to create new agents, and how to customize for different contexts.
 
 ---
 
-## Estrutura de arquivos
+## Overview
+
+The squad is composed of **14 specialized agents** that collaborate following a flow inspired by agile models. Each agent has a defined role, restricted tools, and a clear scope of action.
+
+Communication between agents happens in two ways:
+1. **Via configured tracker**: Agents read/write to cards/issues/tickets when the project MCP supports it
+2. **Via direct delegation (only by `staff`)**: The `staff` (orchestrator) invokes sub-agents automatically
+
+---
+
+## File structure
 
 ```
 .github/
-  agents/                          # Agentes (.agent.md)
-    product-owner.agent.md         # Converte demandas em rascunhos/cards do tracker
-    architect.agent.md             # Análise arquitetural
-    staff.agent.md                 # Orquestrador (central)
-    backend-dev.agent.md           # Implementação backend (sub-agente)
-    frontend-dev.agent.md          # Implementação frontend (sub-agente)
-    test-advisor.agent.md          # Estratégia de testes
-    qa.agent.md                    # Validação e testes
+  agents/                          # Agents (.agent.md)
+    product-owner.agent.md         # Converts demands into tracker drafts/cards
+    architect.agent.md             # Architectural analysis
+    staff.agent.md                 # Orchestrator (central)
+    dba.agent.md                   # Database decisions and analysis
+    backend-dev.agent.md           # Backend implementation (sub-agent)
+    frontend-dev.agent.md          # Frontend implementation (sub-agent)
+    test-advisor.agent.md          # Testing strategy
+    qa.agent.md                    # Validation and tests
     reviewer.agent.md              # Code review
-    documenter.agent.md            # Mini-plano documental + atualização final
-    metrifier.agent.md             # Métricas e observabilidade
-    pathfinder.agent.md            # Consultor de fluxo para tarefas incertas
+    documenter.agent.md            # Documentation mini-plan + final update
+    metrifier.agent.md             # Metrics and observability
+    project-setup.agent.md         # Initial stack configuration
+    pathfinder.agent.md            # Flow advisor for uncertain tasks
+    devops.agent.md                # CI/CD, infrastructure, deployment
 
   prompts/                         # Slash commands (.prompt.md)
+    setup-project.prompt.md        # /setup-project
+    plan-task.prompt.md            # /plan-task
     new-feature.prompt.md          # /new-feature
     analyze-issue.prompt.md        # /analyze-issue
+    analyze-database.prompt.md     # /analyze-database
     implement-issue.prompt.md      # /implement-issue
-    review-pr.prompt.md            # /review-pr
     fix-bug.prompt.md              # /fix-bug
+    review-pr.prompt.md            # /review-pr
     document-pr.prompt.md          # /document-pr
-    plan-task.prompt.md            # /plan-task
+    devops.prompt.md               # /devops
+    analyze-infra.prompt.md        # /analyze-infra
 
-  instructions/                    # Guidelines contextuais (.instructions.md)
+  instructions/                    # Contextual guidelines (.instructions.md)
     backend-architecture.instructions.md
     api-controllers.instructions.md
     database-migrations.instructions.md
@@ -48,55 +55,56 @@ A comunicação entre agentes acontece de duas formas:
     testing.instructions.md
     security.instructions.md
     issue-tracking.instructions.md
+    devops-infra.instructions.md
 
-  skills/                          # Workflows complexos
+  skills/                          # Complex workflows
     issue-triage/
-      SKILL.md                     # Triagem completa
+      SKILL.md                     # Full triage
       references/triage-criteria.md
     full-feature-cycle/
-      SKILL.md                     # Ciclo completo de feature
+      SKILL.md                     # Full feature cycle
       references/checklist.md
 
-  copilot-instructions.md          # Instruções gerais do repo
+  copilot-instructions.md          # General repo instructions
 
-AGENTS.md                          # Definição da squad (raiz)
+AGENTS.md                          # Squad definition (root)
 ```
 
 ---
 
-## Como funciona cada tipo de arquivo
+## How each file type works
 
-### `.agent.md` — Agentes
-Define um papel/persona com ferramentas restritas e instruções de comportamento.
+### `.agent.md` — Agents
+Defines a role/persona with restricted tools and behavior instructions.
 
 ```yaml
 ---
-name: agent-name              # Identificador único
-description: "Use when: ..."  # Trigger words para discovery
-tools: [read, search]         # Ferramentas permitidas
-user-invocable: true          # Aparece no picker do chat?
-agents: [sub-agent1]          # Sub-agentes permitidos (opcional)
-argument-hint: "..."          # Dica de input (opcional)
+name: agent-name              # Unique identifier
+description: "Use when: ..."  # Trigger words for discovery
+tools: [read, search]         # Allowed tools
+user-invocable: true          # Appears in chat picker?
+agents: [sub-agent1]          # Allowed sub-agents (optional)
+argument-hint: "..."          # Input hint (optional)
 ---
 
-[Instruções detalhadas do agente]
+[Detailed agent instructions]
 ```
 
 ### `.prompt.md` — Slash commands
-Template para tarefas específicas, invocado com `/nome` no chat.
+Template for specific tasks, invoked with `/name` in chat.
 
 ```yaml
 ---
 description: "..."
-agent: "agent-name"           # Qual agente executa
-argument-hint: "..."          # Dica de input
+agent: "agent-name"           # Which agent executes
+argument-hint: "..."          # Input hint
 ---
 
-[Instruções do prompt]
+[Prompt instructions]
 ```
 
-### `.instructions.md` — Guidelines contextuais
-Regras que se aplicam automaticamente quando arquivos matching são editados.
+### `.instructions.md` — Contextual guidelines
+Rules that apply automatically when matching files are edited.
 
 ```yaml
 ---
@@ -104,11 +112,11 @@ description: "Use when: ..."
 applyTo: "backend/src/**/*.ts"  # Glob pattern
 ---
 
-[Regras e guidelines]
+[Rules and guidelines]
 ```
 
-### `SKILL.md` — Workflows complexos
-Procedimentos multi-step com recursos adicionais (scripts, templates, referências).
+### `SKILL.md` — Complex workflows
+Multi-step procedures with additional resources (scripts, templates, references).
 
 ```yaml
 ---
@@ -116,97 +124,97 @@ name: skill-name
 description: "..."
 ---
 
-[Procedimento passo a passo]
+[Step-by-step procedure]
 ```
 
 ---
 
-## Fluxo de trabalho típico
+## Typical workflow
 
-> **Dica:** Quando a tarefa é incerta ou você não sabe por onde começar, use `/plan-task` para que o `pathfinder` sugira o fluxo ideal.
+> **Tip:** When the task is uncertain or you don't know where to start, use `/plan-task` to have the `pathfinder` suggest the ideal flow.
 
-### Nova feature
+### New feature
 ```
-(pathfinder) → /new-feature → PO mostra rascunho e cria card após aprovação → /analyze-issue #N → Architect analisa →
-/implement-issue #N → Staff esclarece ambiguidades, aciona documenter, classifica testes e delega →
-BE/FE implementam → QA valida → /review-pr #PR (somente se houver código) → Reviewer revisa →
-/document-pr #PR → Documenter documenta
+(pathfinder) → /new-feature → PO shows draft and creates card after approval → /analyze-issue #N → Architect analyzes →
+/implement-issue #N → Staff clarifies ambiguities, triggers documenter, classifies tests and delegates →
+BE/FE implement → QA validates → /review-pr #PR (only if code changed) → Reviewer reviews →
+/document-pr #PR → Documenter documents
 ```
 
-No passo do `Architect`, quando a tarefa ainda não estiver prevista para documentação/testes em alto nível, ele deve solicitar isso no comentário do issue (sem delegar execução):
-- `documenter`: como documentar a demanda
-- `test-advisor`: como testar a demanda em alto nível
+In the Architect step, when the task is not yet planned for high-level documentation/testing, it should request this in the issue comment (without delegating execution):
+- `documenter`: how to document the demand
+- `test-advisor`: how to test the demand at a high level
 
-"Já previsto" significa BOTH:
-- subtarefa relevante no checklist do issue
-- comentário anterior de agente solicitando/fornecendo a orientação
+"Already planned" means BOTH:
+- relevant subtask in the issue checklist
+- prior agent comment requesting/providing the guidance
 
 ### Bug fix
 ```
-/fix-bug → Staff investiga e planeja → BE/FE corrigem →
-QA valida → /review-pr #PR (somente se houver código) → Reviewer revisa → /document-pr #PR
+/fix-bug → Staff investigates and plans → BE/FE fix →
+QA validates → /review-pr #PR (only if code changed) → Reviewer reviews → /document-pr #PR
 ```
 
 ---
 
-## Como criar um novo agente
+## How to create a new agent
 
-1. Crie um arquivo `.github/agents/<nome>.agent.md`
-2. Defina o frontmatter YAML com `name`, `description`, `tools`
-3. Escreva instruções claras:
-   - Papel e escopo (o que FAZ e o que NÃO FAZ)
-   - Documentos obrigatórios para ler
-   - Workflow de execução (passo a passo)
-   - Formato de output
-   - Regras não negociáveis
-4. Se o agente usa GitHub MCP, adicione a seção de issue tracking protocol
-5. Atualize `AGENTS.md` com a nova entrada
-6. Se necessário, crie um prompt `.prompt.md` correspondente
+1. Create a file `.github/agents/<name>.agent.md`
+2. Define the YAML frontmatter with `name`, `description`, `tools`
+3. Write clear instructions:
+   - Role and scope (what it DOES and what it DOES NOT)
+   - Mandatory documents to read
+   - Execution workflow (step by step)
+   - Output format
+   - Non-negotiable rules
+4. If the agent uses GitHub MCP, add the issue tracking protocol section
+5. Update `AGENTS.md` with the new entry
+6. If needed, create a corresponding `.prompt.md` prompt
 
-### Checklist de validação
-- [ ] `description` contém trigger words suficientes
-- [ ] `tools` é o mínimo necessário
-- [ ] Instruções mencionam docs obrigatórios
-- [ ] Formato de output é claro e templatable
-- [ ] Regras não negociáveis estão explícitas
-
----
-
-## Customização para diferentes contextos
-
-### Usando Jira em vez de GitHub Issues
-- Configure um MCP de Jira com permissão de leitura/escrita quando disponível
-- Adapte o `product-owner`, o prompt `/new-feature` e o protocolo de tracking para usar "ticket/card" como termo padrão
-- Sem MCP de escrita, opere em modo `draft-only` e faça a criação manual no Jira
-
-### Usando Confluence em vez de `/docs`
-- Adapte referências de `docs/*.md` para links do Confluence
-- Considere usar um MCP de Confluence para leitura automatizada
-- Mantenha um `CONTEXT_PACK.md` local como cache para os agentes
-
-### Adicionando novos MCPs (Figma, Playwright, etc.)
-- Configure o MCP em `.vscode/mcp.json`
-- Adicione `<mcp-name>/*` ao campo `tools` dos agentes relevantes
-- Documente as capabilities do MCP nas instruções do agente
-
-### Stack diferente (Python, Java, etc.)
-- Adapte os instructions files para a nova linguagem/framework
-- Atualize `docs/project-structure.md` e `docs/engineer-guidelines.md`
-- Os agentes são agnósticos de linguagem — apenas as instructions precisam mudar
+### Validation checklist
+- [ ] `description` contains sufficient trigger words
+- [ ] `tools` is the minimum necessary
+- [ ] Instructions mention mandatory docs
+- [ ] Output format is clear and templatable
+- [ ] Non-negotiable rules are explicit
 
 ---
 
-## Princípios fundamentais
+## Customization for different contexts
 
-1. **Documentação é fonte de verdade** — Agentes consultam docs antes de agir
-2. **Não inventar** — Nunca criar endpoints, tabelas ou entidades não documentadas
-3. **Escopo mínimo** — Cada agente faz apenas o que seu papel define
-4. **Rastreabilidade** — Toda ação é documentada no issue/PR
-5. **Delegação limpa** — Staff orquestra, sub-agentes executam
-6. **Qualidade por padrão** — DoD checklist em toda tarefa
+### Using Jira instead of GitHub Issues
+- Configure a Jira MCP with read/write permission when available
+- Adapt the `product-owner`, the `/new-feature` prompt, and the tracking protocol to use "ticket/card" as the standard term
+- Without a write MCP, operate in `draft-only` mode and create manually in Jira
+
+### Using Confluence instead of `docs/`
+- Adapt `docs/*.md` references to Confluence links
+- Consider using a Confluence MCP for automated reading
+- Keep a local `CONTEXT_PACK.md` as a cache for the agents
+
+### Adding new MCPs (Figma, Playwright, etc.)
+- Configure the MCP in `.vscode/mcp.json`
+- Add `<mcp-name>/*` to the `tools` field of relevant agents
+- Document the MCP capabilities in the agent instructions
+
+### Different stack (Python, Java, etc.)
+- Adapt the instructions files for the new language/framework
+- Update `CONTEXT_PACK.md` and `docs/architecture.md`
+- Agents are language-agnostic — only the instructions need to change
 
 ---
 
-## Próximos passos
+## Fundamental principles
 
-Para exemplos práticos de uso de cada cenário, consulte `docs/ai/usage-guide.md`.
+1. **Documentation is the source of truth** — Agents consult docs before acting
+2. **Do not invent** — Never create endpoints, tables, or entities not documented
+3. **Minimum scope** — Each agent does only what its role defines
+4. **Traceability** — Every action is documented in the issue/PR
+5. **Clean delegation** — Staff orchestrates, sub-agents execute
+6. **Quality by default** — DoD checklist on every task
+
+---
+
+## Next steps
+
+For practical usage examples of each scenario, see `docs/ai/usage-guide.md`.

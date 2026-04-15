@@ -1,127 +1,127 @@
 # 🏗️ Architecture
 
-Este documento descreve as **decisões arquiteturais** do projeto.
+This document describes the project's **architectural decisions**.
 
-Para visão geral consulte: `README.md`
+For an overview see: `README.md`
 
-Para regras do domínio consulte: `docs/domain.md`
+For domain rules see: `docs/domain.md`
 
 ---
 
 ## 🧭 Architectural Style
 
-<!-- [PREENCHER] Defina o estilo arquitetural do projeto e registre a decisão em uma ADR (docs/adr/). -->
-<!-- Exemplos de estilos: Clean Architecture, Hexagonal, Modular, MVC, CQRS. -->
-<!-- Adapte as seções abaixo conforme o estilo adotado. -->
+<!-- [FILL] Define the project's architectural style and record the decision in an ADR (docs/adr/). -->
+<!-- Style examples: Clean Architecture, Hexagonal, Modular, MVC, CQRS. -->
+<!-- Adapt the sections below according to the adopted style. -->
 
-> **[PREENCHER]** Descreva aqui o estilo arquitetural adotado pelo projeto e a justificativa.
+> **[FILL]** Describe the architectural style adopted by the project and the rationale.
 >
-> Registre a decisão formalmente em uma ADR: `docs/adr/NNNN-estilo-arquitetural.md`
+> Record the decision formally in an ADR: `docs/adr/NNNN-architectural-style.md`
 
-### Camadas (defina conforme o estilo adotado)
+### Layers (define according to the adopted style)
 
-<!-- Exemplo para uma arquitetura em camadas (adapte ao estilo do projeto): -->
+<!-- Example for layered architecture (adapt to the project's style): -->
 
-> **[PREENCHER]** Liste as camadas do projeto e suas responsabilidades.
+> **[FILL]** List the project's layers and their responsibilities.
 >
-> Exemplo (Clean Architecture):
-> - **Domain**: entidades e regras de negócio puras (sem framework)
-> - **Application**: casos de uso (use cases) e portas (interfaces)
-> - **Interfaces**: adaptadores de entrada (HTTP controllers, DTOs, middlewares)
-> - **Infrastructure**: adaptadores de saída (DB/repositories, providers externos, logger)
-> - **Main**: composição/bootstrapping (DI, rotas, wiring)
+> Example (Clean Architecture):
+> - **Domain**: pure business entities and rules (no framework)
+> - **Application**: use cases and ports (interfaces)
+> - **Interfaces**: input adapters (HTTP controllers, DTOs, middlewares)
+> - **Infrastructure**: output adapters (DB/repositories, external providers, logger)
+> - **Main**: composition/bootstrapping (DI, routes, wiring)
 >
-> Exemplo (MVC):
-> - **Models**: entidades e regras de negócio
-> - **Controllers**: lógica de coordenação e HTTP
-> - **Views/Routes**: apresentação e rotas
+> Example (MVC):
+> - **Models**: entities and business rules
+> - **Controllers**: coordination logic and HTTP
+> - **Views/Routes**: presentation and routes
 
-### Regras de dependência
+### Dependency rules
 
-<!-- Defina a direção de dependência entre camadas. -->
+<!-- Define the direction of dependency between layers. -->
 
-> **[PREENCHER]** Defina as regras de dependência entre camadas.
+> **[FILL]** Define the dependency rules between layers.
 >
-> Exemplo para arquitetura em camadas com dependência para dentro:
+> Example for layered architecture with inward dependency:
 > ```
 > interfaces      ─┐
 > infrastructure  ─┼──> application ───> domain
 > main            ─┘
 > ```
 
-**Princípios gerais (adapte ao estilo adotado):**
+**General principles (adapt to the adopted style):**
 
-- Camadas internas **não devem** importar camadas externas
-- Controllers/handlers **não devem** conter regra de negócio
-- Acesso a banco **deve** ser feito através de abstrações (repositories/adapters)
-- A camada de composição (main/bootstrap) é a única que pode referenciar todas as outras
+- Inner layers **must not** import outer layers
+- Controllers/handlers **must not** contain business logic
+- Database access **must** be done through abstractions (repositories/adapters)
+- The composition layer (main/bootstrap) is the only one that can reference all others
 
 ---
 
-## 🧩 Responsabilidades por camada
+## 🧩 Responsibilities per layer
 
-<!-- [PREENCHER] Detalhe as responsabilidades de cada camada do projeto. -->
-<!-- Os exemplos abaixo são baseados em arquitetura em camadas — adapte ao estilo adotado. -->
+<!-- [FILL] Detail the responsibilities of each project layer. -->
+<!-- The examples below are based on layered architecture — adapt to the adopted style. -->
 
-### Camada de Domínio / Modelos
-- Entidades de negócio
-- Regras invariantes do domínio
-- Value Objects (se aplicável)
+### Domain / Models layer
+- Business entities
+- Invariant domain rules
+- Value Objects (if applicable)
 
-**Não deve conter:** SQL, HTTP, DTOs de API, dependências de framework
+**Must not contain:** SQL, HTTP, API DTOs, framework dependencies
 
-### Camada de Aplicação / Serviços
-- Casos de uso / lógica de orquestração
-- Portas/interfaces para dependências externas
-- Modelos de entrada/saída internos (não HTTP)
+### Application / Services layer
+- Use cases / orchestration logic
+- Ports/interfaces for external dependencies
+- Internal input/output models (not HTTP)
 
-> **[PREENCHER]** Liste os use cases do projeto. Exemplos:
+> **[FILL]** List the project's use cases. Examples:
 > - `RegisterUser`
 > - `Create[Entity]`
 > - `List[Entities]`
 
-### Camada de Interfaces / Controllers
-- Rotas e controllers HTTP
-- DTOs de request/response (alinhados com `docs/api-spec.md`)
+### Interfaces / Controllers layer
+- HTTP routes and controllers
+- Request/response DTOs (aligned with `docs/api-spec.md`)
 - Middlewares (auth, requestId, error mapping)
 
-**Regra**: transformar entrada HTTP → input do caso de uso e output → resposta HTTP (sem negócio).
+**Rule**: transform HTTP input → use case input and output → HTTP response (no business logic).
 
-### Camada de Infraestrutura / Adapters
-- Implementações concretas de abstrações/ports
-- Conexão com DB e migrations
-- Integrações externas
-- Logger e instrumentação de APM
+### Infrastructure / Adapters layer
+- Concrete implementations of abstractions/ports
+- DB connection and migrations
+- External integrations
+- Logger and APM instrumentation
 
-### Camada de Composição / Bootstrap
-- Criação de instâncias concretas
-- Wiring de dependências (DI)
-- Definição de rotas e inicialização do server
+### Composition / Bootstrap layer
+- Creation of concrete instances
+- Dependency wiring (DI)
+- Route definition and server initialization
 
 ---
 
-## 📦 Estrutura recomendada do repositório
+## 📦 Recommended repository structure
 
 ### Backend
 
-<!-- [PREENCHER] Adapte a estrutura de pastas conforme o estilo arquitetural e a linguagem do projeto. -->
-<!-- O exemplo abaixo é baseado em arquitetura em camadas — adapte ao estilo adotado. -->
+<!-- [FILL] Adapt the folder structure according to the project's architectural style and language. -->
+<!-- The example below is based on layered architecture — adapt to the adopted style. -->
 
 ```
 backend/
   src/
-    [PREENCHER] Organize conforme o estilo arquitetural adotado.
+    [FILL] Organize according to the adopted architectural style.
 
-    # Exemplo para arquitetura em camadas:
-    domain/               # entidades e regras de negócio
+    # Example for layered architecture:
+    domain/               # entities and business rules
       entities/
       errors/
 
-    application/          # casos de uso e abstrações
+    application/          # use cases and abstractions
       use-cases/
       ports/
 
-    interfaces/           # adaptadores de entrada (HTTP)
+    interfaces/           # input adapters (HTTP)
       http/
         controllers/
         routes/
@@ -129,7 +129,7 @@ backend/
         dto/
       mappers/
 
-    infrastructure/       # adaptadores de saída (DB, serviços)
+    infrastructure/       # output adapters (DB, services)
       db/
         connection/
         migrations/
@@ -137,57 +137,57 @@ backend/
       logging/
       providers/
 
-    main/                 # composição e bootstrap
+    main/                 # composition and bootstrap
       server/
       container/
 ```
 
 ### Frontend
 
-<!-- [PREENCHER] Adapte conforme o framework frontend do projeto. -->
+<!-- [FILL] Adapt according to the project's frontend framework. -->
 
 ```
 frontend/
-  [PREENCHER] Estrutura do framework frontend
+  [FILL] Frontend framework structure
   components/
-  services/              # client da API
+  services/              # API client
   hooks/
   styles/
 ```
 
 ---
 
-## 🔐 Autenticação
+## 🔐 Authentication
 
-- Autenticação baseada em **JWT** (Bearer).
-- Rotas protegidas devem validar token via middleware.
-- Contratos e exemplos: `docs/api-spec.md`.
+- Authentication based on **JWT** (Bearer).
+- Protected routes must validate tokens via middleware.
+- Contracts and examples: `docs/api-spec.md`.
 
 ---
 
 ## 📈 Observability
 
-<!-- [PREENCHER] Defina a ferramenta de APM do projeto (ex.: Datadog, New Relic, Grafana). -->
+<!-- [FILL] Define the project's APM tool (e.g.: Datadog, New Relic, Grafana). -->
 
-- Instrumentar backend com ferramenta de APM (APM + erros).
-- Padronizar `requestId` para correlação em logs e erros.
-- Erros devem ser mapeados para o padrão especificado em `docs/api-spec.md`.
-
----
-
-## 🔒 Segurança
-
-Obrigatório:
-- validação de input em endpoints
-- queries parametrizadas / ORM para evitar SQL injection
-- não logar tokens/senhas/dados sensíveis
-- controles de acesso para rotas autenticadas
+- Instrument backend with APM tool (APM + errors).
+- Standardize `requestId` for correlation in logs and errors.
+- Errors must be mapped to the standard specified in `docs/api-spec.md`.
 
 ---
 
-## 📈 Evolução Arquitetural
+## 🔒 Security
 
-Possíveis melhorias futuras (quando necessidade aparecer):
-- cache (Redis) para leituras intensas
-- processamento assíncrono (filas) para operações pesadas
-- containerização e escalabilidade horizontal
+Required:
+- input validation on endpoints
+- parameterized queries / ORM to prevent SQL injection
+- do not log tokens/passwords/sensitive data
+- access controls for authenticated routes
+
+---
+
+## 📈 Architectural Evolution
+
+Possible future improvements (when the need arises):
+- cache (Redis) for read-intensive operations
+- asynchronous processing (queues) for heavy operations
+- containerization and horizontal scaling

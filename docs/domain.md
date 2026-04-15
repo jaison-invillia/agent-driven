@@ -1,64 +1,64 @@
 # 📚 Domain Model
 
-<!-- TEMPLATE: Preencha este documento com o modelo de domínio do seu projeto. -->
-<!-- Consulte docs/engineering-docs-recommendation.md para orientações detalhadas. -->
+<!-- TEMPLATE: Fill this document with your project's domain model. -->
+<!-- See docs/engineering-docs-recommendation.md for detailed guidance. -->
 
-Este documento descreve o **modelo de domínio** do projeto.
+This document describes the project's **domain model**.
 
-Ele define:
+It defines:
 
-- entidades do sistema
-- relacionamentos
-- regras de negócio
-- estados do domínio
+- system entities
+- relationships
+- business rules
+- domain states
 
-Para detalhes de arquitetura consulte: `docs/architecture.md`
+For architecture details see: `docs/architecture.md`
 
-Para visão geral do projeto consulte: `README.md`
+For project overview see: `README.md`
 
 ---
 
-## 🧩 Entidades do Domínio
+## 🧩 Domain Entities
 
-<!-- Liste as entidades principais do sistema. Exemplo: -->
+<!-- List the system's main entities. Example: -->
 <!-- User, Order, Product, Payment, etc. -->
 
-> **[PREENCHER]** Liste as entidades do domínio do seu projeto.
+> **[FILL]** List your project's domain entities.
 
 ---
 
-## Entidade: [Nome]
+## Entity: [Name]
 
-<!-- Repita esta seção para cada entidade. -->
+<!-- Repeat this section for each entity. -->
 
-> **[PREENCHER]** Descreva cada entidade seguindo o modelo abaixo.
+> **[FILL]** Describe each entity following the model below.
 
-### Descrição
+### Description
 
-Breve descrição da entidade e seu papel no sistema.
+Brief description of the entity and its role in the system.
 
-### Atributos
+### Attributes
 
 ```
 id
-[campo1]
-[campo2]
+[field1]
+[field2]
 createdAt
 updatedAt
 ```
 
-### Regras
+### Rules
 
-- [Regra de negócio 1]
-- [Regra de negócio 2]
+- [Business rule 1]
+- [Business rule 2]
 
 ---
 
-## 🔗 Relacionamentos
+## 🔗 Relationships
 
-<!-- Descreva os relacionamentos entre entidades. Pode usar diagrama ASCII ou texto. -->
+<!-- Describe the relationships between entities. You can use ASCII diagrams or text. -->
 
-> **[PREENCHER]** Mapeie os relacionamentos principais (1:N, N:N, etc.)
+> **[FILL]** Map the main relationships (1:N, N:N, etc.)
 
 ```
 EntityA
@@ -69,28 +69,28 @@ EntityB ─── belongs to ─── EntityC
 
 ---
 
-## 📊 Regras de Negócio
+## 📊 Business Rules
 
-<!-- Liste as regras de negócio globais do sistema, agrupadas por contexto. -->
+<!-- List the system's global business rules, grouped by context. -->
 
-> **[PREENCHER]** Descreva as regras de negócio do seu domínio.
+> **[FILL]** Describe your domain's business rules.
 
-### [Contexto 1]
+### [Context 1]
 
-- [Regra]
+- [Rule]
 
-### [Contexto 2]
+### [Context 2]
 
-- [Regra]
+- [Rule]
 
 ---
 
-## 🔄 Fluxo Principal
+## 🔄 Main Flow
 
-<!-- Descreva o fluxo principal do sistema (happy path). -->
+<!-- Describe the system's main flow (happy path). -->
 
-> **[PREENCHER]** Descreva o fluxo principal do usuário no sistema.
+> **[FILL]** Describe the user's main flow in the system.
 
 ```
-[Passo 1] → [Passo 2] → [Passo 3] → [Resultado]
+[Step 1] → [Step 2] → [Step 3] → [Result]
 ```
