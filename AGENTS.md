@@ -43,7 +43,7 @@ Agents must read the following files before implementing changes:
 |---|-------|------|------------|-------|-------------|
 | 1 | **Product Owner** | `product-owner.agent.md` | ✅ Yes | read, search, github/* | — |
 | 2 | **Architect** | `architect.agent.md` | ✅ Yes | read, search, github/* | — |
-| 3 | **Staff (Orchestrator)** | `staff.agent.md` | ✅ Yes | read, edit, search, execute, github/*, agent | backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter, devops |
+| 3 | **Staff (Orchestrator)** | `staff.agent.md` | ✅ Yes | read, edit, search, execute, github/*, agent | backend-dev, frontend-dev, test-advisor, qa, metrifier, reviewer, documenter, dba, devops |
 | 4 | **DBA** | `dba.agent.md` | ✅ Yes | read, search, github/* | documenter |
 | 5 | **Backend Developer** | `backend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
 | 6 | **Frontend Developer** | `frontend-dev.agent.md` | ❌ Sub-agent | read, edit, search, execute | test-advisor |
@@ -112,6 +112,7 @@ Central orchestrator that plans and coordinates implementation.
 - Document the plan on the issue via MCP
 - Trigger `documenter` at task start for documentation impact mini-plan
 - Consult `dba` when task includes database impact (schema/migrations/constraints/indexes/performance)
+- Consult `devops` when task includes infrastructure/CI impact (pipelines/Docker/Terraform/deployment)
 - Classify work as `feature_nova` or `mudanca_existente` before test planning
 - Consult `test-advisor` for testing strategy based on classification
 - Delegate to `backend-dev` and/or `frontend-dev` sub-agents
@@ -120,7 +121,7 @@ Central orchestrator that plans and coordinates implementation.
 - Trigger `reviewer` before finalizing only when code changes exist
 - Create branch and open PR via MCP
 
-**Delegates to:** `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`, `dba`
+**Delegates to:** `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`, `dba`, `devops`
 
 **Triggers:** "staff", "orchestrator", "planejar implementação", "executar tarefa"
 
@@ -238,7 +239,7 @@ First-use onboarding wizard that detects the environment, configures the project
 - Detect existing environment before asking questions (Phase 0: manifests, MCP servers, placeholders)
 - Collect technology choices from the user (language, framework, database, APM, etc.)
 - Collect tooling & integration preferences (issue tracker, MCP servers, doc hosting)
-- Update all `[PREENCHER]` placeholders across docs and configuration
+- Update all `[FILL]` placeholders across docs and configuration
 - Update `.vscode/mcp.json` with additional MCP servers if needed
 - Adapt instruction files (`applyTo` patterns) to match the chosen stack
 - Adapt agents if issue tracker is not GitHub Issues

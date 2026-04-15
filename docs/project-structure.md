@@ -1,13 +1,13 @@
 # 🗂️ Project Structure
 
-Este documento define a **estrutura recomendada do repositório** e convenções de organização do código para o projeto.
+This document defines the **recommended repository structure** and code organization conventions for the project.
 
-Objetivo:
-- reduzir ambiguidade na criação de arquivos/pastas
-- orientar contribuições humanas e assistidas por IA
-- reforçar limites de camadas (conforme `docs/architecture.md`)
+Goals:
+- reduce ambiguity when creating files/folders
+- guide human and AI-assisted contributions
+- enforce layer boundaries (per `docs/architecture.md`)
 
-Referências:
+References:
 - `README.md`
 - `docs/architecture.md`
 - `docs/engineer-guidelines.md`
@@ -16,13 +16,63 @@ Referências:
 
 ---
 
-## 📦 Estrutura do repositório (top-level)
+## 📦 Repository structure (top-level)
 
-Recomendado:
+Recommended:
 
 ```
 project-root/
   README.md
+  AGENTS.md
+  CONTEXT_PACK.md
+
+  .github/
+    agents/
+      product-owner.agent.md
+      architect.agent.md
+      staff.agent.md
+      dba.agent.md
+      backend-dev.agent.md
+      frontend-dev.agent.md
+      test-advisor.agent.md
+      qa.agent.md
+      reviewer.agent.md
+      documenter.agent.md
+      metrifier.agent.md
+      project-setup.agent.md
+      pathfinder.agent.md
+      devops.agent.md
+
+    prompts/
+      setup-project.prompt.md
+      plan-task.prompt.md
+      new-feature.prompt.md
+      analyze-issue.prompt.md
+      analyze-database.prompt.md
+      implement-issue.prompt.md
+      fix-bug.prompt.md
+      review-pr.prompt.md
+      document-pr.prompt.md
+      devops.prompt.md
+      analyze-infra.prompt.md
+
+    instructions/
+      backend-architecture.instructions.md
+      api-controllers.instructions.md
+      database-migrations.instructions.md
+      frontend-pages.instructions.md
+      testing.instructions.md
+      security.instructions.md
+      issue-tracking.instructions.md
+      devops-infra.instructions.md
+
+    skills/
+      issue-triage/
+        SKILL.md
+      full-feature-cycle/
+        SKILL.md
+
+    copilot-instructions.md
 
   docs/
     architecture.md
@@ -32,13 +82,18 @@ project-root/
     engineer-guidelines.md
     observability.md
     security.md
-    ai/ai-context.md
-    agent-task-flow.md
     project-structure.md
-
+    agent-task-flow.md
+    local-setup.md
+    engineering-docs-recommendation.md
+    ai/
+      ai-context.md
+      usage-guide.md
+      replication-guide.md
+      agent-squad-guide.md
     adr/
       0000-adr-template.md
-      [ADRs do projeto]
+      [Project ADRs]
 
   backend/
     package.json
@@ -55,22 +110,22 @@ project-root/
 
 ## 🧱 Backend
 
-<!-- Adapte a estrutura conforme o estilo arquitetural definido em docs/architecture.md -->
+<!-- Adapt the structure according to the architectural style defined in docs/architecture.md -->
 
-### Estrutura de pastas (exemplo)
+### Folder structure (example)
 
 ```
 backend/
   src/
     domain/
       entities/
-      value-objects/          # opcional
+      value-objects/          # optional
       errors/
 
     application/
       use-cases/
       ports/
-      dto/                    # opcional (modelos de entrada/saída do app, não HTTP)
+      dto/                    # optional (app input/output models, not HTTP)
 
     interfaces/
       http/
@@ -78,7 +133,7 @@ backend/
         routes/
         middlewares/
         dto/                  # request/response DTOs (HTTP)
-      mappers/                # DTO <-> modelos app/domain
+      mappers/                # DTO <-> app/domain models
 
     infrastructure/
       db/
@@ -87,31 +142,31 @@ backend/
       repositories/
       logging/
       observability/
-      providers/              # serviços externos (futuro)
+      providers/              # external services (future)
 
     main/
       container/              # composition root / wiring
       server/                 # server bootstrap
 ```
 
-> **Nota:** Esta estrutura é um exemplo baseado em arquitetura em camadas. Adapte conforme o estilo arquitetural e a linguagem do seu projeto (ver `docs/architecture.md`).
+> **Note:** This structure is an example based on layered architecture. Adapt according to your project's architectural style and language (see `docs/architecture.md`).
 
-### Regras rápidas
-- **Domínio/Modelos**: zero dependência de framework/DB.
-- **Aplicação/Serviços**: casos de uso + abstrações; não importa infra/interfaces.
-- **Interfaces/Controllers**: handlers HTTP/DTOs; sem regra de negócio.
-- **Infraestrutura**: DB/repos/providers/logging/observabilidade.
-- **Composição/Main**: única camada que "junta tudo".
+### Quick rules
+- **Domain/Models**: zero dependency on framework/DB.
+- **Application/Services**: use cases + abstractions; does not import infra/interfaces.
+- **Interfaces/Controllers**: HTTP handlers/DTOs; no business logic.
+- **Infrastructure**: DB/repos/providers/logging/observability.
+- **Composition/Main**: the only layer that "wires everything together".
 
-> Adapte camadas e regras conforme o estilo arquitetural do projeto (ver `docs/architecture.md`).
+> Adapt layers and rules according to the project's architectural style (see `docs/architecture.md`).
 
-Detalhes completos em: `docs/architecture.md`.
+Full details in: `docs/architecture.md`.
 
 ---
 
-## 🧪 Testes (backend)
+## 🧪 Tests (backend)
 
-Recomendação de organização:
+Recommended organization:
 
 ```
 backend/
@@ -122,68 +177,68 @@ backend/
     integration/
       repositories/
       http/
-    e2e/                      # mínimo viável (fluxo feliz)
+    e2e/                      # minimum viable (happy path)
 ```
 
-Regras:
-- Unit tests focam em `domain` e `application`.
-- Integration tests cobrem repos e endpoints críticos.
-- E2E cobre o fluxo principal do sistema.
+Rules:
+- Unit tests focus on `domain` and `application`.
+- Integration tests cover repos and critical endpoints.
+- E2E covers the system's main flow.
 
 ---
 
 ## 🌐 Frontend
 
-<!-- [PREENCHER] Adapte a estrutura conforme o framework frontend do projeto. -->
+<!-- [FILL] Adapt the structure according to the frontend framework of the project. -->
 
-### Estrutura de pastas (exemplo)
+### Folder structure (example)
 
 ```
 frontend/
-  [PREENCHER] Estrutura do framework frontend adotado
+  [FILL] Frontend framework structure
   
   components/
-  hooks/                      # ou equivalente
+  hooks/                      # or equivalent
   services/
-    api-client.[ext]          # wrapper HTTP
+    api-client.[ext]          # HTTP wrapper
     auth.[ext]                # login/token helpers
-    [recurso].[ext]           # clients por recurso
+    [resource].[ext]          # clients per resource
 
   styles/
 ```
 
-### Regras
-- Client da API deve refletir `docs/api-spec.md`.
-- Não duplicar regras de domínio no frontend (backend é fonte de verdade).
-- UI deve lidar com:
+### Rules
+- API client must reflect `docs/api-spec.md`.
+- Do not duplicate domain rules in the frontend (backend is the source of truth).
+- UI must handle:
   - loading
-  - erros (mensagens amigáveis)
-  - token expirado (redirect para login)
+  - errors (user-friendly messages)
+  - expired token (redirect to login)
 
 ---
 
-## 📄 Convenções de arquivos
+## 📄 File conventions
 
-### Nomeação
-- Pastas e arquivos: `kebab-case` (preferencial) **ou** padrão do framework.
+### Naming
+- Folders and files: `kebab-case` (preferred) **or** framework standard.
 - Classes: `PascalCase`
-- Funções/variáveis: `camelCase`
-- Constantes: `UPPER_SNAKE_CASE`
+- Functions/variables: `camelCase`
+- Constants: `UPPER_SNAKE_CASE`
 
-### Onde colocar o quê
-- Contratos de API: `docs/api-spec.md`
-- Regras de domínio: `docs/domain.md`
+### Where to put what
+- API contracts: `docs/api-spec.md`
+- Domain rules: `docs/domain.md`
 - Schema: `docs/database.md`
-- Observabilidade: `docs/observability.md`
-- Segurança: `docs/security.md`
-- Decisões: `docs/adr/*`
-- Contexto para IA: `docs/ai/ai-context.md`
+- Observability: `docs/observability.md`
+- Security: `docs/security.md`
+- Decisions: `docs/adr/*`
+- AI context: `docs/ai/ai-context.md`
 
 ---
 
-## 🤖 Regras para IA
+## 🤖 Rules for AI
 
-- Não criar arquivos fora desta estrutura sem justificar.
-- Se uma nova pasta for necessária:
-  - propor mudança em `docs/project-structure.md` antes.
-- Manter mudanças pequenas e em camadas corretas.
+- Do not create files outside this structure without justification.
+- If a new folder is needed:
+  - propose a change to `docs/project-structure.md` first.
+- Keep changes small and in the correct layers.

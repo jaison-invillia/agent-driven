@@ -1,70 +1,70 @@
 # 🗄️ Database
 
-<!-- TEMPLATE: Preencha este documento com o schema do banco de dados do seu projeto. -->
-<!-- Consulte docs/engineering-docs-recommendation.md para orientações detalhadas. -->
+<!-- TEMPLATE: Fill this document with your project's database schema. -->
+<!-- See docs/engineering-docs-recommendation.md for detailed guidance. -->
 
-Este documento descreve o **modelo físico de dados** do projeto.
+This document describes the project's **physical data model**.
 
-Para o modelo de domínio e regras de negócio consulte: `docs/domain.md`
+For the domain model and business rules see: `docs/domain.md`
 
-Para decisões de arquitetura consulte: `docs/architecture.md`
-
----
-
-## ✅ Princípios
-
-- **[PREENCHER]** Banco de dados escolhido (ex.: PostgreSQL 16, MySQL 8, MongoDB 7, SQLite, etc.)
-- **FKs e constraints** habilitadas (para bancos relacionais).
-- **Chaves artificiais** para entidades principais (ex.: `BIGINT`, `UUID`, `SERIAL` — conforme convenção do banco).
-- **Auditoria mínima** com `created_at` / `updated_at`.
-- **Unicidade** garantida por índices únicos conforme domínio.
-- **Integridade referencial** com FKs e regras de `ON DELETE`/`ON UPDATE` (quando aplicável).
+For architecture decisions see: `docs/architecture.md`
 
 ---
 
-## 🧱 Tabelas
+## ✅ Principles
 
-<!-- Repita esta seção para cada tabela do sistema. -->
+- **[FILL]** Chosen database (e.g.: PostgreSQL 16, MySQL 8, MongoDB 7, SQLite, etc.)
+- **FKs and constraints** enabled (for relational databases).
+- **Artificial keys** for main entities (e.g.: `BIGINT`, `UUID`, `SERIAL` — per database convention).
+- **Minimum auditing** with `created_at` / `updated_at`.
+- **Uniqueness** enforced by unique indexes per domain rules.
+- **Referential integrity** with FKs and `ON DELETE`/`ON UPDATE` rules (when applicable).
 
-### [nome_da_tabela]
+---
 
-> **[PREENCHER]** Descreva cada tabela seguindo o modelo abaixo.
+## 🧱 Tables
 
-**Descrição:** Breve descrição do propósito da tabela.
+<!-- Repeat this section for each system table. -->
 
-#### Campos
+### [table_name]
 
-- `id`: identificador interno
-- `[campo]`: descrição
+> **[FILL]** Describe each table following the model below.
+
+**Description:** Brief description of the table's purpose.
+
+#### Fields
+
+- `id`: internal identifier
+- `[field]`: description
 - `created_at`, `updated_at`
 
-#### Regras/Constraints
+#### Rules/Constraints
 
-- [Constraint 1, ex.: campo X **único**]
-- [Constraint 2, ex.: FK para tabela Y]
-
----
-
-## 🧠 Observações importantes (Domínio ↔ Banco)
-
-<!-- Descreva cálculos, derivações ou regras que conectam domínio e banco. -->
-
-> **[PREENCHER]** Documente regras de negócio que impactam o schema (ex.: cálculos de completude, validações no Service Layer).
+- [Constraint 1, e.g.: field X **unique**]
+- [Constraint 2, e.g.: FK to table Y]
 
 ---
 
-## 🧾 Schema SQL
+## 🧠 Important observations (Domain ↔ Database)
 
-<!-- Cole o DDL de referência para migrations. -->
+<!-- Describe calculations, derivations, or rules that connect domain and database. -->
 
-> **[PREENCHER]** Adicione o schema SQL base do projeto.
+> **[FILL]** Document business rules that impact the schema (e.g.: completeness calculations, validations in the Service Layer).
+
+---
+
+## 🧾 SQL Schema
+
+<!-- Paste the reference DDL for migrations. -->
+
+> **[FILL]** Add the project's base SQL schema.
 
 ```sql
--- [PREENCHER] Banco escolhido e configurações recomendadas
+-- [FILL] Chosen database and recommended configurations
 
--- Exemplo:
--- CREATE TABLE [nome] (
---   id [TIPO_CHAVE_PRIMARIA],
+-- Example:
+-- CREATE TABLE [name] (
+--   id [PRIMARY_KEY_TYPE],
 --   ...
 --   PRIMARY KEY (id)
 -- );

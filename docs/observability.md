@@ -1,66 +1,66 @@
 # 📈 Observability
 
-Este documento define o padrão de **observabilidade** do projeto: logs, correlação, erros, métricas e instrumentação.
+This document defines the project's **observability** standard: logs, correlation, errors, metrics, and instrumentation.
 
-Referências:
-- Arquitetura: `docs/architecture.md`
+References:
+- Architecture: `docs/architecture.md`
 - Guidelines: `docs/engineer-guidelines.md`
-- API errors padrão: `docs/api-spec.md`
+- Standard API errors: `docs/api-spec.md`
 - AI context: `docs/ai/ai-context.md`
 
 ---
 
-## 🎯 Objetivos
+## 🎯 Goals
 
-- Detectar e diagnosticar problemas rapidamente (MTTR baixo).
-- Correlacionar logs ↔ traces ↔ erros usando um identificador único.
-- Padronizar o formato de logs para facilitar busca e dashboards.
-- Garantir visibilidade mínima: latência, taxa de erro, throughput.
+- Detect and diagnose problems quickly (low MTTR).
+- Correlate logs ↔ traces ↔ errors using a unique identifier.
+- Standardize log format to facilitate search and dashboards.
+- Ensure minimum visibility: latency, error rate, throughput.
 
 ---
 
-## ✅ Padrão de correlação
+## ✅ Correlation standard
 
-### requestId (obrigatório)
-- Gerar um `requestId` único para **toda requisição**.
-- Preferir aceitar `X-Request-Id` vindo do client/gateway e, se não existir, gerar.
-- Retornar sempre o `requestId` no response header: `X-Request-Id`.
-- Incluir `requestId` em:
+### requestId (required)
+- Generate a unique `requestId` for **every request**.
+- Prefer accepting `X-Request-Id` from the client/gateway; if absent, generate one.
+- Always return the `requestId` in the response header: `X-Request-Id`.
+- Include `requestId` in:
   - logs
-  - respostas de erro (conforme `docs/api-spec.md`)
-  - atributos da ferramenta de APM (custom attributes)
+  - error responses (per `docs/api-spec.md`)
+  - APM tool custom attributes
 
-**Header padrão**
-- Entrada: `X-Request-Id`
-- Saída: `X-Request-Id`
+**Standard header**
+- Input: `X-Request-Id`
+- Output: `X-Request-Id`
 
 ---
 
 ## 🪵 Logging
 
-### Requisitos mínimos
-- Logs estruturados em **JSON**.
-- Níveis: `debug`, `info`, `warn`, `error`.
-- Logar apenas o necessário (evitar ruído).
-- Nunca logar dados sensíveis:
-  - senha, `password_hash`
-  - token JWT completo
-  - dados pessoais além do necessário (evitar PII)
+### Minimum requirements
+- Structured logs in **JSON**.
+- Levels: `debug`, `info`, `warn`, `error`.
+- Log only what is necessary (avoid noise).
+- Never log sensitive data:
+  - password, `password_hash`
+  - full JWT token
+  - personal data beyond what is needed (avoid PII)
 
-### Campos padrão do log (backend)
-Todo log deve tentar conter:
+### Standard log fields (backend)
+Every log should try to contain:
 
 ```json
 {
   "timestamp": "ISO-8601",
   "level": "info",
   "message": "human readable message",
-  "service": "[nome-do-projeto]-api",
+  "service": "[project-name]-api",
   "env": "dev|staging|prod",
   "requestId": "req_...",
   "http": {
     "method": "GET",
-    "path": "/api/v1/[recurso]",
+    "path": "/api/v1/[resource]",
     "status": 200,
     "durationMs": 34
   },
@@ -70,70 +70,70 @@ Todo log deve tentar conter:
   "error": {
     "name": "ErrorName",
     "message": "error message",
-    "stack": "stacktrace (prod: opcional/limitado)",
+    "stack": "stacktrace (prod: optional/limited)",
     "code": "INTERNAL_ERROR"
   }
 }
 ```
 
-### O que logar (mínimo)
-- **Request start** (opcional em prod, útil em dev/staging)
-- **Request end** (recomendado)
+### What to log (minimum)
+- **Request start** (optional in prod, useful in dev/staging)
+- **Request end** (recommended)
   - method, path, status, durationMs, requestId
-- **Erros** (sempre)
-  - requestId + code + stack (com cuidado em prod)
-- **Eventos de domínio relevantes** (info)
-  > **[PREENCHER]** Liste eventos de domínio que devem ser logados (sem PII)
+- **Errors** (always)
+  - requestId + code + stack (with care in prod)
+- **Relevant domain events** (info)
+  > **[FILL]** List domain events that should be logged (without PII)
 
-### Onde logar
-- Backend: stdout/stderr (para agregação posterior)
-- Frontend: evitar logs ruidosos em prod; usar somente erros críticos
+### Where to log
+- Backend: stdout/stderr (for later aggregation)
+- Frontend: avoid noisy logs in prod; use only critical errors
 
 ---
 
-## ❗ Erros e exceções
+## ❗ Errors and exceptions
 
-### Padrão de resposta de erro
-Todos erros devem seguir o formato definido em `docs/api-spec.md`:
+### Error response standard
+All errors must follow the format defined in `docs/api-spec.md`:
 
 - `code`
 - `message`
-- `details` (quando validação)
+- `details` (when validation)
 - `requestId`
 
-### Mapeamento recomendado (backend)
-- Validação de input → 400 (`VALIDATION_ERROR`)
-- Sem auth/token inválido → 401 (`UNAUTHORIZED`)
-- Sem permissão → 403 (`FORBIDDEN`)
-- Recurso não encontrado → 404 (`NOT_FOUND`)
-- Conflito (recurso duplicado) → 409 (`CONFLICT`)
-- Erro inesperado → 500 (`INTERNAL_ERROR`)
+### Recommended mapping (backend)
+- Input validation → 400 (`VALIDATION_ERROR`)
+- No auth/invalid token → 401 (`UNAUTHORIZED`)
+- No permission → 403 (`FORBIDDEN`)
+- Resource not found → 404 (`NOT_FOUND`)
+- Conflict (duplicate resource) → 409 (`CONFLICT`)
+- Unexpected error → 500 (`INTERNAL_ERROR`)
 
-**Regra:** erro inesperado deve:
-- registrar log `error` com requestId
-- reportar para a ferramenta de APM
-- retornar `INTERNAL_ERROR` sem detalhes sensíveis
+**Rule:** unexpected error must:
+- log an `error` with requestId
+- report to the APM tool
+- return `INTERNAL_ERROR` without sensitive details
 
 ---
 
 ## 🧪 Healthchecks
 
-### Endpoints recomendados
-- `GET /health` → liveness (API está no ar)
-- `GET /ready` → readiness (dependências OK: DB)
+### Recommended endpoints
+- `GET /health` → liveness (API is up)
+- `GET /ready` → readiness (dependencies OK: DB)
 
-Resposta exemplo:
+Response example:
 
 ```json
 {
   "status": "ok",
-  "service": "[nome-do-projeto]-api",
+  "service": "[project-name]-api",
   "version": "git_sha_or_semver",
   "uptimeSeconds": 12345
 }
 ```
 
-Para readiness, incluir dependências:
+For readiness, include dependencies:
 
 ```json
 {
@@ -146,74 +146,74 @@ Para readiness, incluir dependências:
 
 ---
 
-## 📊 Métricas (mínimo viável)
+## 📊 Metrics (minimum viable)
 
-### Métricas de API
-- Latência p50/p95/p99 por endpoint
-- Taxa de erro (4xx/5xx)
+### API metrics
+- Latency p50/p95/p99 per endpoint
+- Error rate (4xx/5xx)
 - Throughput (req/min)
-- Apdex (se configurado)
+- Apdex (if configured)
 
-### Métricas de domínio (custom)
+### Domain metrics (custom)
 
-> **[PREENCHER]** Defina métricas de negócio específicas do projeto. Exemplos:
-> - Operações concluídas por dia
-> - Taxa de conversão
-> - Itens processados por hora
+> **[FILL]** Define project-specific business metrics. Examples:
+> - Completed operations per day
+> - Conversion rate
+> - Items processed per hour
 
-**Observação:** evitar métricas que exponham PII.
+**Note:** avoid metrics that expose PII.
 
 ---
 
 ## 🧩 Tracing (APM)
 
-<!-- [PREENCHER] Defina a ferramenta de APM do projeto (ex.: Datadog, New Relic, Grafana, OpenTelemetry). -->
+<!-- [FILL] Define the project's APM tool (e.g.: Datadog, New Relic, Grafana, OpenTelemetry). -->
 
-### Requisitos
-- Instrumentação APM habilitada no backend.
-- Incluir atributos custom:
+### Requirements
+- APM instrumentation enabled on the backend.
+- Include custom attributes:
   - `requestId`
-  - `userId` (quando autenticado)
-  - IDs de recursos (somente quando relevante)
-- Nomear transações por rota (ex.: `GET /api/v1/[recurso]/{id}`)
+  - `userId` (when authenticated)
+  - Resource IDs (only when relevant)
+- Name transactions by route (e.g.: `GET /api/v1/[resource]/{id}`)
 
-### Eventos importantes para trace
-- Login (sucesso/falha) — com cuidado para não logar credenciais
-- Operações de escrita relevantes
+### Important events for tracing
+- Login (success/failure) — with care not to log credentials
+- Relevant write operations
 
-> **[PREENCHER]** Liste eventos de domínio relevantes para tracing.
-
----
-
-## 🔎 Alertas (baseline)
-
-Configurar alertas básicos em staging/prod:
-
-- **High Error Rate**: 5xx acima de X% por Y minutos
-- **High Latency**: p95 acima de X ms por Y minutos
-- **DB Connectivity**: readiness falhando
-- **Crash/Restart loop**: app reiniciando continuamente
-
-(Os thresholds serão definidos após observação de baseline real.)
+> **[FILL]** List domain events relevant to tracing.
 
 ---
 
-## 🧰 Troubleshooting rápido
+## 🔎 Alerts (baseline)
 
-> **[PREENCHER]** Adicione cenários de troubleshooting específicos do projeto. Modelo:
+Configure basic alerts in staging/prod:
 
-### Cenário: [descrição do problema]
-Verificar:
-1. Endpoint relevante e resposta
-2. Logs com `requestId`
-3. Constraints do banco
-4. Trace na ferramenta de APM
+- **High Error Rate**: 5xx above X% for Y minutes
+- **High Latency**: p95 above X ms for Y minutes
+- **DB Connectivity**: readiness failing
+- **Crash/Restart loop**: app restarting continuously
+
+(Thresholds will be defined after observing actual baseline.)
 
 ---
 
-## 🤖 Regras para IA
+## 🧰 Quick troubleshooting
 
-- Não inventar campos de log fora do padrão sem atualizar este documento.
-- Não adicionar PII em logs.
-- Sempre incluir `requestId` nos logs e no error payload.
-- Se mudar formato de erro, atualizar `docs/api-spec.md` e este documento.
+> **[FILL]** Add project-specific troubleshooting scenarios. Template:
+
+### Scenario: [problem description]
+Check:
+1. Relevant endpoint and response
+2. Logs with `requestId`
+3. Database constraints
+4. Trace in APM tool
+
+---
+
+## 🤖 Rules for AI
+
+- Do not invent log fields outside the standard without updating this document.
+- Do not add PII to logs.
+- Always include `requestId` in logs and error payloads.
+- If changing error format, update `docs/api-spec.md` and this document.

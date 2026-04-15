@@ -1,14 +1,14 @@
 # 🧩 Agent Task Flow
 
-Este documento define **como os agentes de IA devem colaborar** ao longo do ciclo de desenvolvimento.
+This document defines **how AI agents should collaborate** throughout the development lifecycle.
 
-Objetivos:
-- Padronizar fluxo de trabalho entre agentes
-- Reduzir retrabalho e conflitos de mudanças
-- Aumentar previsibilidade e qualidade de entregas
-- Garantir aderência à arquitetura, domínio, banco e contratos de API
+Goals:
+- Standardize workflow between agents
+- Reduce rework and conflicting changes
+- Increase predictability and delivery quality
+- Ensure adherence to architecture, domain, database, and API contracts
 
-Referências obrigatórias:
+Mandatory references:
 - `README.md`
 - `docs/ai/ai-context.md`
 - `docs/architecture.md`
@@ -19,365 +19,381 @@ Referências obrigatórias:
 
 ---
 
-## 👥 Agentes e responsabilidades
+## 👥 Agents and responsibilities
 
 ### 1) Product Owner (`product-owner`)
-Converte demandas de negócio em cards/issues/tickets claros e acionáveis.
+Converts business demands into clear, actionable cards/issues/tickets.
 
-Responsabilidades:
-- Esclarecer demandas ambíguas (gate bloqueante)
-- Definir critérios de aceite (Given/When/Then)
-- Atribuir prioridade (P0–P3)
-- Exibir o rascunho do card antes de qualquer escrita no tracker e aguardar aprovação explícita
-- Criar/atualizar cards no tracker configurado via MCP com checklist de subtarefas
-- Operar em modo `draft-only` quando não houver suporte de escrita no tracker
-- Validar soluções implementadas contra critérios de aceite
+Responsibilities:
+- Clarify ambiguous demands (blocking gate)
+- Define acceptance criteria (Given/When/Then)
+- Assign priority (P0–P3)
+- Show the card draft before any tracker write and wait for explicit approval
+- Create/update cards in the configured tracker via MCP with subtask checklists
+- Operate in `draft-only` mode when there is no write support in the tracker
+- Validate implemented solutions against acceptance criteria
 
-Entregas: Rascunho estruturado do card e, após aprovação, card criado/atualizado com contexto, critérios, prioridade e subtarefas.
+Deliverables: Structured card draft and, after approval, card created/updated with context, criteria, priority, and subtasks.
 
 ---
 
 ### 2) Architect (`architect`)
-Analisa cards/issues aprovados sob perspectiva arquitetural.
+Analyzes approved cards/issues from an architectural perspective.
 
-Responsabilidades:
-- Identificar camadas arquiteturais afetadas (conforme `docs/architecture.md`)
-- Sugerir estrutura de arquivos/módulos por camada
-- Verificar conformidade com fronteiras arquiteturais
-- Propor ADRs quando necessário
-- Quando não estiver previamente planejado, solicitar no comentário do card/issue:
-   - orientação do `documenter` sobre como documentar a demanda
-   - orientação do `test-advisor` sobre estratégia de testes em alto nível
-- Postar análise arquitetural como comentário no card/issue via MCP
+Responsibilities:
+- Identify affected architectural layers (per `docs/architecture.md`)
+- Suggest file/module structure per layer
+- Verify compliance with architectural boundaries
+- Propose ADRs when necessary
+- When not previously planned, request in the card/issue comment:
+   - `documenter` guidance on how to document the demand
+   - `test-advisor` guidance on high-level testing strategy
+- Post architectural analysis as a comment on the card/issue via MCP
 
-Entregas: Análise arquitetural como comment no card/issue.
+Deliverables: Architectural analysis as a comment on the card/issue.
 
-Critério de "já previsto": considerar previamente planejado apenas quando BOTH forem verdadeiros:
-- existe subtarefa relevante no checklist do card/issue
-- existe comentário anterior de agente solicitando/fornecendo essa orientação
+Criteria for "already planned": consider it previously planned only when BOTH are true:
+- relevant subtask exists in the card/issue checklist
+- prior agent comment requesting/providing this guidance exists
 
-O `architect` não delega execução para outros agentes; apenas registra a solicitação no card/issue.
+The `architect` does not delegate execution to other agents; it only records the request in the card/issue.
 
 ---
 
 ### 3) Staff / Orchestrator (`staff`)
-Orquestrador central que planeja e coordena a implementação.
+Central orchestrator that plans and coordinates implementation.
 
-Responsabilidades:
-- Ler contexto do PO e análise do Architect
-- Esclarecer ambiguidades e validar qualidade da descrição da tarefa antes de iniciar
-- Antes de iniciar implementação, confirmar que o card/issue já contém BOTH:
-   - subtarefa de cobertura para documentação e testes em alto nível
-   - comentário anterior de agente solicitando/fornecendo essa orientação
-- Acionar `documenter` no início de toda tarefa para mini-plano documental obrigatório
-- Consultar `dba` sempre que houver impacto de banco (schema, migrações, constraints, índices, performance de query)
-- Consultar `devops` sempre que houver impacto de infraestrutura/CI (pipelines, Docker, Terraform, deployment)
-- Planejar implementação a nível de código (arquivos, ordem, dependências)
-- Documentar plano no card/issue via MCP
-- Classificar a tarefa como `feature_nova` ou `mudanca_existente`
-- Consultar `test-advisor` para estratégia de testes por classificação
-- Delegar para `backend-dev` e/ou `frontend-dev` (sub-agentes)
-- Paralelizar delegações sempre que houver independência de dependências
-- Validar resultados e rodar testes
-- Consultar `metrifier` para recomendações de observabilidade
-- Acionar `reviewer` antes da finalização somente quando houver mudança de código
-- Criar branch e abrir PR via MCP
+Responsibilities:
+- Read PO context and Architect analysis
+- Clarify ambiguities and validate task description quality before starting
+- Before starting implementation, confirm that the card/issue already contains BOTH:
+   - subtask covering documentation and high-level testing
+   - prior agent comment requesting/providing this guidance
+- Trigger `documenter` at the start of every task for mandatory documentation mini-plan
+- Consult `dba` whenever there is database impact (schema, migrations, constraints, indexes, query performance)
+- Consult `devops` whenever there is infrastructure/CI impact (pipelines, Docker, Terraform, deployment)
+- Plan implementation at code level (files, order, dependencies)
+- Document plan on the card/issue via MCP
+- Classify the task as `feature_nova` or `mudanca_existente`
+- Consult `test-advisor` for testing strategy by classification
+- Delegate to `backend-dev` and/or `frontend-dev` (sub-agents)
+- Parallelize delegations whenever dependencies are independent
+- Validate results and run tests
+- Consult `metrifier` for observability recommendations
+- Trigger `reviewer` before finalization only when code changes exist
+- Create branch and open PR via MCP
 
-Delega para: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`, `dba`, `devops`
+Delegates to: `backend-dev`, `frontend-dev`, `test-advisor`, `qa`, `metrifier`, `reviewer`, `documenter`, `dba`, `devops`
 
-Entregas: Plano documentado no card/issue + PR aberta.
+Deliverables: Documented plan on card/issue + opened PR.
 
 ---
 
 ### 4) Backend Developer (`backend-dev`)
-Implementa código backend seguindo o estilo arquitetural definido em `docs/architecture.md`. **Sub-agente** (invocado pelo Staff).
+Implements backend code following the architectural style defined in `docs/architecture.md`. **Sub-agent** (invoked by Staff).
 
-Responsabilidades:
-- Implementar entidades de domínio, use cases, ports
-- Implementar repositórios, controllers, DTOs, rotas
-- Conectar dependências no composition root
-- Escrever testes unitários e de integração
+Responsibilities:
+- Implement domain entities, use cases, ports
+- Implement repositories, controllers, DTOs, routes
+- Wire dependencies in the composition root
+- Write unit and integration tests
 
 ---
 
 ### 5) Frontend Developer (`frontend-dev`)
-Implementa código frontend usando o framework definido em `CONTEXT_PACK.md`. **Sub-agente** (invocado pelo Staff).
+Implements frontend code using the framework defined in `CONTEXT_PACK.md`. **Sub-agent** (invoked by Staff).
 
-Responsabilidades:
-- Implementar páginas seguindo os patterns do framework frontend
-- Criar componentes, hooks/equivalentes, services
-- Integrar com API conforme `docs/api-spec.md`
-- Tratar estados de UI (loading, error, empty, token expirado)
+Responsibilities:
+- Implement pages following frontend framework patterns
+- Create components, hooks/equivalents, services
+- Integrate with API per `docs/api-spec.md`
+- Handle UI states (loading, error, empty, expired token)
 
 ---
 
 ### 6) Test Advisor (`test-advisor`)
-Propõe estratégias de teste sem escrever código.
+Proposes testing strategies without writing code.
 
-Responsabilidades:
-- Analisar tarefas para identificar cenários testáveis
-- Considerar classificação `feature_nova` vs `mudanca_existente` fornecida pelo Staff
-- Em `feature_nova`, priorizar novos testes para novas capacidades
-- Em `mudanca_existente`, priorizar ajuste de testes existentes quando cobertura já for suficiente
-- Propor testes por nível da pirâmide (unit → integration → e2e)
-- Definir estratégias de mock e fixtures
-- Identificar edge cases e cenários de segurança
+Responsibilities:
+- Analyze tasks to identify testable scenarios
+- Consider `feature_nova` vs `mudanca_existente` classification provided by Staff
+- For `feature_nova`, prioritize new tests for new capabilities
+- For `mudanca_existente`, prioritize adjusting existing tests when coverage is already sufficient
+- Propose tests by pyramid level (unit → integration → e2e)
+- Define mocking strategies and fixtures
+- Identify edge cases and security scenarios
 
 ---
 
 ### 7) QA (`qa`)
-Valida implementações executando testes e verificando critérios de aceite.
+Validates implementations by executing tests and verifying acceptance criteria.
 
-Responsabilidades:
-- Executar suítes de testes automatizados
-- Validar critérios de aceite do issue
-- Testar edge cases e cenários de segurança
-- Postar relatório de QA no issue via MCP
+Responsibilities:
+- Execute automated test suites
+- Validate acceptance criteria from the issue
+- Test edge cases and security scenarios
+- Post structured QA report on the issue via MCP
 
-**Futuro**: Integração com Playwright MCP para testes em browser.
+**Future**: Playwright MCP integration for browser-based testing.
 
 ---
 
 ### 8) Reviewer (`reviewer`)
-Revisa Pull Requests contra guidelines do projeto.
+Reviews Pull Requests against project guidelines.
 
-Responsabilidades:
-- Revisar código para conformidade com `docs/architecture.md`
-- Validar aderência a contratos de API
-- Verificar práticas de segurança e observabilidade
-- Verificar existência e cobertura de testes
-- Postar review na PR via MCP
+Responsibilities:
+- Review code for compliance with `docs/architecture.md`
+- Validate API contract adherence
+- Verify security and observability practices
+- Verify test existence and coverage
+- Post review on the PR via MCP
 
-Regra de acionamento:
-- Obrigatório apenas quando houver mudança de código
-- Em tarefas apenas documentais, registrar review como não aplicável no issue
+Trigger rule:
+- Required only when code changes exist
+- For documentation-only tasks, record review as not applicable on the issue
 
 ---
 
 ### 9) Documenter (`documenter`)
-Avalia e atualiza documentação desde o início da tarefa até o fechamento.
+Assesses and updates documentation from task start through completion.
 
-Responsabilidades:
-- No início de toda tarefa, produzir mini-plano documental obrigatório (`required`, `optional`, `none`)
-- Indicar docs candidatas para atualização e justificativa
-- Analisar diff da PR para identificar mudanças documentáveis
-- Atualizar docs afetados (api-spec, database, domain, architecture, etc.)
-- Criar ADRs para decisões arquiteturais
-- Atualizar CONTEXT_PACK.md para mudanças significativas
+Responsibilities:
+- At the start of every task, produce a mandatory documentation mini-plan (`required`, `optional`, `none`)
+- Indicate candidate docs for update and justification
+- Analyze PR diff to identify documentable changes
+- Update affected docs (api-spec, database, domain, architecture, etc.)
+- Create ADRs for architectural decisions
+- Update CONTEXT_PACK.md for significant changes
 
 ---
 
 ### 10) Metrifier (`metrifier`)
-Sugere métricas e instrumentação de observabilidade.
+Suggests metrics and observability instrumentation.
 
-Responsabilidades:
-- Propor métricas de negócio, técnicas e operacionais
-- Recomendar métodos de coleta (logs, APM, custom metrics)
-- Sugerir thresholds de alerta e estrutura de dashboards
-- Aconselhar sobre SLI/SLO
+Responsibilities:
+- Propose business, technical, and operational metrics
+- Recommend collection methods (logs, APM, custom metrics)
+- Suggest alert thresholds and dashboard structure
+- Advise on SLI/SLO
 
 ---
 
 ### 11) Pathfinder (`pathfinder`)
-Consultor de fluxo que diagnostica tarefas incertas e sugere o roteiro ideal de agentes.
+Flow advisor that diagnoses uncertain tasks and suggests the ideal agent roadmap.
 
-Responsabilidades:
-- Realizar perguntas de diagnóstico para entender natureza, escopo e incerteza da tarefa
-- Ler cards/issues de qualquer tracker configurado para coletar contexto
-- Mapear tarefas para os agentes apropriados e sua ordem ideal de execução
-- Sugerir roteiro de desenvolvimento de alto nível inspirado em fluxos ágeis
-- Identificar riscos, dependências e ambiguidades antes da execução
-- Explicar por que cada agente deve (ou não) ser envolvido
+Responsibilities:
+- Ask diagnostic questions to understand the task's nature, scope, and uncertainty
+- Read cards/issues from any configured tracker to gather context
+- Map tasks to the appropriate agents and their ideal execution order
+- Suggest a high-level development roadmap inspired by agile flows
+- Identify risks, dependencies, and ambiguities before execution
+- Explain why each agent should (or should not) be involved
 
-Entregas: Roteiro sugerido com sequência de agentes, justificativas, riscos e como iniciar.
+Deliverables: Suggested roadmap with agent sequence, justifications, risks, and how to start.
 
 ---
 
 ### 12) DBA (`dba`)
-Especialista em decisões de banco de dados para mudanças que envolvem persistência.
+Database expert for changes involving persistence.
 
-Responsabilidades:
-- Analisar impacto de schema para mudanças propostas
-- Definir recomendações de constraints, índices e estratégia de migração
-- Validar segurança de rollback (`up`/`down`) e riscos de integridade
-- Manter recomendações agnósticas ao engine, salvo regras explícitas em documentação
-- Solicitar atualização documental ao `documenter` quando houver mudança de banco
+Responsibilities:
+- Analyze schema impact for proposed changes
+- Define constraint, index, and migration strategy recommendations
+- Validate rollback safety (`up`/`down`) and integrity risks
+- Keep recommendations engine-agnostic unless explicit rules exist in documentation
+- Request documentation updates from `documenter` when database changes occur
 
-Entregas: Análise estruturada de banco (schema/migration/index/risks) publicada no card/issue.
+Deliverables: Structured database analysis (schema/migration/index/risks) posted on the card/issue.
 
 ---
 
 ### 13) DevOps (`devops`)
-Especialista em infraestrutura, CI/CD e deployment para este repositório.
+Infrastructure, CI/CD, and deployment expert for this repository.
 
-Responsabilidades:
-- Analisar requisitos de issues que impactam pipelines CI/CD, infraestrutura ou deployment
-- Projetar e criar GitHub Actions workflows (ou equivalente para a stack documentada)
-- Criar e revisar Dockerfiles, docker-compose e configurações de orquestração de containers
-- Projetar e criar Infrastructure as Code (Terraform, Helm ou equivalente)
-- Propor estratégias de deployment (blue-green, canary, rolling, feature flags)
-- Revisar segurança de pipelines (gestão de secrets, OIDC, least-privilege, SHA pinning)
-- Aconselhar sobre configuração de ambientes e estratégias de promoção
-- Definir estratégias de rollback e padrões de health check
-- Solicitar atualização documental ao `documenter` quando houver mudança de infra
+Responsibilities:
+- Analyze issue requirements impacting CI/CD pipelines, infrastructure, or deployment
+- Design and create GitHub Actions workflows (or equivalent for the documented stack)
+- Create and review Dockerfiles, docker-compose, and container orchestration configurations
+- Design and create Infrastructure as Code (Terraform, Helm, or equivalent)
+- Propose deployment strategies (blue-green, canary, rolling, feature flags)
+- Review pipeline security (secret management, OIDC, least-privilege, SHA pinning)
+- Advise on environment configuration and promotion strategies
+- Define rollback strategies and health check patterns
+- Request documentation updates from `documenter` when infrastructure changes occur
 
-Entregas: Análise estruturada de DevOps (pipeline/container/IaC/deployment/risks) publicada no card/issue.
+Deliverables: Structured DevOps analysis (pipeline/container/IaC/deployment/risks) posted on the card/issue.
 
 ---
 
-## 🔄 Modelo de delegação
+### 14) Project Setup (`project-setup`)
+First-use onboarding wizard for new projects.
+
+Responsibilities:
+- Detect existing environment before asking questions (Phase 0: manifests, MCP servers, placeholders)
+- Collect technology choices from the user (language, framework, database, APM, etc.)
+- Collect tooling & integration preferences (issue tracker, MCP servers, doc hosting)
+- Update all `[FILL]` placeholders across docs and configuration
+- Adapt instruction files (`applyTo` patterns) to match the chosen stack
+- Validate that all setup-scope placeholders were replaced (post-apply check)
+- Generate **Copilot Productivity Readiness** checklist as final output
+
+Deliverables: Fully configured project with updated docs and readiness checklist.
+
+---
+
+## 🔄 Delegation model
 
 ```
-Usuário
+User
  │
- ├── pathfinder ──→ Sugere fluxo de agentes (ponto de entrada opcional)
+ ├── pathfinder ──→ Suggests agent flow (optional entry point)
  │
- ├── product-owner ──→ Exibe rascunho e cria/atualiza card após aprovação
+ ├── product-owner ──→ Shows draft and creates/updates card after approval
  │
- ├── architect ──→ Posta análise arquitetural no Issue (+ solicitações condicionais para documenter/test-advisor)
+ ├── architect ──→ Posts architectural analysis on Issue (+ conditional requests to documenter/test-advisor)
  │
- ├── dba ──→ Posta análise de banco para tarefas com impacto em persistência
+ ├── dba ──→ Posts database analysis for tasks with persistence impact
  │
- ├── devops ──→ Posta análise de infra/CI para tarefas com impacto em infraestrutura
+ ├── devops ──→ Posts infra/CI analysis for tasks with infrastructure impact
  │
  ├── staff (orchestrator)
- │     ├── dba (consulta obrigatória quando houver impacto de banco)
- │     ├── devops (consulta obrigatória quando houver impacto de infra/CI)
- │     ├── backend-dev ──→ Implementa backend
- │     │     └── test-advisor (consulta)
- │     ├── frontend-dev ──→ Implementa frontend
- │     │     └── test-advisor (consulta)
- │     ├── test-advisor ──→ Propõe estratégia de testes
- │     ├── metrifier ──→ Sugere métricas
- │     ├── reviewer ──→ Revisa apenas com mudança de código
- │     ├── documenter ──→ Mini-plano documental no início
- │     └── qa ──→ Valida implementação
+ │     ├── dba (mandatory consultation when DB impact exists)
+ │     ├── devops (mandatory consultation when infra/CI impact exists)
+ │     ├── backend-dev ──→ Implements backend
+ │     │     └── test-advisor (consultation)
+ │     ├── frontend-dev ──→ Implements frontend
+ │     │     └── test-advisor (consultation)
+ │     ├── test-advisor ──→ Proposes testing strategy
+ │     ├── metrifier ──→ Suggests metrics
+ │     ├── reviewer ──→ Reviews only when code changed
+ │     ├── documenter ──→ Documentation mini-plan at start
+ │     └── qa ──→ Validates implementation
  │
- ├── reviewer ──→ Revisa PR quando houver mudança de código
+ ├── reviewer ──→ Reviews PR when code changes exist
  │
- └── documenter ──→ Mini-plano inicial + atualização final
+ └── documenter ──→ Initial mini-plan + final update
 ```
 
 ---
 
-## 📋 Protocolo de Tracking
+## 📋 Tracking Protocol
 
-Todos os agentes com acesso ao tracker configurado devem manter o card atualizado:
+All agents with access to the configured tracker must keep the card updated:
 
-1. **Ao iniciar**: Comentar indicando que o agente está atuando
-2. **Progresso**: Atualizar com o que foi feito e o que falta
-3. **Subtarefas**: Usar checklists (`- [ ]`) para rastrear progresso
-4. **Child items**: Criar itens filhos/vinculados para tarefas grandes quando o tracker suportar
-5. **Ao finalizar**: Postar resumo com links para PR e status das subtarefas
+1. **On start**: Comment indicating the agent is acting
+2. **Progress**: Update with what's been done and what remains
+3. **Subtasks**: Use checklists (`- [ ]`) to track progress
+4. **Child items**: Create linked child items for large tasks when the tracker supports it
+5. **On completion**: Post summary with PR links and subtask status
 
-Regra adicional do `product-owner`:
-- Sempre mostrar o rascunho completo antes de criar/atualizar o card
-- Sempre aguardar aprovação explícita
-- Se não houver MCP de escrita, entregar apenas o rascunho pronto para criação manual
+Additional `product-owner` rule:
+- Always show the complete draft before creating/updating the card
+- Always wait for explicit approval
+- If there is no write MCP, deliver only the draft ready for manual creation
 
-Formato padrão:
+Standard format:
 ```markdown
-## 🤖 [Nome do Agente] — Status Update
-**Status**: 🟡 Em progresso / ✅ Concluído / 🔴 Bloqueado
+## 🤖 [Agent Name] — Status Update
+**Status**: 🟡 In progress / ✅ Completed / 🔴 Blocked
 
-### Subtarefas
-- [x] Tarefa concluída
-- [ ] Tarefa pendente
+### Subtasks
+- [x] Completed task
+- [ ] Pending task
 
-### Notas
-[Detalhes, decisões, blockers]
+### Notes
+[Details, decisions, blockers]
 ```
 
 ---
 
-## 🧠 Regras de ouro
+## 🧠 Golden rules
 
-1. **Documentação é fonte de verdade**
-   - Se uma feature exigir novo endpoint/tabela/entidade → atualizar docs antes.
-2. **Mudanças pequenas e incrementais**
-   - Preferir PRs menores e revisáveis.
-3. **Respeitar camadas**
-   - Sem regra de negócio em controller.
-   - Sem DB direto fora de repositories/adapters.
-4. **Idempotência e unicidade**
-   - Conforme definido em `docs/domain.md` e `docs/database.md`.
-5. **Testes acompanham mudanças**
-   - Use cases devem ter unit tests; endpoints críticos, integration.
-
+1. **Documentation is the source of truth**
+   - If a feature requires a new endpoint/table/entity → update docs first.
+2. **Small, incremental changes**
+   - Prefer smaller, reviewable PRs.
+3. **Respect layers**
+   - No business logic in controllers.
+   - No direct DB access outside repositories/adapters.
+4. **Idempotency and uniqueness**
+   - As defined in `docs/domain.md` and `docs/database.md`.
+5. **Tests accompany changes**
+   - Use cases should have unit tests; critical endpoints, integration tests.
 6. **Draft before write**
-   - O `product-owner` nunca cria ou atualiza card sem mostrar o rascunho e receber aprovação explícita.
+   - The `product-owner` never creates or updates a card without showing the draft and receiving explicit approval.
 
 ---
 
-## 🔁 Fluxos principais
+## 🔁 Main flows
 
-> **Dica:** Quando a tarefa é incerta ou você não sabe por onde começar, use o `pathfinder` primeiro (`/plan-task`) para receber um roteiro recomendado antes de entrar em qualquer fluxo abaixo.
+> **Tip:** When the task is uncertain or you don't know where to start, use `pathfinder` first (`/plan-task`) to receive a recommended roadmap before entering any flow below.
 
-### A) Nova feature
+### A) New feature
 ```
-(pathfinder) → product-owner → architect → dba(se houver DB) → devops(se houver infra/CI) → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
+(pathfinder) → product-owner → architect → dba(if DB) → devops(if infra/CI) → staff(+documenter-start) → [backend-dev, frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
-0. **Pathfinder** *(opcional)*: Diagnostica a tarefa e sugere o fluxo ideal de agentes
-1. **Product Owner**: Esclarece demanda, monta rascunho do card, aguarda aprovação e então cria/atualiza o item no tracker quando houver suporte
-2. **Architect**: Analisa impacto arquitetural, posta análise no card aprovado
-   - Se não estiver "já previsto" (BOTH), solicita no issue `documenter` (documentação da demanda) e `test-advisor` (testes em alto nível)
-3. **Staff**: Valida ambiguidades, aciona documenter (mini-plano), classifica testes, consulta test-advisor e delega para BE/FE em paralelo quando possível
-4. **Backend/Frontend**: Implementam código e testes
-5. **QA**: Executa testes, valida critérios de aceite
-6. **Reviewer**: Revisa PR contra guidelines quando houver mudança de código
-7. **Documenter**: Revalida impacto e atualiza documentação no fechamento
+0. **Pathfinder** *(optional)*: Diagnoses the task and suggests the ideal agent flow
+1. **Product Owner**: Clarifies demand, drafts the card, waits for approval and then creates/updates the item in the tracker when supported
+2. **Architect**: Analyzes architectural impact, posts analysis on the approved card
+   - If not "already planned" (BOTH), requests in the issue `documenter` (demand documentation) and `test-advisor` (high-level testing)
+3. **Staff**: Validates ambiguities, triggers documenter (mini-plan), classifies tests, consults test-advisor, and delegates to BE/FE in parallel when possible
+4. **Backend/Frontend**: Implement code and tests
+5. **QA**: Executes tests, validates acceptance criteria
+6. **Reviewer**: Reviews PR against guidelines when code changes exist
+7. **Documenter**: Revalidates impact and updates documentation at closure
 
 ### B) Bug fix
 ```
-(pathfinder) → product-owner (clarify) → dba(se houver DB) → devops(se houver infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
+(pathfinder) → product-owner (clarify) → dba(if DB) → devops(if infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → qa → reviewer(code-change) → documenter(final)
 ```
 
-0. **Pathfinder** *(opcional)*: Diagnostica o bug e sugere o fluxo de correção
-1. **Product Owner**: Esclarece bug report, define critérios de correção e monta o rascunho do card quando necessário
-2. **Staff**: Investiga root cause, valida ambiguidades, aciona documenter (mini-plano), classifica como `mudanca_existente`, planeja fix mínimo e delega
-3. **Backend/Frontend**: Corrige com menor mudança possível + ajuste de testes existentes (ou novos testes quando houver gaps)
-4. **QA**: Valida que o bug foi corrigido e não há regressão
-5. **Reviewer**: Verifica qualidade da correção quando houver mudança de código
-6. **Documenter**: Atualiza se houve mudança de contrato
+0. **Pathfinder** *(optional)*: Diagnoses the bug and suggests the fix flow
+1. **Product Owner**: Clarifies bug report, defines fix criteria, and drafts the card when needed
+2. **Staff**: Investigates root cause, validates ambiguities, triggers documenter (mini-plan), classifies as `mudanca_existente`, plans minimal fix and delegates
+3. **Backend/Frontend**: Fixes with smallest change possible + adjusts existing tests (or new tests when gaps exist)
+4. **QA**: Validates the bug is fixed and there is no regression
+5. **Reviewer**: Verifies fix quality when code changes exist
+6. **Documenter**: Updates if contract changed
 
-### C) Novo projeto (bootstrap)
+### C) New project (bootstrap)
 ```
-(pathfinder) → product-owner (backlog) → architect (estrutura) → staff(+documenter-start, scaffold) → documenter(final)
-```
-
-0. **Pathfinder** *(opcional)*: Diagnostica o escopo do projeto e sugere o fluxo de bootstrap
-1. **Product Owner**: Define backlog inicial (MVP) em rascunhos aprováveis e cria os cards quando houver suporte
-2. **Architect**: Define estilo arquitetural, estrutura de pastas, ADRs iniciais
-3. **Staff**: Cria scaffold do projeto
-4. **Documenter**: Documenta estrutura e decisões
-
-### D) Manutenção / tech debt
-```
-(pathfinder) → architect → devops(se houver infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
+(pathfinder) → product-owner (backlog) → architect (structure) → project-setup (stack config) → staff(+documenter-start, scaffold) → documenter(final)
 ```
 
-0. **Pathfinder** *(opcional)*: Diagnostica o impacto e sugere a melhor abordagem
-1. **Architect**: Avalia impacto arquitetural da mudança
-2. **Staff**: Planeja e delega implementação
-3. **Backend/Frontend**: Implementam refatoração
-4. **Reviewer**: Valida que não houve violação de arquitetura
-5. **Documenter**: Atualiza documentação afetada
+0. **Pathfinder** *(optional)*: Diagnoses project scope and suggests the bootstrap flow
+1. **Product Owner**: Defines initial backlog (MVP) in approvable drafts and creates cards when supported
+2. **Architect**: Defines architectural style, folder structure, initial ADRs
+3. **Project Setup**: Configures technology stack, updates all documentation placeholders, validates readiness
+4. **Staff**: Creates project scaffold
+5. **Documenter**: Documents structure and decisions
+
+### D) Maintenance / tech debt
+```
+(pathfinder) → architect → devops(if infra/CI) → staff(+documenter-start) → [backend-dev/frontend-dev] → reviewer(code-change) → documenter(final)
+```
+
+0. **Pathfinder** *(optional)*: Diagnoses impact and suggests the best approach
+1. **Architect**: Evaluates architectural impact of the change
+2. **Staff**: Plans and delegates implementation
+3. **Backend/Frontend**: Implement refactoring
+4. **Reviewer**: Validates no architectural violations occurred
+5. **Documenter**: Updates affected documentation
 
 ---
 
 ## ✅ Definition of Done (DoD)
 
-Uma tarefa está concluída quando:
-- [ ] Mini-plano documental registrado no início (`required`/`optional`/`none`)
-- [ ] Docs atualizados (se houve mudança de contrato/domínio/banco)
-- [ ] Implementação respeita `docs/architecture.md`
-- [ ] API aderente a `docs/api-spec.md`
-- [ ] Validação de banco concluída pelo `dba` quando houver mudança de DB
-- [ ] Validação de infra/CI concluída pelo `devops` quando houver mudança de infraestrutura
-- [ ] Estratégia de testes definida (`feature_nova`/`mudanca_existente`)
-- [ ] Testes adicionados/ajustados conforme estratégia
-- [ ] Observabilidade mínima (requestId + logs/erros)
-- [ ] Revisão de qualidade concluída quando houver mudança de código
-- [ ] Card do tracker atualizado com status final
-- [ ] PR vinculada ao issue
+A task is complete when:
+- [ ] Documentation mini-plan recorded at start (`required`/`optional`/`none`)
+- [ ] Docs updated (if contract/domain/database changed)
+- [ ] Implementation respects `docs/architecture.md`
+- [ ] API adheres to `docs/api-spec.md`
+- [ ] Database validation completed by `dba` when DB changes exist
+- [ ] Infra/CI validation completed by `devops` when infrastructure changes exist
+- [ ] Testing strategy defined (`feature_nova`/`mudanca_existente`)
+- [ ] Tests added/adjusted per strategy
+- [ ] Minimum observability (requestId + logs/errors)
+- [ ] Quality review completed when code changes exist
+- [ ] Tracker card updated with final status
+- [ ] PR linked to issue

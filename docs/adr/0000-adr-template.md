@@ -1,67 +1,67 @@
-# ADR-[NÚMERO]: [Título da Decisão]
+# ADR-[NUMBER]: [Decision Title]
 
 <!--
-## O que é uma ADR?
+## What is an ADR?
 
-ADR (Architecture Decision Record) é um documento curto que registra uma decisão arquitetural
-significativa tomada no projeto, junto com o contexto e as consequências dessa decisão.
+ADR (Architecture Decision Record) is a short document that records a significant architectural
+decision made in the project, along with the context and consequences of that decision.
 
-### Quando criar uma ADR?
-- Escolha de estilo arquitetural (ex.: Hexagonal, Modular, MVC, Clean Architecture)
-- Escolha de banco de dados, framework, linguagem
-- Padrão de autenticação/autorização
-- Estratégia de logging/observabilidade
-- Qualquer decisão técnica que afete múltiplos componentes ou seja difícil de reverter
+### When to create an ADR?
+- Choice of architectural style (e.g.: Hexagonal, Modular, MVC, Clean Architecture)
+- Choice of database, framework, language
+- Authentication/authorization pattern
+- Logging/observability strategy
+- Any technical decision that affects multiple components or is hard to reverse
 
-### Como usar este template?
-1. Copie este arquivo como `docs/adr/NNNN-titulo-descritivo.md` (ex.: `0001-estilo-arquitetural.md`)
-2. Substitua os placeholders `[...]` com as informações do projeto
-3. Preencha todas as seções
-4. Faça PR com a ADR para revisão do time
+### How to use this template?
+1. Copy this file as `docs/adr/NNNN-descriptive-title.md` (e.g.: `0001-architectural-style.md`)
+2. Replace the `[...]` placeholders with the project's information
+3. Fill in all sections
+4. Open a PR with the ADR for team review
 
-### Convenções
-- Numeração sequencial com 4 dígitos: `0001`, `0002`, etc.
-- Nome do arquivo: `NNNN-titulo-descritivo.md` em kebab-case
-- Diretório: `docs/adr/`
-- Ciclo de vida: Proposed → Accepted → Deprecated → Superseded by ADR-NNNN
+### Conventions
+- Sequential numbering with 4 digits: `0001`, `0002`, etc.
+- Filename: `NNNN-descriptive-title.md` in kebab-case
+- Directory: `docs/adr/`
+- Lifecycle: Proposed → Accepted → Deprecated → Superseded by ADR-NNNN
 
-### Mini-exemplo preenchido (delete ao criar sua ADR)
+### Mini-example (delete when creating your ADR)
 
-# ADR-0001: Escolha do Estilo Arquitetural
+# ADR-0001: Architectural Style Choice
 
 ## Status
 Accepted
 
 ## Context
-O projeto precisa de uma arquitetura que mantenha separação de responsabilidades,
-facilite testabilidade e reduza acoplamento a frameworks.
+The project needs an architecture that maintains separation of concerns,
+facilitates testability, and reduces coupling to frameworks.
 
-### Alternativas consideradas
+### Alternatives considered
 #### 1. Hexagonal Architecture
-- Prós: ports & adapters claros, boa testabilidade
-- Contras: mais boilerplate inicial
+- Pros: clear ports & adapters, good testability
+- Cons: more initial boilerplate
 
-#### 2. MVC tradicional
-- Prós: simplicidade, amplamente conhecido
-- Contras: tende a acumular lógica nos controllers
+#### 2. Traditional MVC
+- Pros: simplicity, widely known
+- Cons: tends to accumulate logic in controllers
 
 ## Decision
-Adotar [estilo escolhido] com [justificativa principal].
+Adopt [chosen style] with [main justification].
 
 ## Consequences
 ### Positive
-- Alta testabilidade
-- Baixo acoplamento a frameworks
+- High testability
+- Low framework coupling
 
 ### Negative
-- Custo inicial de setup maior
+- Higher initial setup cost
 
 ### Mitigations
-- Documentar regras em docs/architecture.md
-- Reforçar limites via code review
+- Document rules in docs/architecture.md
+- Enforce boundaries via code review
 
 ## Notes
-- Impacta: docs/architecture.md, docs/project-structure.md
+- Impacts: docs/architecture.md, docs/project-structure.md
 -->
 
 
@@ -69,37 +69,37 @@ Adotar [estilo escolhido] com [justificativa principal].
 [Proposed | Accepted | Deprecated | Superseded by ADR-NNNN]
 
 ## Context
-[Descreva o contexto e o problema que motivou esta decisão.
-Que forças estão em jogo? Que restrições existem?
-Quais alternativas foram consideradas?]
+[Describe the context and the problem that motivated this decision.
+What forces are at play? What constraints exist?
+Which alternatives were considered?]
 
-### Alternativas consideradas
+### Alternatives considered
 
-#### 1. [Alternativa A]
-- [Prós]
-- [Contras]
+#### 1. [Alternative A]
+- [Pros]
+- [Cons]
 
-#### 2. [Alternativa B]
-- [Prós]
-- [Contras]
+#### 2. [Alternative B]
+- [Pros]
+- [Cons]
 
 ## Decision
-[Descreva a decisão tomada e a justificativa.
-Seja claro e objetivo.]
+[Describe the decision made and the justification.
+Be clear and objective.]
 
 ## Consequences
 
 ### Positive
-- [Benefício 1]
-- [Benefício 2]
+- [Benefit 1]
+- [Benefit 2]
 
 ### Negative
 - [Trade-off 1]
 - [Trade-off 2]
 
 ### Mitigations
-- [Como mitigar os pontos negativos]
+- [How to mitigate the negative points]
 
 ## Notes
-- [Informações adicionais, links, referências]
-- [Documentos impactados por esta decisão]
+- [Additional information, links, references]
+- [Documents impacted by this decision]

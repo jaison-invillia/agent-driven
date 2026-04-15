@@ -1,235 +1,239 @@
-# Guia de Uso da Squad de Agentes
+# Agent Squad Usage Guide
 
-Guia prático de como usar os agentes de IA no dia a dia. Cada cenário mostra **exatamente o que digitar** no Copilot Chat do VS Code e o que esperar de cada passo.
+Practical guide on how to use the AI agents day-to-day. Each scenario shows **exactly what to type** in VS Code's Copilot Chat and what to expect at each step.
 
-> **Pré-requisito**: VS Code com GitHub Copilot ativo e MCP do tracker/ferramentas configurado em `.vscode/mcp.json`.
-
----
-
-## Resumo rápido
-
-| Comando | O que faz | Agente |
-|---------|-----------|--------|
-| `/setup-project` | Configura stack e atualiza docs do template | Project Setup |
-| `/new-feature` | Monta rascunho do card e cria após aprovação | Product Owner |
-| `/analyze-issue` | Análise arquitetural de um issue | Architect |
-| `/implement-issue` | Planeja e implementa um issue | Staff |
-| `/fix-bug` | Investiga e corrige um bug | Staff |
-| `/review-pr` | Revisa uma Pull Request | Reviewer |
-| `/document-pr` | Atualiza docs após merge | Documenter |
-
-Além dos comandos, você pode invocar agentes diretamente digitando `@nome-do-agente` no chat:
-`@product-owner`, `@architect`, `@staff`, `@reviewer`, `@documenter`, `@test-advisor`, `@qa`, `@metrifier`, `@project-setup`
+> **Prerequisite**: VS Code with GitHub Copilot active and tracker/tools MCP configured in `.vscode/mcp.json`.
 
 ---
 
-## Cenário 1 — Configurar um novo projeto
+## Quick summary
 
-Use este fluxo quando for configurar o template pela primeira vez.
+| Command | What it does | Agent |
+|---------|-------------|-------|
+| `/setup-project` | Configures stack and updates template docs | Project Setup |
+| `/plan-task` | Diagnoses task and suggests agent workflow | Pathfinder |
+| `/new-feature` | Drafts card and creates after approval | Product Owner |
+| `/analyze-issue` | Architectural analysis of an issue | Architect |
+| `/analyze-database` | Database impact analysis | DBA |
+| `/implement-issue` | Plans and implements an issue | Staff |
+| `/fix-bug` | Investigates and fixes a bug | Staff |
+| `/review-pr` | Reviews a Pull Request | Reviewer |
+| `/document-pr` | Updates docs after merge | Documenter |
+| `/devops` | CI/CD pipelines, infrastructure, deployment | DevOps |
+| `/analyze-infra` | Infrastructure/CI impact analysis | DevOps |
 
-### Passo 0: Configurar a stack
+In addition to commands, you can invoke agents directly by typing `@agent-name` in chat:
+`@product-owner`, `@architect`, `@staff`, `@dba`, `@devops`, `@pathfinder`, `@reviewer`, `@documenter`, `@test-advisor`, `@qa`, `@metrifier`, `@project-setup`
+
+---
+
+## Scenario 1 — Configure a new project
+
+Use this flow when configuring the template for the first time.
+
+### Step 0: Configure the stack
 
 ```
 /setup-project
 ```
 
-O **Project Setup** vai:
-- Perguntar sobre linguagem, framework, banco, ferramentas de APM, etc.
-- Atualizar automaticamente toda a documentação e configuração
-- Sugerir ADRs para as decisões técnicas
+The **Project Setup** will:
+- Ask about language, framework, database, APM tools, etc.
+- Automatically update all documentation and configuration
+- Suggest ADRs for technical decisions
 
-### Passo 1: Definir o backlog inicial
+### Step 1: Define the initial backlog
 
 ```
 /new-feature
 
-Preciso criar [descreva o sistema e suas funcionalidades principais].
-Crie issues para as funcionalidades principais do MVP.
+I need to create [describe the system and its main features].
+Create issues for the main MVP features.
 ```
 
-O **Product Owner** vai:
-- Fazer perguntas de esclarecimento (se necessário)
-- Mostrar o rascunho dos cards com critérios de aceite e subtarefas
-- Criar os cards no tracker só após aprovação explícita e quando houver MCP de escrita
-- Atribuir prioridades (P0–P3)
+The **Product Owner** will:
+- Ask clarifying questions (if needed)
+- Show the card drafts with acceptance criteria and subtasks
+- Create the cards in the tracker only after explicit approval and when a write MCP exists
+- Assign priorities (P0–P3)
 
-### Passo 2: Definir a arquitetura
+### Step 2: Define the architecture
 
 ```
 /analyze-issue #1
 
-Analise este issue e defina a arquitetura do projeto,
-incluindo estilo arquitetural, estrutura de pastas e ADRs iniciais.
+Analyze this issue and define the project architecture,
+including architectural style, folder structure, and initial ADRs.
 ```
 
-O **Architect** vai:
-- Definir camadas e dependências
-- Sugerir estrutura de pastas
-- Propor ADRs
-- Postar a análise como comentário no issue
+The **Architect** will:
+- Define layers and dependencies
+- Suggest folder structure
+- Propose ADRs
+- Post the analysis as a comment on the issue
 
-### Passo 3: Gerar o scaffold
+### Step 3: Generate the scaffold
 
 ```
 /implement-issue #1
 
-Crie a estrutura inicial do projeto (scaffold) com base
-na análise arquitetural.
+Create the initial project structure (scaffold) based
+on the architectural analysis.
 ```
 
-O **Staff** vai:
-- Ler a análise do Architect no issue
-- Planejar a estrutura de arquivos
-- Delegar para `backend-dev` (scaffold backend) e `frontend-dev` (scaffold frontend)
-- Criar branch e abrir PR
+The **Staff** will:
+- Read the Architect's analysis on the issue
+- Plan the file structure
+- Delegate to `backend-dev` (backend scaffold) and `frontend-dev` (frontend scaffold)
+- Create branch and open PR
 
-### Passo 4: Documentar
+### Step 4: Document
 
 ```
 /document-pr #1
 
-Documente a estrutura criada e as decisões tomadas.
+Document the structure created and the decisions made.
 ```
 
-O **Documenter** vai:
-- Analisar o diff da PR
-- Criar/atualizar docs relevantes (architecture.md, project-structure.md, ADRs)
-- Atualizar CONTEXT_PACK.md
+The **Documenter** will:
+- Analyze the PR diff
+- Create/update relevant docs (architecture.md, project-structure.md, ADRs)
+- Update CONTEXT_PACK.md
 
 ---
 
-## Cenário 2 — Criar e implementar uma feature
+## Scenario 2 — Create and implement a feature
 
-Fluxo completo: demanda → issue → análise → código → testes → review → docs.
+Full flow: demand → issue → analysis → code → tests → review → docs.
 
-### Passo 1: Montar o card
+### Step 1: Draft the card
 
 ```
 /new-feature
 
-[Descreva a funcionalidade que precisa ser implementada,
-incluindo regras de negócio e comportamento esperado.]
+[Describe the feature to be implemented,
+including business rules and expected behavior.]
 ```
 
-O **Product Owner** prepara o card com:
-- Contexto da demanda
-- Critérios de aceite (Given/When/Then)
-- Prioridade
-- Checklist de subtarefas
+The **Product Owner** prepares the card with:
+- Demand context
+- Acceptance criteria (Given/When/Then)
+- Priority
+- Subtask checklist
 
-Antes de qualquer criação/atualização remota, ele:
-- mostra o rascunho completo no chat
-- espera aprovação explícita
-- se não houver MCP de escrita, entrega o card em modo `draft-only`
+Before any remote creation/update, it:
+- shows the complete draft in chat
+- waits for explicit approval
+- if no write MCP exists, delivers the card in `draft-only` mode
 
-### Passo 2: Análise arquitetural
+### Step 2: Architectural analysis
 
 ```
 /analyze-issue #42
 ```
 
-O **Architect** posta no issue:
-- Camadas afetadas (domain, application, infrastructure, interfaces)
-- Arquivos a criar/modificar por camada
-- Necessidade de ADR (se houver)
-- Riscos e pontos de atenção
-- Se documentação/testes em alto nível ainda não estiverem previstos, solicita no issue:
-	- `documenter`: orientação de como documentar a demanda
-	- `test-advisor`: orientação de estratégia de testes em alto nível
+The **Architect** posts on the issue:
+- Affected layers (domain, application, infrastructure, interfaces)
+- Files to create/modify per layer
+- ADR need (if any)
+- Risks and attention points
+- If high-level documentation/testing is not yet planned, requests in the issue:
+	- `documenter`: guidance on how to document the demand
+	- `test-advisor`: guidance on high-level testing strategy
 
-> Considera-se "já previsto" apenas quando BOTH estiverem presentes:
-> 1) subtarefa relevante no checklist do issue e 2) comentário anterior de agente sobre essa orientação.
+> "Already planned" means BOTH are present:
+> 1) relevant subtask in the issue checklist and 2) prior agent comment about that guidance.
 
-### Passo 3: Implementar
+### Step 3: Implement
 
 ```
 /implement-issue #42
 ```
 
-O **Staff** orquestra tudo automaticamente:
-1. Lê o issue (contexto do PO + análise do Architect)
-2. Lê docs obrigatórios (domain, api-spec, database, architecture)
-3. Valida ambiguidades, qualidade da tarefa e cobertura "já prevista" (BOTH) para documentação/testes em alto nível
-4. Aciona `@documenter` para mini-plano documental obrigatório
-5. Classifica como `feature_nova` ou `mudanca_existente`
-6. Consulta `@test-advisor` para estratégia de testes
-7. Delega para `@backend-dev` e `@frontend-dev` em paralelo quando possível
-8. Roda testes para validar
-9. Consulta `@metrifier` para observabilidade
-10. Aciona `@reviewer` somente se houver mudança de código
-11. Cria branch e abre PR
+The **Staff** orchestrates everything automatically:
+1. Reads the issue (PO context + Architect analysis)
+2. Reads mandatory docs (domain, api-spec, database, architecture)
+3. Validates ambiguities, task quality, and "already planned" (BOTH) coverage for documentation/high-level testing
+4. Triggers `@documenter` for mandatory documentation mini-plan
+5. Classifies as `feature_nova` or `mudanca_existente`
+6. Consults `@test-advisor` for testing strategy
+7. Delegates to `@backend-dev` and `@frontend-dev` in parallel when possible
+8. Runs tests to validate
+9. Consults `@metrifier` for observability
+10. Triggers `@reviewer` only if code changes exist
+11. Creates branch and opens PR
 
-> **Dica**: O Staff atualiza o issue com progresso em cada etapa.
+> **Tip**: Staff updates the issue with progress at each step.
 
-### Passo 4: Review
+### Step 4: Review
 
 ```
 /review-pr #15
 ```
 
-O **Reviewer** verifica:
-- Estilo arquitetural (sem violação de camadas, conforme `docs/architecture.md`)
-- Aderência a `api-spec.md` e `database.md`
-- Segurança (validação, dados sensíveis)
-- Observabilidade (requestId, logs)
-- Existência de testes
+The **Reviewer** checks:
+- Architectural style (no layer violations, per `docs/architecture.md`)
+- Adherence to `api-spec.md` and `database.md`
+- Security (validation, sensitive data)
+- Observability (requestId, logs)
+- Test existence
 
-> Execute esta etapa somente quando houver mudança de código.
+> Execute this step only when code changes exist.
 
-### Passo 5: Documentar
+### Step 5: Document
 
 ```
 /document-pr #15
 ```
 
-O **Documenter** atualiza docs caso a feature tenha introduzido:
-- Novo endpoint → atualiza `api-spec.md`
-- Nova tabela/coluna → atualiza `database.md`
-- Nova entidade → atualiza `domain.md`
-- Decisão arquitetural → cria ADR
+The **Documenter** updates docs if the feature introduced:
+- New endpoint → updates `api-spec.md`
+- New table/column → updates `database.md`
+- New entity → updates `domain.md`
+- Architectural decision → creates ADR
 
-### Atalho: Ciclo completo em um comando
+### Shortcut: Full cycle in one command
 
-Se preferir rodar o ciclo inteiro de uma vez, use a skill `full-feature-cycle`:
+If you prefer to run the entire cycle at once, use the `full-feature-cycle` skill:
 
 ```
-[Descreva a feature que precisa ser implementada com detalhes de negócio.]
+[Describe the feature to be implemented with business details.]
 ```
 
-Ao detectar que se trata de uma feature completa, o Copilot pode acionar a skill com PO (draft-first) → Architect → Staff (documenter-start + classificação de testes) → QA → Reviewer (se houver código) → Documenter.
+When detecting it's a full feature, Copilot can trigger the skill with PO (draft-first) → Architect → Staff (documenter-start + test classification) → QA → Reviewer (if code changed) → Documenter.
 
 ---
 
-## Cenário 3 — Corrigir um bug
+## Scenario 3 — Fix a bug
 
-### Opção A: Bug já tem issue
+### Option A: Bug already has an issue
 
 ```
 /fix-bug #55
 
-[Descreva o bug: o que acontece, o que deveria acontecer.]
+[Describe the bug: what happens, what should happen.]
 ```
 
-### Opção B: Bug ainda não tem issue
+### Option B: Bug does not have an issue yet
 
 ```
 /fix-bug
 
-[Descreva o bug com detalhes do comportamento incorreto
-e o comportamento esperado.]
+[Describe the bug with details about incorrect behavior
+and the expected behavior.]
 ```
 
-Em ambos os casos, o **Staff**:
-1. Se não houver issue, cria um com o contexto do bug
-2. Investiga a root cause (lê código, testa hipóteses)
-3. Planeja o fix mínimo necessário
-4. Aciona `@documenter` para mini-plano documental obrigatório
-5. Classifica como `mudanca_existente` e consulta `@test-advisor`
-6. Delega para `@backend-dev` ou `@frontend-dev`
-7. Ajusta testes existentes quando cobertura já for suficiente (ou adiciona novos se houver gaps)
-8. Abre PR com a correção
+In both cases, the **Staff**:
+1. If no issue exists, creates one with the bug context
+2. Investigates the root cause (reads code, tests hypotheses)
+3. Plans the minimal necessary fix
+4. Triggers `@documenter` for mandatory documentation mini-plan
+5. Classifies as `mudanca_existente` and consults `@test-advisor`
+6. Delegates to `@backend-dev` or `@frontend-dev`
+7. Adjusts existing tests when coverage is already sufficient (or adds new ones if gaps exist)
+8. Opens PR with the fix
 
-Depois, siga o mesmo fluxo de review e documentação:
+Then, follow the same review and documentation flow:
 
 ```
 /review-pr #16
@@ -238,32 +242,32 @@ Depois, siga o mesmo fluxo de review e documentação:
 
 ---
 
-## Cenário 4 — Refatoração e tech debt
+## Scenario 4 — Refactoring and tech debt
 
-Para mudanças técnicas que não vêm de demanda de negócio.
+For technical changes that don't come from a business demand.
 
-### Passo 1: Avaliar impacto arquitetural
+### Step 1: Evaluate architectural impact
 
 ```
 @architect
 
-[Descreva a refatoração necessária e peça análise de impacto.]
+[Describe the needed refactoring and ask for impact analysis.]
 ```
 
-O **Architect** avalia:
-- Quais camadas e arquivos são afetados
-- Se a mudança respeita as fronteiras arquiteturais definidas em `docs/architecture.md`
-- Se é necessário ADR
+The **Architect** evaluates:
+- Which layers and files are affected
+- Whether the change respects architectural boundaries defined in `docs/architecture.md`
+- Whether an ADR is needed
 
-### Passo 2: Implementar
+### Step 2: Implement
 
 ```
 @staff
 
-Implemente a refatoração sugerida pelo Architect.
+Implement the refactoring suggested by the Architect.
 ```
 
-### Passo 3: Review e docs
+### Step 3: Review and docs
 
 ```
 /review-pr #17
@@ -272,68 +276,157 @@ Implemente a refatoração sugerida pelo Architect.
 
 ---
 
-## Cenário 5 — Consultar estratégia de testes
+## Scenario 5 — Diagnose an uncertain task
 
-Quando você quer saber **que testes escrever** antes de implementar.
+When you don't know where to start or which agents to involve.
+
+```
+/plan-task
+
+[Describe the task, demand, or problem you need to solve.
+Include any context about scope, uncertainty, or constraints.]
+```
+
+The **Pathfinder** will:
+- Ask diagnostic questions to understand the task's nature and scope
+- Read existing cards/issues from the tracker for context
+- Map the task to the appropriate agents and their optimal execution order
+- Suggest a high-level development roadmap
+- Identify risks, dependencies, and ambiguities
+- Explain why each agent should (or should not) be involved
+
+> **Tip**: Use `/plan-task` as the first step when the task is complex or crosses multiple concerns.
+
+---
+
+## Scenario 6 — Database impact analysis
+
+When a task involves schema changes, migrations, constraints, or query performance.
+
+```
+/analyze-database #42
+
+[Describe the database changes needed or reference the issue
+with the proposed changes.]
+```
+
+The **DBA** will:
+- Analyze schema impact for proposed changes
+- Recommend constraints, indexes, and migration strategy
+- Validate rollback safety (`up`/`down`) and integrity risks
+- Keep recommendations engine-agnostic unless project docs specify otherwise
+- Post structured analysis on the issue
+
+> **Tip**: Staff automatically consults DBA when database impact is detected during `/implement-issue`.
+
+---
+
+## Scenario 7 — CI/CD and infrastructure
+
+### Option A: Full implementation
+
+When you need to create or modify CI/CD pipelines, Dockerfiles, Terraform, or deployment configurations.
+
+```
+/devops
+
+[Describe the infrastructure or CI/CD need, e.g.:
+"Create a GitHub Actions CI pipeline for the backend with lint, test, and build steps"
+or "Set up a Dockerfile for the backend service"]
+```
+
+The **DevOps** will:
+- Analyze requirements and constraints
+- Design and create the pipeline/infrastructure files
+- Review security (secrets, OIDC, least-privilege, SHA pinning)
+- Propose deployment strategy
+- Define rollback and health check patterns
+- Request documentation updates when needed
+
+### Option B: Analysis only
+
+When you need impact analysis before implementation.
+
+```
+/analyze-infra #42
+
+[Reference the issue or describe what infrastructure changes
+might be needed.]
+```
+
+The **DevOps** will:
+- Analyze the issue's infrastructure/CI impact
+- Identify affected pipelines, containers, or IaC
+- Recommend changes without implementing them
+- Post structured analysis on the issue
+
+> **Tip**: Staff automatically consults DevOps when infrastructure/CI impact is detected during `/implement-issue`.
+
+---
+
+## Scenario 8 — Consult testing strategy
+
+When you want to know **which tests to write** before implementing.
 
 ```
 @test-advisor
 
-Vou implementar [descreva o endpoint ou funcionalidade].
-Quais testes devo escrever? Considere unit, integration e edge cases.
+I'm going to implement [describe the endpoint or feature].
+Which tests should I write? Consider unit, integration, and edge cases.
 ```
 
-O **Test Advisor** retorna:
-- Testes unitários (use case com mocks de ports)
-- Testes de integração (repository + banco, endpoint HTTP)
-- Edge cases (dados inválidos, recurso inexistente, usuário sem permissão)
-- Estratégia de mocking
-- Fixtures necessárias
+The **Test Advisor** returns:
+- Unit tests (use case with port mocks)
+- Integration tests (repository + database, HTTP endpoint)
+- Edge cases (invalid data, missing resource, unauthorized user)
+- Mocking strategy
+- Needed fixtures
 
-> **Nota**: O Test Advisor **propõe** testes mas não escreve código. Quem implementa é o `backend-dev` ou `frontend-dev`.
+> **Note**: The Test Advisor **proposes** tests but does not write code. Implementation is done by `backend-dev` or `frontend-dev`.
 
 ---
 
-## Cenário 6 — Solicitar métricas e observabilidade
+## Scenario 9 — Request metrics and observability
 
 ```
 @metrifier
 
-Vamos lançar [descreva o módulo/feature]. Quais métricas e
-instrumentações devemos adicionar?
+We're launching [describe the module/feature]. Which metrics and
+instrumentation should we add?
 ```
 
-O **Metrifier** sugere:
-- Métricas de negócio (operações por dia, taxas de conversão)
-- Métricas técnicas (latência, taxa de erros)
-- Métricas operacionais (uso de recursos)
-- Alertas recomendados
-- Estrutura de dashboard
+The **Metrifier** suggests:
+- Business metrics (operations per day, conversion rates)
+- Technical metrics (latency, error rates)
+- Operational metrics (resource usage)
+- Recommended alerts
+- Dashboard structure
 
 ---
 
-## Cenário 7 — Validar uma implementação (QA)
+## Scenario 10 — Validate an implementation (QA)
 
-Depois que o código foi implementado mas antes do merge:
+After code is implemented but before merge:
 
 ```
 @qa #42
 
-Valide se a implementação atende aos critérios de aceite do issue #42.
+Validate whether the implementation meets the acceptance criteria of issue #42.
 ```
 
-O **QA**:
-1. Lê os critérios de aceite do issue
-2. Executa os testes automatizados
-3. Testa edge cases e cenários de segurança
-4. Posta relatório estruturado no issue
+The **QA**:
+1. Reads the acceptance criteria from the issue
+2. Executes automated tests
+3. Tests edge cases and security scenarios
+4. Posts a structured report on the issue
 
 ---
 
-## Dicas gerais
+## General tips
 
-- **Documente antes de codificar**: Os agentes funcionam melhor quando `domain.md`, `api-spec.md` e `database.md` estão preenchidos
-- **Use slash commands para fluxos formais**: `/new-feature`, `/implement-issue`, etc.
-- **Use `@agente` para consultas rápidas**: `@test-advisor`, `@metrifier`, `@architect`
-- **Confie no Staff para orquestrar**: O `@staff` sabe delegar para os sub-agentes corretos
-- **Atualize a documentação**: Use `/document-pr` após cada merge significativo
+- **Document before coding**: Agents work best when `domain.md`, `api-spec.md`, and `database.md` are filled in
+- **Use slash commands for formal flows**: `/new-feature`, `/implement-issue`, etc.
+- **Use `@agent` for quick consultations**: `@test-advisor`, `@metrifier`, `@architect`
+- **Trust Staff to orchestrate**: `@staff` knows how to delegate to the correct sub-agents
+- **Update documentation**: Use `/document-pr` after each significant merge
+- **Start with `/plan-task` when uncertain**: The Pathfinder will guide you to the right workflow

@@ -1,61 +1,61 @@
 # Copilot Agent Template
 
-Template para desenvolvimento de projetos com **squad de 11 agentes de IA** especializados, usando GitHub Copilot.
+Template for project development with a **squad of 14 specialized AI agents**, using GitHub Copilot.
 
-Inclui: agentes configurados, slash commands, skills, instructions contextuais, documentação estruturada e fluxos automatizados (feature, bug fix, review, documentação).
+Includes: configured agents, slash commands, skills, contextual instructions, structured documentation, and automated flows (feature, bug fix, review, documentation).
 
-## Stack do Projeto
+## Project Stack
 
-<!-- [PREENCHER] Defina a stack do seu projeto aqui ou use o comando /setup-project para configurar automaticamente. -->
+<!-- [FILL] Define your project stack here or use the /setup-project command to configure automatically. -->
 
-- **Backend:** [PREENCHER] (ex.: Node.js, Python, Java, Go, .NET)
-- **Frontend:** [PREENCHER] (ex.: Next.js, Nuxt.js, SvelteKit, Angular)
-- **Banco:** [PREENCHER] (ex.: PostgreSQL, MySQL, MongoDB, SQLite)
-- **Observabilidade:** [PREENCHER] (ex.: Datadog, New Relic, Grafana, CloudWatch)
+- **Backend:** [FILL] (e.g.: Node.js, Python, Java, Go, .NET)
+- **Frontend:** [FILL] (e.g.: Next.js, Nuxt.js, SvelteKit, Angular)
+- **Database:** [FILL] (e.g.: PostgreSQL, MySQL, MongoDB, SQLite)
+- **Observability:** [FILL] (e.g.: Datadog, New Relic, Grafana, CloudWatch)
 
-> Use o agente `project-setup` (comando `/setup-project`) para configurar a stack e atualizar automaticamente todos os docs e instructions.
+> Use the `project-setup` agent (`/setup-project` command) to configure the stack and automatically update all docs and instructions.
 
-## Como Usar Este Template
+## How to Use This Template
 
-### 1. Criar repositório a partir do template
+### 1. Create a repository from the template
 
-Use este repositório como template para criar um novo projeto.
+Use this repository as a template to create a new project.
 
-### 2. Configurar a stack do projeto (recomendado)
+### 2. Configure the project stack (recommended)
 
-Use o comando `/setup-project` no Copilot Chat para configurar interativamente a stack do projeto. O agente `project-setup` irá coletar informações e atualizar automaticamente toda a documentação.
+Use the `/setup-project` command in Copilot Chat to interactively configure the project stack. The `project-setup` agent will collect information and automatically update all documentation.
 
-Alternativamente, preencha manualmente os placeholders `[PREENCHER]` nos docs.
+Alternatively, manually fill in the `[FILL]` placeholders in the docs.
 
-### 3. Preencher documentação de domínio
+### 3. Fill in domain documentation
 
-Os docs abaixo estão com placeholders `[PREENCHER]` — preencha com os dados do seu projeto:
+The docs below contain `[FILL]` placeholders — fill in with your project data:
 
-| Documento | O que preencher |
-|-----------|----------------|
-| [docs/domain.md](docs/domain.md) | Entidades, regras de negócio, relacionamentos, fluxo principal |
-| [docs/database.md](docs/database.md) | Tabelas, campos, constraints, indexes, schema SQL |
-| [docs/api-spec.md](docs/api-spec.md) | Endpoints, request/response, autenticação, formato de erro |
-| [docs/local-setup.md](docs/local-setup.md) | Banco de dados, variáveis de ambiente, passos de setup |
-| [CONTEXT_PACK.md](CONTEXT_PACK.md) | Snapshot condensado do projeto para onboarding rápido de IA |
+| Document | What to fill |
+|----------|-------------|
+| [docs/domain.md](docs/domain.md) | Entities, business rules, relationships, main flow |
+| [docs/database.md](docs/database.md) | Tables, fields, constraints, indexes, SQL schema |
+| [docs/api-spec.md](docs/api-spec.md) | Endpoints, request/response, authentication, error format |
+| [docs/local-setup.md](docs/local-setup.md) | Database, environment variables, setup steps |
+| [CONTEXT_PACK.md](CONTEXT_PACK.md) | Condensed project snapshot for quick AI onboarding |
 
-### 3. Revisar documentação de engenharia
+### 4. Review engineering documentation
 
-Estes docs já estão preenchidos com padrões genéricos — revise e adapte se necessário:
+These docs are pre-filled with generic standards — review and adapt as needed:
 
-| Documento | Conteúdo |
-|-----------|----------|
-| [docs/architecture.md](docs/architecture.md) | Estilo arquitetural e regras de dependência |
-| [docs/security.md](docs/security.md) | Baseline de segurança (auth, validação, OWASP) |
-| [docs/observability.md](docs/observability.md) | Logging, requestId, métricas, alertas |
-| [docs/engineer-guidelines.md](docs/engineer-guidelines.md) | Naming, testes, git workflow, DoD |
-| [docs/project-structure.md](docs/project-structure.md) | Estrutura recomendada de pastas |
+| Document | Content |
+|----------|---------|
+| [docs/architecture.md](docs/architecture.md) | Architectural style and dependency rules |
+| [docs/security.md](docs/security.md) | Security baseline (auth, validation, OWASP) |
+| [docs/observability.md](docs/observability.md) | Logging, requestId, metrics, alerts |
+| [docs/engineer-guidelines.md](docs/engineer-guidelines.md) | Naming, tests, git workflow, DoD |
+| [docs/project-structure.md](docs/project-structure.md) | Recommended folder structure |
 
-### 4. Configurar MCP
+### 5. Configure MCP
 
-Configure `.vscode/mcp.json` com o MCP do tracker/ferramentas definidos no projeto. O template vem com GitHub por padrão, mas o fluxo pode ser adaptado para Jira, Linear ou outro tracker.
+Configure `.vscode/mcp.json` with the MCP for the tracker/tools defined in the project. The template comes with GitHub by default, but the flow can be adapted for Jira, Linear, or another tracker.
 
-Exemplo mínimo com GitHub:
+Minimal GitHub example:
 
 ```json
 {
@@ -68,73 +68,82 @@ Exemplo mínimo com GitHub:
 }
 ```
 
-MCPs opcionais: Playwright (testes e2e), DB, Figma e um tracker alternativo.
+Optional MCPs: Playwright (e2e tests), DB, Figma, and an alternative tracker.
 
-> Se não houver MCP com permissão de escrita para o tracker escolhido, o `product-owner` opera em modo `draft-only`: mostra o rascunho do card e aguarda criação manual.
+> If there is no MCP with write permission for the chosen tracker, the `product-owner` operates in `draft-only` mode: shows the card draft and waits for manual creation.
 
-### 5. Criar ADRs do projeto
+### 6. Create project ADRs
 
-O template inclui:
-- `docs/adr/0000-adr-template.md` — Template padrão com instruções e mini-exemplo (copie para criar novas ADRs)
+The template includes:
+- `docs/adr/0000-adr-template.md` — Standard template with instructions and mini-example (copy to create new ADRs)
 
-Crie ADRs para decisões do projeto (estilo arquitetural, linguagem, banco, framework, auth, hosting, etc.).
+Create ADRs for project decisions (architectural style, language, database, framework, auth, hosting, etc.).
 
-Consulte `docs/engineer-guidelines.md` (seção ADRs) para o processo completo.
+See `docs/engineer-guidelines.md` (ADRs section) for the full process.
 
-### 6. Customizar instructions (opcional)
+### 7. Customize instructions (optional)
 
-Revise e customize conforme a stack do projeto:
+Review and customize according to the project stack:
 
-| Arquivo | Propósito |
-|---------|-----------|
-| `.github/copilot-instructions.md` | Instruções gerais para Copilot |
-| `.github/instructions/backend-architecture.instructions.md` | Limites de camada e naming |
-| `.github/instructions/database-migrations.instructions.md` | Padrões de migration |
-| `.github/instructions/testing.instructions.md` | Pirâmide de testes e mocking |
-| `.github/instructions/api-controllers.instructions.md` | Formato de response e validação |
-| `.github/instructions/security.instructions.md` | Auth, JWT, validação |
-| `.github/instructions/frontend-pages.instructions.md` | Patterns do framework frontend |
+| File | Purpose |
+|------|---------|
+| `.github/copilot-instructions.md` | General Copilot instructions |
+| `.github/instructions/backend-architecture.instructions.md` | Layer boundaries and naming |
+| `.github/instructions/database-migrations.instructions.md` | Migration patterns |
+| `.github/instructions/testing.instructions.md` | Test pyramid and mocking |
+| `.github/instructions/api-controllers.instructions.md` | Response format and validation |
+| `.github/instructions/security.instructions.md` | Auth, JWT, validation |
+| `.github/instructions/frontend-pages.instructions.md` | Frontend framework patterns |
+| `.github/instructions/devops-infra.instructions.md` | CI/CD, Docker, Terraform, deployment |
+| `.github/instructions/issue-tracking.instructions.md` | Tracker card management |
 
-## Agentes
+## Agents
 
-11 agentes especializados com papéis definidos:
+14 specialized agents with defined roles:
 
-| Agente | Papel |
-|--------|-------|
-| **Product Owner** | Demandas → rascunhos e cards no tracker com critérios de aceite |
-| **Architect** | Análise arquitetural de issues |
-| **Staff** | Orquestrador: planeja, delega, abre PR |
-| **Backend Dev** | Implementação backend (sub-agente) |
-| **Frontend Dev** | Implementação frontend (sub-agente) |
-| **Test Advisor** | Propõe estratégia de testes por classificação |
-| **QA** | Executa testes e valida critérios |
-| **Reviewer** | Code review contra guidelines (quando há mudança de código) |
-| **Documenter** | Mini-plano documental no início + atualização final |
-| **Metrifier** | Recomenda métricas e observabilidade |
-| **Project Setup** | Configura stack e atualiza docs do template |
+| Agent | Role |
+|-------|------|
+| **Product Owner** | Demands → drafts and tracker cards with acceptance criteria |
+| **Architect** | Architectural analysis of issues |
+| **Staff** | Orchestrator: plans, delegates, opens PR |
+| **DBA** | Database analysis: schema, migrations, constraints, indexes, rollback |
+| **Backend Dev** | Backend implementation (sub-agent) |
+| **Frontend Dev** | Frontend implementation (sub-agent) |
+| **Test Advisor** | Proposes testing strategy by classification |
+| **QA** | Executes tests and validates criteria |
+| **Reviewer** | Code review against guidelines (when code changes exist) |
+| **Documenter** | Documentation mini-plan at start + final update |
+| **Metrifier** | Recommends metrics and observability |
+| **Project Setup** | Configures stack and updates template docs |
+| **Pathfinder** | Diagnoses uncertain tasks and suggests agent workflow |
+| **DevOps** | CI/CD pipelines, infrastructure, containers, deployment |
 
-Detalhes completos: [AGENTS.md](AGENTS.md)
+Full details: [AGENTS.md](AGENTS.md)
 
 ## Slash Commands
 
-| Comando | Agente | O que faz |
-|---------|--------|-----------|
-| `/setup-project` | Project Setup | Configura stack e atualiza docs |
-| `/new-feature` | Product Owner | Monta rascunho do card e cria após aprovação |
-| `/analyze-issue` | Architect | Análise arquitetural |
-| `/implement-issue` | Staff | Planeja e implementa |
-| `/fix-bug` | Staff | Investiga e corrige bug |
-| `/review-pr` | Reviewer | Revisa PR |
-| `/document-pr` | Documenter | Atualiza docs |
+| Command | Agent | What it does |
+|---------|-------|-------------|
+| `/setup-project` | Project Setup | Configures stack and updates docs |
+| `/plan-task` | Pathfinder | Diagnoses task and suggests agent workflow |
+| `/new-feature` | Product Owner | Drafts card and creates after approval |
+| `/analyze-issue` | Architect | Architectural analysis |
+| `/analyze-database` | DBA | Database impact analysis |
+| `/implement-issue` | Staff | Plans and implements |
+| `/fix-bug` | Staff | Investigates and fixes bug |
+| `/review-pr` | Reviewer | Reviews PR |
+| `/document-pr` | Documenter | Updates docs |
+| `/devops` | DevOps | CI/CD, infrastructure, deployment |
+| `/analyze-infra` | DevOps | Infrastructure/CI impact analysis |
 
-## Referências
+## References
 
-- Guia de uso dos agentes: [docs/ai/usage-guide.md](docs/ai/usage-guide.md)
-- Guia da squad: [docs/ai/agent-squad-guide.md](docs/ai/agent-squad-guide.md)
-- Fluxo de agentes: [docs/agent-task-flow.md](docs/agent-task-flow.md)
-- Contexto para IA: [docs/ai/ai-context.md](docs/ai/ai-context.md)
-- Recomendações de docs: [docs/engineering-docs-recommendation.md](docs/engineering-docs-recommendation.md)
+- Agent usage guide: [docs/ai/usage-guide.md](docs/ai/usage-guide.md)
+- Squad guide: [docs/ai/agent-squad-guide.md](docs/ai/agent-squad-guide.md)
+- Agent flow: [docs/agent-task-flow.md](docs/agent-task-flow.md)
+- AI context: [docs/ai/ai-context.md](docs/ai/ai-context.md)
+- Docs recommendations: [docs/engineering-docs-recommendation.md](docs/engineering-docs-recommendation.md)
 
-## Licença
+## License
 
-A definir.
+To be defined.

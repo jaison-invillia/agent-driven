@@ -1,25 +1,25 @@
 # 🤖 AI Context
 
-Este documento fornece **contexto estruturado para assistentes de IA** (GitHub Copilot, agentes de código, LLMs) que trabalham neste repositório.
+This document provides **structured context for AI assistants** (GitHub Copilot, coding agents, LLMs) working in this repository.
 
-O objetivo é reduzir alucinações, melhorar a geração de código e garantir que mudanças respeitem a arquitetura e o domínio definidos.
-
----
-
-# 🎯 Objetivo
-
-Garantir que qualquer IA que gere código neste projeto:
-
-- entenda o **propósito do sistema**
-- respeite **arquitetura e domínio**
-- utilize **APIs e banco corretos**
-- evite inventar entidades, endpoints ou regras
+The goal is to reduce hallucinations, improve code generation, and ensure changes respect the defined architecture and domain.
 
 ---
 
-# 📚 Documentos obrigatórios de contexto
+# 🎯 Objective
 
-Antes de gerar código, a IA deve ler:
+Ensure that any AI generating code in this project:
+
+- understands the **system's purpose**
+- respects **architecture and domain**
+- uses **the correct APIs and database**
+- avoids inventing entities, endpoints, or rules
+
+---
+
+# 📚 Mandatory context documents
+
+Before generating code, the AI must read:
 
 1. `README.md`
 2. `docs/architecture.md`
@@ -28,192 +28,192 @@ Antes de gerar código, a IA deve ler:
 5. `docs/api-spec.md`
 6. `docs/engineer-guidelines.md`
 
-Esses documentos são a **fonte oficial de verdade do projeto**.
+These documents are the **official source of truth for the project**.
 
-Se alguma informação estiver ausente, a IA deve **sugerir alteração na documentação antes de gerar código**.
-
----
-
-# 🧭 Sobre o sistema
-
-<!-- [PREENCHER] Descreva o sistema em termos de alto nível. -->
-
-> Atualize esta seção com o propósito e fluxo principal do projeto.
-> Consulte `docs/domain.md` para o modelo de domínio e `CONTEXT_PACK.md` para o snapshot condensado.
+If any information is missing, the AI must **suggest a documentation change before generating code**.
 
 ---
 
-# 🧱 Arquitetura
+# 🧭 About the system
 
-<!-- O estilo arquitetural é definido em docs/architecture.md. Adapte conforme o projeto. -->
+<!-- [FILL] Describe the system at a high level. -->
 
-O estilo arquitetural adotado está documentado em:
+> Update this section with the project's purpose and main flow.
+> See `docs/domain.md` for the domain model and `CONTEXT_PACK.md` for the condensed snapshot.
+
+---
+
+# 🧱 Architecture
+
+<!-- The architectural style is defined in docs/architecture.md. Adapt per the project. -->
+
+The adopted architectural style is documented in:
 
 ➡ `docs/architecture.md`
 
-IA **deve respeitar o estilo e as regras de dependência definidos** nesse documento.
+AI **must respect the style and dependency rules defined** in that document.
 
 ---
 
-# 📊 Entidades do sistema
+# 📊 System entities
 
-<!-- [PREENCHER] Liste as entidades do domínio do projeto. -->
+<!-- [FILL] List the project's domain entities. -->
 
-> Atualize com as entidades definidas em `docs/domain.md`.
+> Update with the entities defined in `docs/domain.md`.
 
-IA **não deve criar novas entidades sem atualizar o domínio**.
+AI **must not create new entities without updating the domain**.
 
 ---
 
-# 🗄 Banco de dados
+# 🗄 Database
 
-<!-- [PREENCHER] Informe o banco utilizado e as tabelas principais. -->
+<!-- [FILL] Specify the database used and main tables. -->
 
-> Atualize com as informações de `docs/database.md`.
+> Update with information from `docs/database.md`.
 
-IA não deve:
+AI must not:
 
-- inventar colunas
-- alterar schema sem migration
-- ignorar constraints
+- invent columns
+- alter schema without a migration
+- ignore constraints
 
 ---
 
 # 🌐 API
 
-A API segue padrão REST.
+The API follows the REST pattern.
 
 Base path:
 
 /api/v1
 
-<!-- [PREENCHER] Liste os principais recursos da API. -->
+<!-- [FILL] List the main API resources. -->
 
-> Atualize com os recursos definidos em `docs/api-spec.md`.
+> Update with the resources defined in `docs/api-spec.md`.
 
-IA deve gerar controllers e rotas **conformes ao API_SPEC**.
-
----
-
-# 🧪 Testes
-
-Estratégia recomendada:
-
-- unit tests → domínio e use cases
-- integration tests → repositories e API
-- e2e → fluxo principal
-
-Use cases devem ser testados com **mocks de ports**, não com banco real.
+AI must generate controllers and routes **conforming to the API_SPEC**.
 
 ---
 
-# ⚠️ Regras importantes para IA
+# 🧪 Tests
 
-A IA **NÃO deve**:
+Recommended strategy:
 
-- criar endpoints não documentados
-- criar tabelas não definidas
-- colocar regra de negócio em controllers
-- acessar banco diretamente em controllers
-- misturar camadas da arquitetura
+- unit tests → domain and use cases
+- integration tests → repositories and API
+- e2e → main flow
 
-A IA **DEVE**:
-
-- seguir a arquitetura definida em `docs/architecture.md`
-- gerar código pequeno e incremental
-- sugerir mudanças na documentação quando necessário
+Use cases should be tested with **port mocks**, not with a real database.
 
 ---
 
-# 🧠 Estratégia de geração de código
+# ⚠️ Important rules for AI
 
-Ao implementar uma feature, a IA deve seguir a ordem:
+AI **MUST NOT**:
 
-1️⃣ Verificar se o domínio suporta a feature  
-2️⃣ Verificar se a API já define o endpoint  
-3️⃣ Criar/ajustar Use Case na camada Application  
-4️⃣ Implementar adapter (repository/service) na Infrastructure  
-5️⃣ Criar controller na camada Interfaces  
-6️⃣ Adicionar testes  
+- create undocumented endpoints
+- create undefined tables
+- put business logic in controllers
+- access the database directly in controllers
+- mix architecture layers
 
----
+AI **MUST**:
 
-# 📌 Convenções
-
-<!-- [PREENCHER] Defina a stack do projeto. Use /setup-project para configurar. -->
-
-- linguagem backend: [PREENCHER] (ex.: Node.js, Python, Java, Go)
-- frontend: [PREENCHER] (ex.: Next.js, Nuxt.js, SvelteKit, Angular)
-- banco: [PREENCHER] (ex.: PostgreSQL, MySQL, MongoDB)
-
-Preferir:
-
-- código explícito
-- funções pequenas
-- responsabilidade única
+- follow the architecture defined in `docs/architecture.md`
+- generate small, incremental code
+- suggest documentation changes when needed
 
 ---
 
-# 🚫 Anti‑patterns que a IA deve evitar
+# 🧠 Code generation strategy
 
-- controllers com lógica de negócio
-- queries SQL espalhadas
-- dependências circulares
-- violação dos limites arquiteturais definidos em `docs/architecture.md`
-- geração de código não utilizado
+When implementing a feature, AI should follow this order:
 
----
-
-# 🧩 Evolução
-
-Se a IA identificar:
-
-- inconsistência de arquitetura
-- necessidade de nova entidade
-- alteração no domínio
-- novo endpoint
-
-Ela deve:
-
-1. Propor alteração em documentação
-2. Somente depois gerar código
+1️⃣ Verify the domain supports the feature  
+2️⃣ Verify the API already defines the endpoint  
+3️⃣ Create/adjust Use Case in the Application layer  
+4️⃣ Implement adapter (repository/service) in Infrastructure  
+5️⃣ Create controller in the Interfaces layer  
+6️⃣ Add tests  
 
 ---
 
-# 🤖 Squad de Agentes
+# 📌 Conventions
 
-Este repositório utiliza **14 agentes de IA especializados** que colaboram em fluxos ágeis.
+<!-- [FILL] Define the project stack. Use /setup-project to configure. -->
 
-Agentes principais:
-- `pathfinder` — consultor de fluxo para tarefas incertas (ponto de entrada opcional)
-- `product-owner` — demandas → rascunhos/cards do tracker
-- `architect` — análise arquitetural
-- `staff` — orquestrador central
-- `dba` — análise de banco de dados (schema, migrações, constraints, índices, rollback)
-- `devops` — CI/CD, infraestrutura, containers, deployment, configuração de ambientes
-- `backend-dev` / `frontend-dev` — implementação (sub-agentes do Staff)
-- `test-advisor` — estratégia de testes por classificação (`feature_nova`/`mudanca_existente`)
-- `qa` — validação e execução de testes
-- `reviewer` — code review de PRs quando houver mudança de código
-- `documenter` — mini-plano documental no início + atualização final
-- `metrifier` — métricas e observabilidade
-- `project-setup` — configuração inicial da stack do projeto
+- backend language: [FILL] (e.g.: Node.js, Python, Java, Go)
+- frontend: [FILL] (e.g.: Next.js, Nuxt.js, SvelteKit, Angular)
+- database: [FILL] (e.g.: PostgreSQL, MySQL, MongoDB)
 
-Slash commands disponíveis:
-- `/setup-project` — configurar stack e tooling do projeto (Project Setup)
-- `/plan-task` — diagnosticar tarefa e sugerir fluxo (Pathfinder)
-- `/new-feature` — nova feature (PO)
-- `/analyze-issue` — análise arquitetural (Architect)
-- `/analyze-database` — análise de banco de dados (DBA)
-- `/implement-issue` — planejar e implementar (Staff)
+Prefer:
+
+- explicit code
+- small functions
+- single responsibility
+
+---
+
+# 🚫 Anti-patterns AI should avoid
+
+- controllers with business logic
+- scattered SQL queries
+- circular dependencies
+- violation of architectural boundaries defined in `docs/architecture.md`
+- generation of unused code
+
+---
+
+# 🧩 Evolution
+
+If AI identifies:
+
+- architectural inconsistency
+- need for a new entity
+- domain change
+- new endpoint
+
+It must:
+
+1. Propose a documentation change
+2. Only then generate code
+
+---
+
+# 🤖 Agent Squad
+
+This repository uses **14 specialized AI agents** that collaborate in agile flows.
+
+Main agents:
+- `pathfinder` — flow advisor for uncertain tasks (optional entry point)
+- `product-owner` — demands → tracker drafts/cards
+- `architect` — architectural analysis
+- `staff` — central orchestrator
+- `dba` — database analysis (schema, migrations, constraints, indexes, rollback)
+- `devops` — CI/CD, infrastructure, containers, deployment, environment configuration
+- `backend-dev` / `frontend-dev` — implementation (Staff sub-agents)
+- `test-advisor` — testing strategy by classification (`feature_nova`/`mudanca_existente`)
+- `qa` — validation and test execution
+- `reviewer` — PR code review when code changes exist
+- `documenter` — documentation mini-plan at start + final update
+- `metrifier` — metrics and observability
+- `project-setup` — initial project stack configuration
+
+Available slash commands:
+- `/setup-project` — configure project stack and tooling (Project Setup)
+- `/plan-task` — diagnose task and suggest flow (Pathfinder)
+- `/new-feature` — new feature (PO)
+- `/analyze-issue` — architectural analysis (Architect)
+- `/analyze-database` — database analysis (DBA)
+- `/implement-issue` — plan and implement (Staff)
 - `/review-pr` — code review (Reviewer)
-- `/fix-bug` — correção de bug (Staff)
-- `/document-pr` — documentar mudanças (Documenter)
-- `/devops` — CI/CD, infraestrutura, containers, deployment (DevOps)
-- `/analyze-infra` — análise de impacto em infraestrutura/CI (DevOps)
+- `/fix-bug` — bug fix (Staff)
+- `/document-pr` — document changes (Documenter)
+- `/devops` — CI/CD, infrastructure, containers, deployment (DevOps)
+- `/analyze-infra` — infrastructure/CI impact analysis (DevOps)
 
-Referência completa:
+Full reference:
 - `AGENTS.md`
 - `docs/agent-task-flow.md`
 - `docs/ai/agent-squad-guide.md`
-- `docs/ai/usage-guide.md` — guia prático com exemplos de uso
+- `docs/ai/usage-guide.md` — practical guide with usage examples
